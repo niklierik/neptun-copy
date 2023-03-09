@@ -29,6 +29,7 @@
     "class-validator": "^0.14.0",
     "dotenv": "^16.0.3",
     "oracle": "^0.4.1",
+    "oracledb": "^5.5.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
