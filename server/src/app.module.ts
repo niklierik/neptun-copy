@@ -17,6 +17,8 @@ import { UsersModule } from "./users/users.module";
       database: cfg().db.name,
       autoLoadEntities: true,
       synchronize: true,
+      logging: true,
+      logger: "file",
     }),
   ],
   controllers: [AppController],

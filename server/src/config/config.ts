@@ -23,6 +23,9 @@ export class Config {
 
   @Type(() => DbConnection)
   db: DbConnection;
+
+  @Type(() => Number)
+  saltingRounds: number;
 }
 
 export function cfg() {
