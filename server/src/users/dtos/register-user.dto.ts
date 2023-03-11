@@ -1,17 +1,25 @@
-import { IsEmail, IsString, Length, Matches } from "class-validator";
+import { Type } from "class-transformer";
+import { IsBoolean, IsDate, IsEmail, IsString } from "class-validator";
 
 export class RegisterUserDto {
   @IsString()
   @IsEmail()
   email: string;
 
-  @IsString()
-  @Length(8, 40)
-  // https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
-  // Minimum eight characters, at least one uppercase letter, one lowercase letter and one number:
-  @Matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{8,}$")
-  password: string;
+  @IsDate()
+  @Type(() => Date)
+  birthdate: Date;
 
-  @Matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{8,}$")
-  passwordAgain: string;
+  @IsString()
+  address: string;
+
+  @IsString()
+  forename: string;
+
+  @IsString()
+  familyname: string;
+
+  @IsBoolean()
+  @Type(() => Boolean)
+  isAdmin: boolean;
 }
