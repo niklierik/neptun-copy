@@ -32,10 +32,20 @@ export class MajorsRepository extends Repository<Major> {
 
   async findById(majorID: string, includeUsers: boolean) {
     try {
-      const major = await this.findOne({
-        where: { majorID },
-        select: { users: includeUsers, displayName: true, majorID: true },
-      });
+      if (!includeUsers) {
+        return await this.findOne({
+          where: {
+            majorID,
+          },
+        });
+      }
+      const major = await this.createQueryBuilder("m")
+        .select()
+        .where({
+          majorID,
+        })
+        .innerJoinAndSelect("m.users", "u")
+        .getOne();
       return major;
     } catch (err: any) {
       Logger.error(err);

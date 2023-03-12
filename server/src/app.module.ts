@@ -5,6 +5,14 @@ import { AppService } from "./app.service";
 import { cfg, readConfig } from "./config/config";
 import { UsersModule } from "./users/users.module";
 import { MajorsModule } from "./majors/majors.module";
+import { MessagingModule } from "./messaging/messaging.module";
+import { ExamsModule } from "./exams/exams.module";
+import { SubjectsModule } from "./subjects/subjects.module";
+import { RoomsModule } from "./rooms/rooms.module";
+import { CoursesModule } from "./courses/courses.module";
+import { ForumsModule } from "./forums/forums.module";
+import { NewsModule } from "./news/news.module";
+import { EducationChartsModule } from "./education-charts/education-charts.module";
 
 @Module({
   imports: [
@@ -29,6 +37,14 @@ import { MajorsModule } from "./majors/majors.module";
       },
     }),
     MajorsModule,
+    MessagingModule,
+    ExamsModule,
+    SubjectsModule,
+    RoomsModule,
+    CoursesModule,
+    ForumsModule,
+    NewsModule,
+    EducationChartsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

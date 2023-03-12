@@ -12,7 +12,7 @@ export class MajorsService {
   async find(id: string, includeUsers: boolean) {
     const res = await this.majorsRepository.findById(id, includeUsers);
     if (!includeUsers) {
-      delete res.users;
+      delete (res as any).users;
     }
     return res;
   }
