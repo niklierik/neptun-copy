@@ -1,7 +1,19 @@
-import { Body, Controller, Patch, Post, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+  Query,
+  Put,
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "./decorators/current-user.decorator";
 import { ChangePasswordDto } from "./dtos/change-password.dto";
+import { FinishRegistrationDto } from "./dtos/finish-registration.dto";
 import { LoginUserDto } from "./dtos/login-user.dto";
 import { RegisterUserDto } from "./dtos/register-user.dto";
 import { User } from "./entities/users.entity";
@@ -29,5 +41,28 @@ export class UsersController {
     @CurrentUser() user: User,
   ): Promise<boolean> {
     return await this.usersService.changePwd(changePwd, user);
+  }
+
+  @Patch("changePwdByToken")
+  async changePwdByToken(
+    @Body() finish: FinishRegistrationDto,
+    @Query("token") token: string,
+  ) {
+    return await this.usersService.finishRegister(finish, token);
+  }
+
+  @Get("/:email")
+  async findUser(@Param("email ") email: string) {
+    return await this.usersService.getUser(email);
+  }
+
+  @Delete("/:email")
+  async deleteUser(@Param("email") email: string) {
+    return await this.usersService.deleteUserByEmail(email);
+  }
+
+  @Put("/newToken/:email")
+  async requestToken(@Param("email") email: string) {
+    return await this.usersService.requestToken(email);
   }
 }

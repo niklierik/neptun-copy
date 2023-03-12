@@ -1,10 +1,10 @@
 import {
-  ConflictException,
   Injectable,
   InternalServerErrorException,
   Logger,
 } from "@nestjs/common";
 import { serverError } from "src/messages/messages";
+import { throwIfUniqueConstraint } from "src/utils/errors";
 import { DataSource, Repository } from "typeorm";
 import { Major } from "./entities/majors.entity";
 
@@ -21,12 +21,10 @@ export class MajorsRepository extends Repository<Major> {
       await this.insert(major);
       return major;
     } catch (err: any) {
-      const message: string = err?.message ?? "";
-      if (message.startsWith("ORA-00001")) {
-        throw new ConflictException(
-          `Szak a(z) ${data.majorID} azonosítóval már létezik.`,
-        );
-      }
+      throwIfUniqueConstraint(
+        err,
+        `Szak a(z) ${data.majorID} azonosítóval már létezik.`,
+      );
       Logger.error(err);
       throw new InternalServerErrorException(serverError);
     }

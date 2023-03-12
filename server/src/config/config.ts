@@ -21,6 +21,9 @@ export class DbConnection {
   @IsString()
   @IsNotEmpty()
   name: string;
+  @IsString()
+  @IsNotEmpty()
+  schema: string;
 }
 
 export class Config {

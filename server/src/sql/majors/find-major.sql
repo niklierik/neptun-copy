@@ -1,9 +1,11 @@
---- Without users
+--- Felhasználók nélkül
 SELECT * FROM "majors" WHERE "majors"."majorID" = :majorID LIMIT 1;
--- :majorID the ID that is searched
+--- Paraméterek:
+-- majorID: a szak ID-ja
 
 
 
---- With users
+--- Felhasználókkal
 SELECT * FROM "majors" LEFT JOIN "users" ON "users"."majorMajorID"="majors"."majorID" WHERE "majors"."majorID" = :majorID LIMIT 1;
--- :majorID the ID that is searched
+--- Paraméterek:
+-- majorID: a szak ID-ja

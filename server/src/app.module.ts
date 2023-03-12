@@ -24,6 +24,7 @@ import { MajorsModule } from "./majors/majors.module";
           synchronize: true,
           logging: true,
           logger: "file",
+          schema: cfg().db.schema,
         };
       },
     }),

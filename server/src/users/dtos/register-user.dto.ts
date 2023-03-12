@@ -1,5 +1,11 @@
 import { Type } from "class-transformer";
-import { IsBoolean, IsDate, IsEmail, IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsDate,
+  IsEmail,
+  IsOptional,
+  IsString,
+} from "class-validator";
 
 export class RegisterUserDto {
   @IsString()
@@ -22,4 +28,8 @@ export class RegisterUserDto {
   @IsBoolean()
   @Type(() => Boolean)
   isAdmin: boolean;
+
+  @IsString()
+  @IsOptional()
+  majorID: string;
 }

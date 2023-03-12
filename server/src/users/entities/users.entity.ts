@@ -3,18 +3,20 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryColumn,
 } from "typeorm";
 
-@Entity({
+@Entity("users", {
   name: "users",
+  schema: "SYSTEM",
 })
 export class User {
   @PrimaryColumn({ type: String })
   email: string;
 
-  @Column({ type: String })
+  @Column({ type: String, nullable: true })
   password: string;
 
   @Column({ type: String })
@@ -38,10 +40,14 @@ export class User {
   @Column({ type: Boolean, default: false })
   isAdmin: boolean;
 
-  @Column({ type: String })
+  @Column({ type: String, nullable: true })
   validationToken?: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((_type) => Major, (major) => major.users, { eager: true })
+  @ManyToOne((_type) => Major, (major) => major.users, {
+    eager: true,
+    nullable: true,
+  })
+  @JoinColumn({ name: "majorID" })
   major?: Major;
 }
