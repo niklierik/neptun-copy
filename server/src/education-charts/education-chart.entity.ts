@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 
 export enum RequirementType {
@@ -16,14 +16,15 @@ export enum RequirementType {
 
 @Entity("education-chart")
 export class EducationChart {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((type) => Subject, { eager: true })
-  @PrimaryColumn()
   subject: Subject;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((type) => Major, { eager: true })
-  @PrimaryColumn()
   major: Major;
 
   @Column()

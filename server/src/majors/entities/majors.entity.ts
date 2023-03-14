@@ -1,5 +1,11 @@
 import { User } from "src/users/entities/users.entity";
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryColumn,
+} from "typeorm";
 
 @Entity({
   name: "majors",
@@ -14,4 +20,7 @@ export class Major {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((_type) => User, (user) => user.major, { eager: false })
   users: User[];
+
+  @CreateDateColumn()
+  createdAt: Date;
 }

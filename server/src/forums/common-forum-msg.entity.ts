@@ -10,10 +10,11 @@ import {
 
 @Entity("common_forum")
 export class CommonForumMsg {
-  @PrimaryColumn()
-  id: number;
+  @PrimaryColumn("uuid")
+  id: string;
 
-  @Column()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @ManyToOne((type) => User, { eager: false })
   sender: User;
 
   @Column("clob")
@@ -24,6 +25,5 @@ export class CommonForumMsg {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((type) => Subject, (subject) => subject.forum, { eager: false })
-  @PrimaryColumn()
   subject: Subject;
 }

@@ -1,5 +1,11 @@
 import { Subject } from "src/subjects/subject.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 @Entity("common_news")
 export class CommonNews {
@@ -12,4 +18,7 @@ export class CommonNews {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((type) => Subject, (subject) => subject.news, { eager: false })
   subject: Subject;
+
+  @CreateDateColumn()
+  createdAt: Date;
 }

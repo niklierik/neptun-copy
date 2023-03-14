@@ -32,9 +32,6 @@ export class Course {
   @ManyToOne((type) => Room, (room) => room.courses, { eager: true })
   room: Room;
 
-  @CreateDateColumn()
-  createdAt: Date;
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((type) => ForumMsg, (forum) => forum.course, { eager: true })
   forum: ForumMsg[];
@@ -42,4 +39,7 @@ export class Course {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((type) => News, (news) => news.course, { eager: true })
   news: News[];
+
+  @CreateDateColumn()
+  createdAt: Date;
 }

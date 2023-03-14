@@ -13,7 +13,8 @@ export class ForumMsg {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @ManyToOne((type) => User, { eager: false })
   sender: User;
 
   @Column("clob")

@@ -1,5 +1,11 @@
 import { Course } from "src/courses/course.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 @Entity("news")
 export class News {
@@ -12,4 +18,7 @@ export class News {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((type) => Course, (course) => course.news, { eager: false })
   course: Course;
+
+  @CreateDateColumn()
+  createdAt: Date;
 }

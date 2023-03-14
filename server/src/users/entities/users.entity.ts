@@ -1,11 +1,13 @@
 import { Exam } from "src/exams/exam.entity";
 import { Major } from "src/majors/entities/majors.entity";
+import { Message } from "src/messaging/message.entity";
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryColumn,
 } from "typeorm";
 
@@ -54,4 +56,12 @@ export class User {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToMany((type) => Exam, (exam) => exam.examinees, { eager: true })
   exams: Exam[];
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @OneToMany((type) => Message, (msg) => msg.from, { eager: true })
+  sentMessages: Message;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @OneToMany((type) => Message, (msg) => msg.to, { eager: true })
+  receivedMessages: Message;
 }
