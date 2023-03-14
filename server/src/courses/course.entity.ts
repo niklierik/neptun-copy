@@ -1,10 +1,12 @@
+import { ForumMsg } from "src/forums/forum-msg.entity";
 import { Room } from "src/rooms/room.entity";
 import { Subject } from "src/subjects/subject.entity";
 import {
   Column,
+  CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
@@ -17,7 +19,6 @@ export class Course {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((type) => Subject, (subject) => subject.courses, { eager: true })
-  @JoinColumn()
   subject: Subject;
 
   @Column({ type: "interval day to second" })
@@ -29,4 +30,11 @@ export class Course {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((type) => Room, (room) => room.courses, { eager: true })
   room: Room;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @OneToMany((type) => ForumMsg, (forum) => forum.course, { eager: true })
+  forum: ForumMsg[];
 }

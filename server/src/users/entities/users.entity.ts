@@ -1,9 +1,10 @@
+import { Exam } from "src/exams/exam.entity";
 import { Major } from "src/majors/entities/majors.entity";
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
+  ManyToMany,
   ManyToOne,
   PrimaryColumn,
 } from "typeorm";
@@ -48,6 +49,9 @@ export class User {
     eager: true,
     nullable: true,
   })
-  @JoinColumn({ name: "majorID" })
   major?: Major;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @ManyToMany((type) => Exam, (exam) => exam.examinees, { eager: true })
+  exams: Exam[];
 }

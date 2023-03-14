@@ -1,6 +1,12 @@
 import { Major } from "src/majors/entities/majors.entity";
 import { Subject } from "src/subjects/subject.entity";
-import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+} from "typeorm";
 
 export enum RequirementType {
   REQIRED = 0,
@@ -25,4 +31,7 @@ export class EducationChart {
 
   @Column("number")
   requirementType: RequirementType;
+
+  @CreateDateColumn()
+  createdAt: Date;
 }
