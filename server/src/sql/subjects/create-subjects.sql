@@ -4,5 +4,6 @@ CREATE TABLE "subjects" (
   "credit" number(1,0) NOT NULL,
   "hoursAWeek" number(1,0) NOT NULL,
   "type" number(1, 0) NOT NULL,
+  "createdAt" timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
   CONSTRAINT "PK_subjects_id" PRIMARY KEY ("id")
 );

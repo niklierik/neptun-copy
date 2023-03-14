@@ -4,6 +4,7 @@ CREATE TABLE "courses" (
   "dayOfWeek" number NOT NULL,
   "subjectId" varchar2(36),
   "roomId" varchar2(36),
+  "createdAt" timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
   CONSTRAINT "PK_courses_id" PRIMARY KEY ("id")
 );
 ALTER TABLE  "courses" ADD CONSTRAINT "FK_courses_subjectId" FOREIGN KEY ("subjectId") REFERENCES "subjects" ("id");

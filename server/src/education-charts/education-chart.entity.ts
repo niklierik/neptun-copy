@@ -14,7 +14,7 @@ export enum RequirementType {
   CHOSEN = 2,
 }
 
-@Entity("education-chart")
+@Entity("education_chart")
 export class EducationChart {
   @PrimaryGeneratedColumn("uuid")
   id: string;
