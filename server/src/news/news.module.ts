@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { CommonNews } from "./common-news.entity";
+import { News } from "./news.entity";
 
-@Module({})
+@Module({
+  imports: [TypeOrmModule.forFeature([CommonNews, News])],
+})
 export class NewsModule {}

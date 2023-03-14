@@ -1,4 +1,5 @@
 import { ForumMsg } from "src/forums/forum-msg.entity";
+import { News } from "src/news/news.entity";
 import { Room } from "src/rooms/room.entity";
 import { Subject } from "src/subjects/subject.entity";
 import {
@@ -37,4 +38,8 @@ export class Course {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((type) => ForumMsg, (forum) => forum.course, { eager: true })
   forum: ForumMsg[];
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @OneToMany((type) => News, (news) => news.course, { eager: true })
+  news: News[];
 }

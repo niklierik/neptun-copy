@@ -1,5 +1,6 @@
 import { Course } from "src/courses/course.entity";
 import { CommonForumMsg } from "src/forums/common-forum-msg.entity";
+import { CommonNews } from "src/news/common-news.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { SubjectType } from "./subject-type.enum";
 
@@ -31,4 +32,8 @@ export class Subject {
     eager: true,
   })
   forum: CommonForumMsg[];
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @OneToMany((type) => CommonNews, (news) => news.subject, { eager: true })
+  news: CommonNews[];
 }
