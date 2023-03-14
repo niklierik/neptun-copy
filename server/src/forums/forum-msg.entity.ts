@@ -5,13 +5,13 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 
 @Entity("forum")
 export class ForumMsg {
-  @PrimaryColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
   sender: User;
@@ -24,6 +24,5 @@ export class ForumMsg {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((type) => Course, (course) => course.forum, { eager: false })
-  @PrimaryColumn()
   course: Course;
 }
