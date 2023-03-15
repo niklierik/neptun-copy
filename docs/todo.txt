@@ -1,0 +1,3 @@
+Üzenetek ID UUID lett
+Típusok pontosítása a táblában
+Terem tábla hiányzik
