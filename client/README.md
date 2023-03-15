@@ -15,6 +15,18 @@
 
 # Vite ⚡
 
+## Installation
+
+```bash
+$ npm i --save
+```
+
+## Running the app
+
+```bash
+$ npm run dev
+```
+
 > Next Generation Frontend Tooling
 
 - 💡 Instant Server Start
