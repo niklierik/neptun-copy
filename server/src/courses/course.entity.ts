@@ -13,6 +13,11 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 
+export enum Semester {
+  FALL = 0,
+  SPRING = 1,
+}
+
 @Entity("courses", {
   name: "courses",
 })
@@ -29,6 +34,12 @@ export class Course {
 
   @Column()
   dayOfWeek: number;
+
+  @Column()
+  year: number;
+
+  @Column("number")
+  semester: Semester;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((type) => Room, (room) => room.courses, { eager: true })
