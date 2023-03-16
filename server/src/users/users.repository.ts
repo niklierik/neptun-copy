@@ -11,6 +11,7 @@ import { User } from "./entities/users.entity";
 import { v4 as uuid } from "uuid";
 import { serverError } from "src/messages/messages";
 import { throwIfUniqueConstraint } from "src/utils/errors";
+import { SearchUserDto } from "./dtos/search-user.dto";
 
 @Injectable()
 export class UsersRepository extends Repository<User> {
@@ -146,4 +147,6 @@ export class UsersRepository extends Repository<User> {
       throw new InternalServerErrorException(serverError);
     }
   }
+
+  async search({}: SearchUserDto) {}
 }

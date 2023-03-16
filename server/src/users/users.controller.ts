@@ -16,6 +16,7 @@ import { ChangePasswordDto } from "./dtos/change-password.dto";
 import { FinishRegistrationDto } from "./dtos/finish-registration.dto";
 import { LoginUserDto } from "./dtos/login-user.dto";
 import { RegisterUserDto } from "./dtos/register-user.dto";
+import { SearchUserDto } from "./dtos/search-user.dto";
 import { User } from "./entities/users.entity";
 import { JwtToken } from "./interfaces/jwt-token.interface";
 import { UsersService } from "./users.service";
@@ -54,6 +55,11 @@ export class UsersController {
   @Get("/:email")
   async findUser(@Param("email ") email: string) {
     return await this.usersService.getUser(email);
+  }
+
+  @Get()
+  async search(@Query() search: SearchUserDto) {
+    return this.usersService.search(search);
   }
 
   @Delete("/:email")

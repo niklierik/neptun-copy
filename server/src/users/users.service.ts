@@ -17,6 +17,7 @@ import { ChangePasswordDto } from "./dtos/change-password.dto";
 import { FinishRegistrationDto } from "./dtos/finish-registration.dto";
 import { LoginUserDto } from "./dtos/login-user.dto";
 import { RegisterUserDto } from "./dtos/register-user.dto";
+import { SearchUserDto } from "./dtos/search-user.dto";
 import { User } from "./entities/users.entity";
 import { JwtPayload } from "./interfaces/jwt-payload.interface";
 import { JwtToken } from "./interfaces/jwt-token.interface";
@@ -93,6 +94,10 @@ export class UsersService {
 
   async requestToken(email: string) {
     await this.usersRepository.requestToken(email);
+  }
+
+  async search(search: SearchUserDto) {
+    return this.usersRepository.search(search);
   }
 
   /**
