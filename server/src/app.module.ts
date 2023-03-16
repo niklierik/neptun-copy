@@ -13,7 +13,7 @@ import { CoursesModule } from "./courses/courses.module";
 import { ForumsModule } from "./forums/forums.module";
 import { NewsModule } from "./news/news.module";
 import { EducationChartsModule } from "./education-charts/education-charts.module";
-import { MarksModule } from './marks/marks.module';
+import { MarksModule } from "./marks/marks.module";
 
 @Module({
   imports: [
