@@ -1,5 +1,7 @@
+import { Course } from "src/courses/course.entity";
 import { Exam } from "src/exams/exam.entity";
 import { Major } from "src/majors/entities/majors.entity";
+import { Mark } from "src/marks/mark.entity";
 import { Message } from "src/messaging/message.entity";
 import {
   Column,
@@ -64,4 +66,16 @@ export class User {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((type) => Message, (msg) => msg.to, { eager: true })
   receivedMessages: Message;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @ManyToMany((type) => Course, (course) => course.students, { eager: true })
+  courses: Course[];
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @ManyToMany((type) => Course, (course) => course.teachers, { eager: true })
+  teaching: Course[];
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @OneToMany((type) => Mark, (mark) => mark.user, { eager: true })
+  marks: Mark[];
 }
