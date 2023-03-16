@@ -7,5 +7,5 @@ CREATE TABLE "education_chart" (
   "majorId" varchar2(255),
   CONSTRAINT "PK_education_chart_id" PRIMARY KEY ("id")
 );
-ALTER TABLE "education-chart" ADD CONSTRAINT "FK_education_chart_major" FOREIGN KEY ("majorId") REFERENCES "majors" ("majorID");
-ALTER TABLE "education-chart" ADD CONSTRAINT "FK_education_chart_subject" FOREIGN KEY ("subjectId") REFERENCES "subjects" ("id");
+ALTER TABLE "education_chart" ADD CONSTRAINT "FK_education_chart_major" FOREIGN KEY ("majorId") REFERENCES "majors" ("majorID");
+ALTER TABLE "education_chart" ADD CONSTRAINT "FK_education_chart_subject" FOREIGN KEY ("subjectId") REFERENCES "subjects" ("id");

@@ -1,6 +1,6 @@
 -- Felhasználókat tároló tábla --
 CREATE TABLE "users" (
-  "email" varchar2(128) NOT NULL,
+  "email" varchar2(255) NOT NULL,
   "password" varchar2(72),
   "familyname" varchar2(128) NOT NULL,
   "forename" varchar2(128) NOT NULL,
