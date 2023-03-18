@@ -91,7 +91,7 @@ CREATE TABLE "marks" (
   "id" varchar(36) NOT NULL,
   "user" varchar2(255) NOT NULL,
   "subject" varchar2(36) NOT NULL,
-  CONSTRAINT "PK_users_exams" PRIMARY KEY ("id")
+  CONSTRAINT "PK_marks_id" PRIMARY KEY ("id")
 );
 
 -- Szakokat tároló tábla
@@ -177,11 +177,11 @@ CREATE TABLE "users_course_student" (
   "id" varchar(36) NOT NULL,
   "user" varchar2(255) NOT NULL,
   "course" varchar2(36) NOT NULL,
-  CONSTRAINT "PK_users_course_student" PRIMARY KEY ("id")
+  CONSTRAINT "PK_users_course_student_id" PRIMARY KEY ("id")
 );
 
-ALTER TABLE "users_course_student" ADD CONSTRAINT "FK_users_course_student_user" FOREIGN KEY ("users") REFERENCES "users" ("email");
-ALTER TABLE "users_course_student" ADD CONSTRAINT "FK_users_course_student_course" FOREIGN KEY ("courses") REFERENCES "course" ("id");
+ALTER TABLE "users_course_student" ADD CONSTRAINT "FK_users_course_student_user" FOREIGN KEY ("user") REFERENCES "users" ("email");
+ALTER TABLE "users_course_student" ADD CONSTRAINT "FK_users_course_student_course" FOREIGN KEY ("course") REFERENCES "courses" ("id");
 
 
 -- Felhasználó-kurzus mint tanár
@@ -189,11 +189,11 @@ CREATE TABLE "users_course_teacher" (
   "id" varchar(36) NOT NULL,
   "user" varchar2(255) NOT NULL,
   "course" varchar2(36) NOT NULL,
-  CONSTRAINT "PK_users_course_teacher" PRIMARY KEY ("id")
+  CONSTRAINT "PK_users_course_teacher_id" PRIMARY KEY ("id")
 );
 
-ALTER TABLE "users_course_teacher" ADD CONSTRAINT "FK_users_course_teacher_user" FOREIGN KEY ("users") REFERENCES "users" ("email");
-ALTER TABLE "users_course_teacher" ADD CONSTRAINT "FK_users_course_teacher_course" FOREIGN KEY ("courses") REFERENCES "course" ("id");
+ALTER TABLE "users_course_teacher" ADD CONSTRAINT "FK_users_course_teacher_user" FOREIGN KEY ("user") REFERENCES "users" ("email");
+ALTER TABLE "users_course_teacher" ADD CONSTRAINT "FK_users_course_teacher_course" FOREIGN KEY ("course") REFERENCES "courses" ("id");
 
 
 -- Felhasználó-vizsga (vizsgázó)
@@ -201,7 +201,7 @@ CREATE TABLE "users_exams" (
   "id" varchar(36) NOT NULL,
   "user" varchar2(255) NOT NULL,
   "exam" varchar2(36) NOT NULL,
-  CONSTRAINT "PK_users_exams" PRIMARY KEY ("id")
+  CONSTRAINT "PK_users_exams_id" PRIMARY KEY ("id")
 );
 
 
