@@ -3,6 +3,9 @@ import reactLogo from "./assets/react.svg";
 import "./App.css";
 import { Button, Form } from "react-bootstrap";
 import axios from "axios";
+import env from "../env.json";
+import { getUrl } from "./config";
+
 
 type LoginResult = { accessToken: string };
 
@@ -14,8 +17,7 @@ function onLogin(
 ): void {
   event.preventDefault();
   axios
-    // TODO URL needs to be configurable (localhost for developing, static for production)
-    .post<LoginResult>("http://localhost:3000/users/login", { email, password })
+    .post<LoginResult>(getUrl("/users/login"), { email, password })
     .then((res) => setToken(res.data.accessToken));
 }
 
