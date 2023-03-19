@@ -1,7 +1,9 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   Logger,
+  NotFoundException,
   PreconditionFailedException,
   UnauthorizedException,
 } from "@nestjs/common";
@@ -31,20 +33,23 @@ export class UsersService {
   ) {}
 
   async login({ email, password }: LoginUserDto): Promise<JwtToken> {
-    Logger.log(`User logged in: ${email}`);
-    const storedPasswd = (await this.usersRepository.findUser(email))?.password;
+    Logger.log(`User logging in: ${email}...`);
+    const storedPasswd = await this.usersRepository.getUserPassword(email);
     const login = await compare(password, storedPasswd ?? "");
     if (!login) {
       throw new UnauthorizedException(invalidLoginData);
     }
     const payload: JwtPayload = { email };
     const accessToken = this.jwtService.sign(payload);
+    Logger.log(`User logged in: ${email}.`);
     return { accessToken };
   }
 
   async register(registerDto: RegisterUserDto) {
-    Logger.log(`User created: ${registerDto.email}`);
-    return await this.usersRepository.createUser(registerDto);
+    Logger.log(`User creating: ${registerDto.email}...`);
+    const res = await this.usersRepository.createUser(registerDto);
+    Logger.log(`User created: ${registerDto.email}.`);
+    return res;
   }
 
   async changePwd(
@@ -79,10 +84,19 @@ export class UsersService {
   }
 
   async getUser(email: string) {
-    return await this.usersRepository.findUser(email);
+    const res = await this.usersRepository.findUser(email);
+    if (res == null) {
+      throw new NotFoundException("Felhasználó nem található.");
+    }
+    return res;
   }
 
-  async deleteUserByEmail(email: string) {
+  async deleteUserByEmail(email: string, user: User) {
+    if (!user.isAdmin && user.email !== email) {
+      throw new ForbiddenException(
+        "Csak adminok vagy a fiók tulajdonosa törölheti a fiókot.",
+      );
+    }
     return await this.usersRepository.deleteUserByEmail(email);
   }
 
@@ -97,7 +111,11 @@ export class UsersService {
   }
 
   async search(search: SearchUserDto) {
-    return this.usersRepository.search(search);
+    const res = this.usersRepository.search(search);
+    if (res == null) {
+      throw new NotFoundException("Felhasználó nem található.");
+    }
+    return res;
   }
 
   /**

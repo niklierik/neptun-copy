@@ -26,6 +26,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post("register")
+  @UseGuards(AuthGuard())
   async register(@Body() registerDto: RegisterUserDto): Promise<string> {
     return await this.usersService.register(registerDto);
   }
@@ -53,18 +54,27 @@ export class UsersController {
   }
 
   @Get("/:email")
-  async findUser(@Param("email ") email: string) {
+  @UseGuards(AuthGuard())
+  async findUser(@Param("email") email: string) {
     return await this.usersService.getUser(email);
   }
 
   @Get()
+  @UseGuards(AuthGuard())
   async search(@Query() search: SearchUserDto) {
     return this.usersService.search(search);
   }
 
+  @Delete()
+  @UseGuards(AuthGuard())
+  async deleteCurrentUser(@CurrentUser() user: User) {
+    return await this.usersService.deleteUserByEmail(user.email, user);
+  }
+
   @Delete("/:email")
-  async deleteUser(@Param("email") email: string) {
-    return await this.usersService.deleteUserByEmail(email);
+  @UseGuards(AuthGuard())
+  async deleteUser(@Param("email") email: string, @CurrentUser() user: User) {
+    return await this.usersService.deleteUserByEmail(email, user);
   }
 
   @Put("/newToken/:email")
