@@ -29,12 +29,14 @@ async function createRandomUser(queryRunner: QueryRunner): Promise<void> {
   const gender = faker.name.sexType();
   const forename = faker.name.firstName(gender);
   const familyname = faker.name.lastName(gender);
-  const email = faker.internet.email(forename, familyname);
+  const email = faker.internet.email(forename, familyname).toLowerCase();
   const address = `${faker.address.zipCode(
     "####",
   )} ${faker.address.cityName()}, ${faker.address.street()} ${faker.address.buildingNumber()}`;
   const teacher = Math.random() > 0.8; // próbáljuk inkább fiatalabakkal feltölteni az adatbázist, de legyenek idősebbek is
-  const password = faker.random.words(2).replace(" ", "");
+  const password = `${faker.random
+    .words(2)
+    .replace(" ", "")}${faker.datatype.number({ min: 0, max: 999 })}`;
   const hash = await hashPwd(password);
   const birthdate = faker.date.birthdate({
     min: teacher ? 25 : 18,
