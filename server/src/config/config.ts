@@ -1,7 +1,14 @@
 import { Logger } from "@nestjs/common";
+import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { plainToClass, Type } from "class-transformer";
-import { IsNotEmpty, IsNumber, IsString, validate } from "class-validator";
-import { promises as fs } from "fs";
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  validateSync,
+} from "class-validator";
+import * as fs from "fs";
 
 let cfgObject: Config | undefined = undefined;
 
@@ -43,11 +50,35 @@ export class Config {
   @IsNumber()
   @Type(() => Number)
   sessionsExpiresIn: number;
+
+  @IsBoolean()
+  @Type(() => Boolean)
+  seed: boolean;
 }
 
-async function readCfgFile() {
+export function createTypeORMModuleCfg(): TypeOrmModuleOptions {
+  readConfig();
+  return {
+    type: "oracle",
+    host: cfg().db.host,
+    port: cfg().db.port,
+    username: cfg().db.user,
+    password: cfg().db.password,
+    database: cfg().db.name,
+    autoLoadEntities: true,
+    synchronize: true,
+    logging: true,
+    logger: "file",
+    schema: cfg().db.schema,
+    migrations: ["./migrations/(*).ts"],
+    migrationsTableName: "migrations",
+    migrationsRun: true,
+  };
+}
+
+function readCfgFile() {
   try {
-    const content = await fs.readFile("env.json", {
+    const content = fs.readFileSync("env.json", {
       encoding: "utf-8",
     });
     return content.toString();
@@ -57,14 +88,14 @@ async function readCfgFile() {
   }
 }
 
-export async function readConfig(): Promise<void> {
+function readConfig(): Promise<void> {
   if (cfgObject) {
     return;
   }
-  const file = await readCfgFile();
+  const file = readCfgFile();
   const parsed = JSON.parse(file);
   const transformed = plainToClass(Config, parsed);
-  const validated = await validate(transformed);
+  const validated = validateSync(transformed);
   if (validated?.length) {
     Logger.error("Config file is not valid:");
     validated.forEach((err) => Logger.error(err));
@@ -74,5 +105,6 @@ export async function readConfig(): Promise<void> {
 }
 
 export function cfg() {
+  readConfig();
   return cfgObject;
 }

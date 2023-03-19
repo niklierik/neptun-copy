@@ -8,7 +8,7 @@ import { PassportModule } from "@nestjs/passport";
 import { JwtStrategy } from "./jwt.strategy";
 import { MajorsModule } from "src/majors/majors.module";
 import { JwtModule } from "@nestjs/jwt";
-import { cfg, readConfig } from "src/config/config";
+import { cfg } from "src/config/config";
 
 @Module({
   providers: [UsersService, UsersRepository, JwtStrategy],
@@ -21,7 +21,6 @@ import { cfg, readConfig } from "src/config/config";
     JwtModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       async useFactory(..._args) {
-        await readConfig();
         return {
           secret: cfg().jwtSecret,
           signOptions: { expiresIn: cfg().sessionsExpiresIn },
