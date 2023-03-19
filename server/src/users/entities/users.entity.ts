@@ -21,7 +21,7 @@ export class User {
   @PrimaryColumn({ type: String })
   email: string;
 
-  @Column({ type: String, nullable: true })
+  @Column({ type: String, nullable: true, select: false })
   password: string;
 
   @Column({ type: String })
@@ -39,13 +39,13 @@ export class User {
   @CreateDateColumn()
   createdAt: Date;
 
-  @Column({ type: Boolean, default: false })
+  @Column({ type: Boolean, default: false, select: false })
   isValid: boolean;
 
   @Column({ type: Boolean, default: false })
   isAdmin: boolean;
 
-  @Column({ type: String, nullable: true })
+  @Column({ type: String, nullable: true, select: false })
   validationToken?: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

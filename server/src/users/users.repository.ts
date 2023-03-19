@@ -11,6 +11,7 @@ import { User } from "./entities/users.entity";
 import { v4 as uuid } from "uuid";
 import { serverError } from "src/messages/messages";
 import { throwIfUniqueConstraint } from "src/utils/errors";
+import { SearchUserDto } from "./dtos/search-user.dto";
 
 @Injectable()
 export class UsersRepository extends Repository<User> {
@@ -18,24 +19,6 @@ export class UsersRepository extends Repository<User> {
     readonly ds: DataSource, // private readonly majorsService: MajorsService,
   ) {
     super(User, ds.createEntityManager());
-  }
-
-  async getUserPassword(email: string): Promise<string | undefined> {
-    try {
-      const user = await this.findOne({
-        where: {
-          email,
-          isValid: true,
-        },
-        select: {
-          password: true,
-        },
-      });
-      return user?.password ?? undefined; // may be null, enforcing undefined
-    } catch (err) {
-      Logger.error(err);
-      throw new InternalServerErrorException(serverError);
-    }
   }
 
   /**
@@ -53,6 +36,7 @@ export class UsersRepository extends Repository<User> {
         {
           password: hash,
           validationToken: null,
+          isValid: true,
         },
       );
       return (res?.affected ?? 0) > 0;
@@ -97,9 +81,26 @@ export class UsersRepository extends Repository<User> {
     }
   }
 
+  async getUserPassword(email: string): Promise<string> {
+    try {
+      const res = await this.createQueryBuilder("u")
+        .select("u.password")
+        .where("u.email = :email", { email })
+        .andWhere("u.isValid = 1")
+        .getOne();
+      return res.password;
+    } catch (err) {
+      Logger.error(err);
+      throw new InternalServerErrorException(serverError);
+    }
+  }
+
   async findUser(email: string): Promise<User> {
     try {
-      const res = await this.findOne({ where: { email } });
+      const res = await this.createQueryBuilder("u")
+        .where("u.email = :email", { email })
+        .andWhere("u.isValid = 1")
+        .getOne();
       return res;
     } catch (err) {
       Logger.error(err);
@@ -145,5 +146,32 @@ export class UsersRepository extends Repository<User> {
       Logger.error(err);
       throw new InternalServerErrorException(serverError);
     }
+  }
+
+  async search({ email, major, limit, name, skip }: SearchUserDto) {
+    let query = this.createQueryBuilder("u").where("u.isValid = 1");
+    if (email) {
+      query = query.andWhere("u.email LIKE :email", {
+        email: `%${email}%`,
+      });
+    }
+    if (name) {
+      query = query.andWhere(
+        "(((u.familyname || ' ' || u.forename) LIKE :name) OR ((u.forename || ' ' || u.familyname) LIKE :name))",
+        {
+          name: `%${name}%`,
+        },
+      );
+    }
+    if (major) {
+      query = query.andWhere("u.majorMajorID = :major", { major });
+    }
+    if (limit) {
+      query = query.limit(limit);
+    }
+    if (skip) {
+      query = query.skip(skip);
+    }
+    return query.getMany();
   }
 }
