@@ -4,10 +4,16 @@ import { MajorsController } from "./majors.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Major } from "./entities/majors.entity";
 import { MajorsRepository } from "./majors.repository";
+import { PassportModule } from "@nestjs/passport";
 
 @Module({
   providers: [MajorsService, MajorsRepository],
-  imports: [TypeOrmModule.forFeature([Major])],
+  imports: [
+    TypeOrmModule.forFeature([Major]),
+    PassportModule.register({
+      defaultStrategy: "jwt",
+    }),
+  ],
   controllers: [MajorsController],
   exports: [MajorsService],
 })
