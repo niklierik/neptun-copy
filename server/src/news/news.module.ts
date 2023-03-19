@@ -7,6 +7,7 @@ import { NewsRepository } from "./news.repository";
 
 @Module({
   imports: [TypeOrmModule.forFeature([CommonNews, News])],
+  providers: [CommonNewsRepository, NewsRepository],
   exports: [CommonNewsRepository, NewsRepository],
 })
 export class NewsModule {}

@@ -5,6 +5,7 @@ import { MarksRepository } from "./marks.repository";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Mark])],
+  providers: [MarksRepository],
   exports: [MarksRepository],
 })
 export class MarksModule {}

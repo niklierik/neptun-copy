@@ -7,6 +7,7 @@ import { ForumRepository } from "./forum.repository";
 
 @Module({
   imports: [TypeOrmModule.forFeature([ForumMsg, CommonForumMsg])],
+  providers: [ForumRepository, CommonForumRepository],
   exports: [ForumRepository, CommonForumRepository],
 })
 export class ForumsModule {}

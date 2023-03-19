@@ -6,6 +6,7 @@ import { MessagingRepository } from "./messaging.repository";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Message]), UsersModule],
+  providers: [MessagingRepository],
   exports: [MessagingRepository],
 })
 export class MessagingModule {}

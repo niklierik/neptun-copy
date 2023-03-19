@@ -5,6 +5,7 @@ import { EducationChartsRepository } from "./education-chart.repository";
 
 @Module({
   imports: [TypeOrmModule.forFeature([EducationChart])],
+  providers: [EducationChartsRepository],
   exports: [EducationChartsRepository],
 })
 export class EducationChartsModule {}

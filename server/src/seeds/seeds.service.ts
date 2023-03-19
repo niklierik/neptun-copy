@@ -27,6 +27,7 @@ export class SeedsService {
   async seed(app: INestApplication) {
     seedings = seedings.sort((a, b) => a.id - b.id);
     Logger.log("Starting seeding...");
+    let counter = 0;
     for (const { id, functionToRun } of seedings) {
       try {
         let res = await this.repo.findOne({ where: { id } });
@@ -36,12 +37,13 @@ export class SeedsService {
         await functionToRun(app);
         res = this.repo.create({ id, run: true });
         await this.repo.save(res);
+        counter++;
       } catch (err) {
         Logger.error(`Seeding ${id} failed, discontinuing the others...`);
         Logger.error(err);
         return;
       }
     }
-    Logger.log("Seeding finished.");
+    Logger.log(`Tables seeded: ${counter}.`);
   }
 }
