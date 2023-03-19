@@ -1,6 +1,6 @@
-import { QueryRunner } from "typeorm";
+import { AppModule } from "src/app.module";
 
 export class Seeding {
   id: number;
-  functionToRun: (qr: QueryRunner) => Promise<void>;
+  functionToRun: (qr: AppModule) => Promise<void>;
 }

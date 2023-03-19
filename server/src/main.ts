@@ -16,7 +16,7 @@ async function bootstrap() {
   Logger.log("Neptun++ backend server started...");
   if (cfg().seed) {
     const service = app.get(SeedsService);
-    await service.seed();
+    await service.seed(app);
   }
 }
 bootstrap();

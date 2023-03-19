@@ -1,20 +1,23 @@
-import { QueryRunner } from "typeorm";
+import { INestApplication } from "@nestjs/common/interfaces";
+import { MajorsRepository } from "../majors.repository";
 
 async function createMajor(
-  queryRunner: QueryRunner,
-  id: string,
-  name: string,
+  repo: MajorsRepository,
+  majorID: string,
+  displayName: string,
 ): Promise<void> {
-  await queryRunner.query(
-    `INSERT INTO "SYSTEM"."majors" ("SYSTEM"."majors"."majorID", "SYSTEM"."majors"."displayName") VALUES (:1, :2)`,
-    [id, name],
-  );
+  const major = repo.create({
+    majorID,
+    displayName,
+  });
+  await repo.save(major);
 }
 
-export async function seedMajors(queryRunner: QueryRunner): Promise<void> {
-  await createMajor(queryRunner, "none", "Nincs");
-  await createMajor(queryRunner, "admin", "Admin");
-  await createMajor(queryRunner, "proginf", "Programtervező Informatikus");
-  await createMajor(queryRunner, "minf", "Mérnök Informatikus");
-  await createMajor(queryRunner, "gazdinf", "Gazdaságinformatikus");
+export async function seedMajors(app: INestApplication): Promise<void> {
+  const repo = await app.resolve(MajorsRepository);
+  await createMajor(repo, "none", "Nincs");
+  await createMajor(repo, "admin", "Admin");
+  await createMajor(repo, "proginf", "Programtervező Informatikus");
+  await createMajor(repo, "minf", "Mérnök Informatikus");
+  await createMajor(repo, "gazdinf", "Gazdaságinformatikus");
 }

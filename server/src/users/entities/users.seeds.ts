@@ -1,30 +1,39 @@
 import { faker } from "@faker-js/faker/locale/hu";
 import { hashPwd } from "src/utils/password";
-import { QueryRunner } from "typeorm";
 import { promises as fs } from "fs";
 import { EOL } from "os";
+import { INestApplication } from "@nestjs/common";
+import { UsersRepository } from "../users.repository";
 
 const numberOfSeededUsers = 50;
 
 export const seededUsers: string[] = [];
 
 async function createUser(
-  queryRunner: QueryRunner,
+  repo: UsersRepository,
   email: string,
   birthdate: Date,
   password: string,
   familyname: string,
   forename: string,
   address: string,
-  major: string,
+  majorID: string,
 ): Promise<void> {
-  await queryRunner.query(
-    `INSERT INTO "SYSTEM"."users" ("email", "birthdate", "password", "familyname", "forename", "address", "majorMajorID", "validationToken", "isValid", "isAdmin") VALUES (:1, :2, :3, :4, :5, :6, :7, NULL, 1, 0)`,
-    [email, birthdate, password, familyname, forename, address, major],
-  );
+  const user = repo.create({
+    address,
+    birthdate,
+    email,
+    familyname,
+    forename,
+    major: {
+      majorID,
+    },
+    password,
+  });
+  await repo.save(user);
 }
 
-async function createRandomUser(queryRunner: QueryRunner): Promise<void> {
+async function createRandomUser(repo: UsersRepository): Promise<void> {
   faker.locale = "hu";
   const gender = faker.name.sexType();
   const forename = faker.name.firstName(gender);
@@ -46,7 +55,7 @@ async function createRandomUser(queryRunner: QueryRunner): Promise<void> {
   const majorIndex = faker.datatype.number({ min: 0, max: 2 });
   const major = ["proginf", "minf", "gazdinf"][majorIndex];
   await createUser(
-    queryRunner,
+    repo,
     email,
     birthdate,
     hash,
@@ -58,9 +67,10 @@ async function createRandomUser(queryRunner: QueryRunner): Promise<void> {
   seededUsers.push(`${email} - ${password}`);
 }
 
-export async function seedUsers(queryRunner: QueryRunner): Promise<void> {
+export async function seedUsers(app: INestApplication): Promise<void> {
+  const repo = await app.resolve(UsersRepository);
   await createUser(
-    queryRunner,
+    repo,
     "sysadmin",
     new Date(),
     await hashPwd("admin"),
@@ -71,7 +81,7 @@ export async function seedUsers(queryRunner: QueryRunner): Promise<void> {
   );
   const promises: Promise<void>[] = [];
   for (let i = 0; i < numberOfSeededUsers; i++) {
-    promises.push(createRandomUser(queryRunner));
+    promises.push(createRandomUser(repo));
   }
   await Promise.all(promises);
   await fs.writeFile("./seeded-users.txt", seededUsers.join(EOL), {

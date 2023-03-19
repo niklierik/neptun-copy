@@ -29,6 +29,6 @@ import { cfg } from "src/config/config";
     }),
   ],
   controllers: [UsersController],
-  exports: [JwtStrategy, PassportModule],
+  exports: [JwtStrategy, PassportModule, UsersRepository, UsersService],
 })
 export class UsersModule {}
