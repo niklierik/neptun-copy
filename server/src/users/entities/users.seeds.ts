@@ -67,7 +67,7 @@ export async function seedUsers(queryRunner: QueryRunner): Promise<void> {
     "System",
     "Admin",
     "SystemAdmin",
-    "none",
+    "admin",
   );
   const promises: Promise<void>[] = [];
   for (let i = 0; i < numberOfSeededUsers; i++) {

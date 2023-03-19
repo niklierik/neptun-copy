@@ -13,6 +13,7 @@ async function createMajor(
 
 export async function seedMajors(queryRunner: QueryRunner): Promise<void> {
   await createMajor(queryRunner, "none", "Nincs");
+  await createMajor(queryRunner, "admin", "Admin");
   await createMajor(queryRunner, "proginf", "Programtervező Informatikus");
   await createMajor(queryRunner, "minf", "Mérnök Informatikus");
   await createMajor(queryRunner, "gazdinf", "Gazdaságinformatikus");
