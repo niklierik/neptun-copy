@@ -14,6 +14,8 @@ import { ForumsModule } from "./forums/forums.module";
 import { NewsModule } from "./news/news.module";
 import { EducationChartsModule } from "./education-charts/education-charts.module";
 import { MarksModule } from "./marks/marks.module";
+import { PassportModule } from "@nestjs/passport";
+import { JwtModule } from "@nestjs/jwt";
 
 @Module({
   imports: [
@@ -34,6 +36,19 @@ import { MarksModule } from "./marks/marks.module";
           logging: true,
           logger: "file",
           schema: cfg().db.schema,
+        };
+      },
+    }),
+    PassportModule.register({
+      defaultStrategy: "jwt",
+    }),
+    JwtModule.registerAsync({
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      async useFactory(..._args) {
+        await readConfig();
+        return {
+          secret: cfg().jwtSecret,
+          signOptions: { expiresIn: cfg().sessionsExpiresIn },
         };
       },
     }),

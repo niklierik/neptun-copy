@@ -6,6 +6,7 @@ import {
 import { serverError } from "src/messages/messages";
 import { throwIfUniqueConstraint } from "src/utils/errors";
 import { DataSource, Repository } from "typeorm";
+import { CreateMajorDto } from "./dto/create-major.dto";
 import { Major } from "./entities/majors.entity";
 
 @Injectable()
@@ -14,7 +15,7 @@ export class MajorsRepository extends Repository<Major> {
     super(Major, ds.createEntityManager());
   }
 
-  async createMajor(data: any) {
+  async createMajor(data: CreateMajorDto) {
     try {
       const major = this.create();
       Object.assign(major, data);
@@ -37,14 +38,13 @@ export class MajorsRepository extends Repository<Major> {
           where: {
             majorID,
           },
+          loadEagerRelations: false,
         });
       }
       const major = await this.createQueryBuilder("m")
         .select()
-        .where({
-          majorID,
-        })
-        .innerJoinAndSelect("m.users", "u")
+        .where("m.majorID = :majorID", { majorID })
+        .leftJoinAndSelect("m.users", "u")
         .getOne();
       return major;
     } catch (err: any) {
