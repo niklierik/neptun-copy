@@ -25,4 +25,9 @@ export class MajorsService {
     }
     return res;
   }
+
+  async list() {
+    const res = await this.majorsRepository.find({});
+    return res;
+  }
 }
