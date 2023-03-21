@@ -17,10 +17,15 @@ export class MajorsController {
   }
 
   @Get("/:id")
-  async get(
+  async getById(
     @Param("id") id: string,
     @Query("includeUsers") includeUsers: string,
   ) {
     return await this.majorsService.find(id, includeUsers === "true");
+  }
+
+  @Get()
+  async get() {
+    return await this.majorsService.list();
   }
 }
