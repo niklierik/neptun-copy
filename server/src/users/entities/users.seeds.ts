@@ -18,6 +18,7 @@ async function createUser(
   forename: string,
   address: string,
   majorID: string,
+  isAdmin: boolean,
 ): Promise<void> {
   const user = repo.create({
     address,
@@ -29,6 +30,8 @@ async function createUser(
       majorID,
     },
     password,
+    isValid: true,
+    isAdmin,
   });
   await repo.save(user);
 }
@@ -63,6 +66,7 @@ async function createRandomUser(repo: UsersRepository): Promise<void> {
     forename,
     address,
     major,
+    false,
   );
   seededUsers.push(`${email} - ${password}`);
 }
@@ -78,6 +82,7 @@ export async function seedUsers(app: INestApplication): Promise<void> {
     "Admin",
     "SystemAdmin",
     "admin",
+    true,
   );
   const promises: Promise<void>[] = [];
   for (let i = 0; i < numberOfSeededUsers; i++) {

@@ -2,6 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { INestApplication } from "@nestjs/common/interfaces";
 import { InjectRepository } from "@nestjs/typeorm";
 import { seedMajors } from "src/majors/entities/majors.seeds";
+import { seedRooms } from "src/rooms/rooms.seeding";
 import { seedUsers } from "src/users/entities/users.seeds";
 import { Repository } from "typeorm";
 import { Seeded } from "./seeded.entity";
@@ -15,6 +16,10 @@ let seedings: Seeding[] = [
   {
     id: 2,
     functionToRun: seedUsers,
+  },
+  {
+    id: 3,
+    functionToRun: seedRooms,
   },
 ];
 

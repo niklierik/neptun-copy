@@ -8,4 +8,22 @@ export class RoomsRepository extends Repository<Room> {
   constructor(ds: DataSource) {
     super(Major, ds.createEntityManager());
   }
+
+  async findById(id: string) {
+    const res = await this.findOne({
+      where: {
+        id,
+      },
+    });
+    return res;
+  }
+
+  async findByName(name: string) {
+    const res = await this.findOne({
+      where: {
+        name,
+      },
+    });
+    return res;
+  }
 }
