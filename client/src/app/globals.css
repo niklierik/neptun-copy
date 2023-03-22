@@ -1,9 +1,15 @@
+/* global */
+
 body {
     background-color: #303841;
 }
 
+
+/* register */
+
 .form_group {
     color: #F3F3F3;
+    font-weight: bold;
 }
 
 .form_control {
@@ -15,11 +21,17 @@ body {
     color: #F3F3F3;
     border: none;
     width: 80%;
+    font-weight: bold;
 }
 
 .to_center {
     display: flex;
     justify-content: center;
+}
+
+.to_center_login {
+    position: absolute;
+    top: 30%;
 }
 
 .format {
@@ -33,6 +45,9 @@ body {
     color: #F3F3F3;
 }
 
+
+/* navbar */
+
 .navigation {
     display: flex;
     justify-content: center;
@@ -43,6 +58,21 @@ body {
 }
 
 .nav_link {
-    color: #F3F3F3;
+    color: #F3F3F3 !important;
     background-color: #2185D5;
+    font-weight: bold;
+}
+
+.login_parent {
+    width: 100%;
+    height: 100%;
+}
+
+.nav-link.active {
+    color: #F3F3F3 !important;
+    background: #3A4750 !important;
+}
+
+.zero_padding {
+    padding: 0px;
 }
