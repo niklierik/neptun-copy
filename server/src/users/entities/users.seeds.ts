@@ -36,7 +36,7 @@ async function createUser(
   await repo.save(user);
 }
 
-async function createRandomUser(repo: UsersRepository): Promise<void> {
+export async function createFakeUserInfo(teacher?: boolean) {
   faker.locale = "hu";
   const gender = faker.name.sexType();
   const forename = faker.name.firstName(gender);
@@ -45,7 +45,7 @@ async function createRandomUser(repo: UsersRepository): Promise<void> {
   const address = `${faker.address.zipCode(
     "####",
   )} ${faker.address.cityName()}, ${faker.address.street()} ${faker.address.buildingNumber()}`;
-  const teacher = Math.random() > 0.8; // próbáljuk inkább fiatalabakkal feltölteni az adatbázist, de legyenek idősebbek is
+  teacher ??= Math.random() > 0.8; // próbáljuk inkább fiatalabakkal feltölteni az adatbázist, de legyenek idősebbek is
   const password = `${faker.random
     .words(2)
     .replace(" ", "")}${faker.datatype.number({ min: 0, max: 999 })}`;
@@ -57,6 +57,29 @@ async function createRandomUser(repo: UsersRepository): Promise<void> {
   });
   const majorIndex = faker.datatype.number({ min: 0, max: 2 });
   const major = ["proginf", "minf", "gazdinf"][majorIndex];
+  return {
+    address,
+    birthdate,
+    email,
+    familyname,
+    forename,
+    hash,
+    major,
+    password,
+  };
+}
+
+async function createRandomUser(repo: UsersRepository): Promise<void> {
+  const {
+    email,
+    birthdate,
+    hash,
+    familyname,
+    forename,
+    address,
+    major,
+    password,
+  } = await createFakeUserInfo(false); // tanárokat a kurzusokkal seedeljük
   await createUser(
     repo,
     email,
@@ -68,7 +91,7 @@ async function createRandomUser(repo: UsersRepository): Promise<void> {
     major,
     false,
   );
-  seededUsers.push(`${email} - ${password}`);
+  seededUsers.push(`Hallgató: ${email} - ${password}`);
 }
 
 export async function seedUsers(app: INestApplication): Promise<void> {

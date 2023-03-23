@@ -18,6 +18,14 @@ export enum Semester {
   SPRING = 1,
 }
 
+export enum DayOfWeek {
+  MONDAY = 1,
+  TUESDAY = 2,
+  WEDNESDAY = 3,
+  THURSDAY = 4,
+  FRIDAY = 5,
+}
+
 @Entity("courses", {
   name: "courses",
 })
@@ -26,14 +34,17 @@ export class Course {
   id: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => Subject, (subject) => subject.courses, { eager: true })
+  @ManyToOne((type) => Subject, (subject) => subject.courses, {
+    eager: true,
+    cascade: true,
+  })
   subject: Subject;
 
   @Column({ type: "interval day to second" })
   start: Date;
 
   @Column()
-  dayOfWeek: number;
+  dayOfWeek: DayOfWeek;
 
   @Column()
   year: number;
@@ -42,25 +53,40 @@ export class Course {
   semester: Semester;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => Room, (room) => room.courses, { eager: true })
+  @ManyToOne((type) => Room, (room) => room.courses, {
+    eager: true,
+    cascade: true,
+  })
   room: Room;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @OneToMany((type) => ForumMsg, (forum) => forum.course, { eager: true })
+  @OneToMany((type) => ForumMsg, (forum) => forum.course, {
+    eager: true,
+    cascade: true,
+  })
   forum: ForumMsg[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @OneToMany((type) => News, (news) => news.course, { eager: true })
+  @OneToMany((type) => News, (news) => news.course, {
+    eager: true,
+    cascade: true,
+  })
   news: News[];
 
   @CreateDateColumn()
   createdAt: Date;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToMany((type) => User, (user) => user.courses, { eager: false })
+  @ManyToMany((type) => User, (user) => user.courses, {
+    eager: false,
+    cascade: true,
+  })
   students: User[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToMany((type) => User, (user) => user.teaching, { eager: false })
+  @ManyToMany((type) => User, (user) => user.teaching, {
+    eager: false,
+    cascade: true,
+  })
   teachers: User[];
 }

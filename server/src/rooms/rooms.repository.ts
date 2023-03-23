@@ -18,6 +18,9 @@ export class RoomsRepository extends Repository<Room> {
     return res;
   }
 
+  /**
+   * Mostly used for seeding
+   */
   async findByName(name: string) {
     const res = await this.findOne({
       where: {
