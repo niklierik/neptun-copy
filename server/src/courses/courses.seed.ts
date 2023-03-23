@@ -92,9 +92,9 @@ async function createPracticeFor(
     common.courses.create({
       room: slot.room,
       teachers: [teacher],
-      semester: Semester.SPRING,
+      semester: common.semester,
       subject,
-      year: 2023,
+      year: common.year,
       start: new Date(0, 0, 0, slot.hour, 0, 0, 0),
       dayOfWeek: slot.day,
     }),
@@ -114,9 +114,9 @@ async function createLectureFor(
       subject,
       teachers: [teacher],
       dayOfWeek: slot.day,
-      year: 2023,
+      year: common.year,
       start: new Date(0, 0, 0, slot.hour),
-      semester: Semester.SPRING,
+      semester: common.semester,
     }),
   );
 }
@@ -219,20 +219,19 @@ interface CommonParams {
   courses: CoursesRepository;
   users: UsersRepository;
   timetable: TimeTableOfWeek;
+  conference: Room;
+  irinyi217: Room;
+  irinyiRooms: Room[];
+  year: number;
+  semester: Semester;
 }
 
-/**
- * Seeds also subjects and rooms
- */
-export async function seedCourses(app: INestApplication) {
-  const { conference, irinyi217, irinyiRooms } = await seedRooms(app);
+async function seedSpringCourses(common: CommonParams) {
+  const { irinyi217, conference, irinyiRooms } = common;
   const rooms = [...irinyiRooms, conference, irinyi217];
-  const common: CommonParams = {
-    subjects: await app.resolve(SubjectsRepository),
-    courses: await app.resolve(CoursesRepository),
-    users: await app.resolve(UsersRepository),
-    timetable: createTimetables(rooms),
-  };
+  common.timetable = createTimetables(rooms);
+  common.year = 2023;
+  common.semester = Semester.SPRING;
   await createSubject(
     common,
     "Programozás I.",
@@ -305,4 +304,97 @@ export async function seedCourses(app: INestApplication) {
     2,
     conference,
   );
+}
+
+async function seedFallCourses(common: CommonParams) {
+  const { irinyi217, conference, irinyiRooms } = common;
+  const rooms = [...irinyiRooms, conference, irinyi217];
+  common.timetable = createTimetables(rooms);
+  common.year = 2022;
+  common.semester = Semester.FALL;
+  await createSubject(
+    common,
+    "Közelítő és Szimbólikus Számítások",
+    2,
+    3,
+    irinyiRooms,
+    2,
+    conference,
+  );
+  await createSubject(
+    common,
+    "Alkalmazott Statisztika",
+    2,
+    3,
+    irinyiRooms,
+    2,
+    conference,
+  );
+  await createSubject(
+    common,
+    "Szkriptnyelvek",
+    1,
+    3,
+    irinyiRooms,
+    2,
+    conference,
+  );
+  await createSubject(
+    common,
+    "Alkalmazás Fejlesztés II.",
+    1,
+    3,
+    [irinyi217],
+    2,
+    conference,
+  );
+  await createSubject(
+    common,
+    "Programozás alapjai",
+    2,
+    1,
+    [irinyi217],
+    2,
+    conference,
+  );
+  await createSubject(common, "Programozás II.", 2, 1, [irinyi217], 0);
+  await createSubject(common, "Adatbázisok", 1, 6, irinyiRooms, 2, conference);
+  await createSubject(
+    common,
+    "Mesterséges Intelligencia",
+    1,
+    6,
+    irinyiRooms,
+    2,
+    conference,
+  );
+  await createSubject(
+    common,
+    "Bonyolultság-elmélet",
+    1,
+    2,
+    [irinyi217],
+    2,
+    conference,
+  );
+}
+
+/**
+ * Seeds also subjects and rooms
+ */
+export async function seedCourses(app: INestApplication) {
+  const { conference, irinyi217, irinyiRooms } = await seedRooms(app);
+  const common: CommonParams = {
+    subjects: await app.resolve(SubjectsRepository),
+    courses: await app.resolve(CoursesRepository),
+    users: await app.resolve(UsersRepository),
+    timetable: createTimetables([]),
+    conference,
+    irinyi217,
+    irinyiRooms,
+    semester: Semester.SPRING,
+    year: 2023,
+  };
+  await seedFallCourses(common);
+  await seedSpringCourses(common);
 }
