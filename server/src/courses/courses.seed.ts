@@ -5,11 +5,17 @@ import { User } from "src/users/entities/users.entity";
 import { SubjectType } from "../subjects/subject-type.enum";
 import { SubjectsRepository } from "../subjects/subjects.repository";
 import { CoursesRepository } from "./courses.repository";
-import { TimeTableOfWeek, createTimetables } from "./timetable";
+import {
+  TimeTableOfWeek,
+  createTimetables,
+  getAvailableSlots,
+  Slot,
+} from "./timetable";
 import { faker } from "@faker-js/faker/locale/hu";
 import { UsersRepository } from "src/users/users.repository";
 import { createFakeUserInfo } from "src/users/entities/users.seeds";
 import { Subject } from "src/subjects/subject.entity";
+import { Semester } from "./course.entity";
 
 const seededUsers = [];
 
@@ -55,6 +61,8 @@ async function createTeacher(common: CommonParams): Promise<User> {
 async function createPracticesFor(
   common: CommonParams,
   numberOfPractices: number,
+  subject: Subject,
+  rooms: Room[],
 ) {
   const teachers: User[] = [];
   const numberOfTeachers = Math.random() * numberOfPractices;
@@ -62,21 +70,53 @@ async function createPracticesFor(
     teachers.push(await createTeacher(common));
   }
   for (let i = 0; i < numberOfPractices; i++) {
-    createPracticeFor(common);
+    const teacher =
+      teachers[faker.datatype.number({ min: 0, max: teachers.length - 1 })];
+    const slots = getAvailableSlots(common.timetable, rooms);
+    const slot =
+      slots[faker.datatype.number({ min: 0, max: slots.length - 1 })];
+    slot.available = false;
+    slot.subject = subject;
+    slot.teacher = teacher;
+    slot.course = await createPracticeFor(common, subject, teacher, slot);
   }
 }
 
-async function createPracticeFor(common: CommonParams) {}
+async function createPracticeFor(
+  common: CommonParams,
+  subject: Subject,
+  teacher: User,
+  slot: Slot,
+) {
+  return common.courses.save(
+    common.courses.create({
+      room: slot.room,
+      teachers: [teacher],
+      semester: Semester.SPRING,
+      subject,
+      year: 2023,
+      start: new Date(0, 0, 0, slot.hour, 0, 0, 0),
+      dayOfWeek: slot.day,
+    }),
+  );
+}
 
 async function createLectureFor(
   common: CommonParams,
   room: Room,
   subject: Subject,
+  teacher: User,
+  slot: Slot,
 ) {
-  await common.courses.save(
+  return common.courses.save(
     common.courses.create({
       room,
       subject,
+      teachers: [teacher],
+      dayOfWeek: slot.day,
+      year: 2023,
+      start: new Date(0, 0, 0, slot.hour),
+      semester: Semester.SPRING,
     }),
   );
 }
@@ -106,9 +146,21 @@ async function createSubject(
     ),
   ]);
   if (hoursAWeekLecture >= 0 && lectureRoom) {
-    await createLectureFor(common, lectureRoom, lecture);
+    const slots = getAvailableSlots(common.timetable, [lectureRoom]);
+    const slot =
+      slots[faker.datatype.number({ min: 0, max: slots.length - 1 })];
+    slot.available = false;
+    slot.teacher = teacher;
+    slot.subject = lecture;
+    slot.course = await createLectureFor(
+      common,
+      lectureRoom,
+      lecture,
+      teacher,
+      slot,
+    );
   }
-  await createPracticesFor(common, numberOfPractices);
+  await createPracticesFor(common, numberOfPractices, practice, useRooms);
 }
 
 async function createRoom(

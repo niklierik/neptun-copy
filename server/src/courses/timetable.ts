@@ -45,6 +45,23 @@ export function getAvailableSlotsAt(
   return getAllSlotsAt(timetable, day, hour).filter((slot) => slot.available);
 }
 
+export function getAvailableSlots(
+  timetable: TimeTableOfWeek,
+  rooms: Room[],
+): Slot[] {
+  const slots = [];
+  for (let day = 1; day <= 5; day++) {
+    for (let hour = 8; hour < 20; hour++) {
+      for (const slot of getAllSlotsAt(timetable, day, hour, rooms)) {
+        if (slot.available) {
+          slots.push(slot);
+        }
+      }
+    }
+  }
+  return slots;
+}
+
 export function createTimetableFor(
   room: Room,
   day: DayOfWeek,

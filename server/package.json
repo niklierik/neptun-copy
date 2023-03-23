@@ -40,6 +40,7 @@
     "class-validator": "^0.14.0",
     "dotenv": "^16.0.3",
     "lodash": "^4.17.21",
+    "lorem-ipsum": "^2.0.8",
     "oracle": "^0.4.1",
     "oracledb": "^5.5.0",
     "passport": "^0.6.0",
