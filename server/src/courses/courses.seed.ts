@@ -16,6 +16,8 @@ import { UsersRepository } from "src/users/users.repository";
 import { createFakeUserInfo } from "src/users/entities/users.seeds";
 import { Subject } from "src/subjects/subject.entity";
 import { Semester } from "./course.entity";
+import { appendFile } from "fs/promises";
+import { EOL } from "os";
 
 const seededUsers = [];
 
@@ -397,4 +399,7 @@ export async function seedCourses(app: INestApplication) {
   };
   await seedFallCourses(common);
   await seedSpringCourses(common);
+  await appendFile("seeded-users.txt", seededUsers.join(EOL), {
+    encoding: "utf-8",
+  });
 }
