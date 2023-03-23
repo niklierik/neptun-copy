@@ -51,8 +51,9 @@ export function getAvailableSlots(
 ): Slot[] {
   const slots = [];
   for (let day = 1; day <= 5; day++) {
-    for (let hour = 8; hour < 20; hour++) {
-      for (const slot of getAllSlotsAt(timetable, day, hour, rooms)) {
+    for (let hour = 8; hour < 20; hour += 2) {
+      const slots = getAllSlotsAt(timetable, day, hour, rooms);
+      for (const slot of slots) {
         if (slot.available) {
           slots.push(slot);
         }
