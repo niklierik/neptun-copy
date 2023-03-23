@@ -399,7 +399,11 @@ export async function seedCourses(app: INestApplication) {
   };
   await seedFallCourses(common);
   await seedSpringCourses(common);
-  await appendFile("seeded-users.txt", seededUsers.join(EOL), {
-    encoding: "utf-8",
-  });
+  await appendFile(
+    "seeded-users.txt",
+    EOL + EOL + "--------" + EOL + EOL + seededUsers.join(EOL),
+    {
+      encoding: "utf-8",
+    },
+  );
 }
