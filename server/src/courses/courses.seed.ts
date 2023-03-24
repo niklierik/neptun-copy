@@ -204,6 +204,7 @@ async function createSubject(
     }
   }
   await createPracticesFor(common, numberOfPractices, practice, useRooms);
+  return { lecture, practice };
 }
 
 async function createRoom(
@@ -259,6 +260,20 @@ export async function seedRooms(app: INestApplication): Promise<{
 
 interface EduChartInfo {
   requirement: RequirementType;
+  recommendedSemester: number;
+}
+
+async function assignPairToEduChart(
+  common: CommonParams,
+  subject: { lecture: Subject; practice: Subject },
+  forProginf: EduChartInfo,
+  forGazdinf: EduChartInfo,
+  forMinf: EduChartInfo,
+) {
+  return await Promise.all([
+    assignToEduChart(common, subject.lecture, forProginf, forGazdinf, forMinf),
+    assignToEduChart(common, subject.practice, forProginf, forGazdinf, forMinf),
+  ]);
 }
 
 async function assignToEduChart(
@@ -268,18 +283,40 @@ async function assignToEduChart(
   forGazdinf: EduChartInfo,
   forMinf: EduChartInfo,
 ) {
+  if (subject == null) {
+    return;
+  }
   return await Promise.all([
     common.educharts.save(
       common.educharts.create({
         subject: subject,
+        major: {
+          majorID: "proginf",
+        },
+        recommendedSemester: forProginf.recommendedSemester,
+        requirementType: forProginf.requirement,
       }),
     ),
     common.educharts.save(
       common.educharts.create({
         subject: subject,
+        major: {
+          majorID: "gazdinf",
+        },
+        recommendedSemester: forGazdinf.recommendedSemester,
+        requirementType: forGazdinf.requirement,
       }),
     ),
-    common.educharts.save(common.educharts.create({ subject: subject })),
+    common.educharts.save(
+      common.educharts.create({
+        subject: subject,
+        major: {
+          majorID: "minf",
+        },
+        recommendedSemester: forMinf.recommendedSemester,
+        requirementType: forMinf.requirement,
+      }),
+    ),
   ]);
 }
 
@@ -289,73 +326,238 @@ async function seedSpringCourses(common: CommonParams) {
   common.timetable = createTimetables(rooms);
   common.year = 2023;
   common.semester = Semester.SPRING;
-  const [prog1, adatbalap, alga2, webt, python, digikep, fonya, mobilalk] =
-    await Promise.all([
-      createSubject(common, "Programozás I.", 2, 3, [irinyi217], 2, conference),
-      createSubject(
-        common,
-        "Adatbázis alapú rendszerek",
-        2,
-        3,
-        irinyiRooms,
-        2,
-        conference,
-      ),
-      createSubject(
-        common,
-        "Algoritmusok és Adatszerkezetek II.",
-        1,
-        3,
-        irinyiRooms,
-        2,
-        conference,
-      ),
-      createSubject(common, "Webtervezés", 1, 3, [irinyi217], 2, conference),
-      createSubject(
-        common,
-        "Webfejlesztési keretrendszerek",
-        2,
-        1,
-        [irinyi217],
-        2,
-        conference,
-      ),
-      createSubject(
-        common,
-        "Python programozás a gyakorlatban",
-        2,
-        1,
-        [irinyi217],
-        0,
-      ),
-      createSubject(
-        common,
-        "Digitális képfeldolgozás",
-        1,
-        3,
-        irinyiRooms,
-        2,
-        conference,
-      ),
-      createSubject(
-        common,
-        "Formális nyelvek",
-        1,
-        3,
-        irinyiRooms,
-        2,
-        conference,
-      ),
-      createSubject(
-        common,
-        "Mobilalkalmazás fejlesztés",
-        1,
-        2,
-        [irinyi217],
-        2,
-        conference,
-      ),
-    ]);
+  const [
+    prog1,
+    adatbalap,
+    alga2,
+    webt,
+    python,
+    digikep,
+    fonya,
+    mobilalk,
+    jatekfejl,
+  ] = await Promise.all([
+    createSubject(common, "Programozás I.", 2, 3, [irinyi217], 2, conference),
+    createSubject(
+      common,
+      "Adatbázis alapú rendszerek",
+      2,
+      3,
+      irinyiRooms,
+      2,
+      conference,
+    ),
+    createSubject(
+      common,
+      "Algoritmusok és Adatszerkezetek II.",
+      1,
+      3,
+      irinyiRooms,
+      2,
+      conference,
+    ),
+    createSubject(common, "Webtervezés", 1, 3, [irinyi217], 2, conference),
+    createSubject(
+      common,
+      "Webfejlesztési keretrendszerek",
+      2,
+      1,
+      [irinyi217],
+      2,
+      conference,
+    ),
+    createSubject(
+      common,
+      "Python programozás a gyakorlatban",
+      2,
+      1,
+      [irinyi217],
+      0,
+    ),
+    createSubject(
+      common,
+      "Digitális képfeldolgozás",
+      1,
+      3,
+      irinyiRooms,
+      2,
+      conference,
+    ),
+    createSubject(common, "Formális nyelvek", 1, 3, irinyiRooms, 2, conference),
+    createSubject(
+      common,
+      "Mobilalkalmazás fejlesztés",
+      1,
+      2,
+      [irinyi217],
+      2,
+      conference,
+    ),
+    createSubject(common, "Játékfejlesztés", 1, 1, irinyiRooms),
+  ]);
+  return Promise.all([
+    assignPairToEduChart(
+      common,
+      mobilalk,
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      prog1,
+      {
+        recommendedSemester: 2,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 2,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 2,
+        requirement: RequirementType.REQIRED,
+      },
+    ),
+
+    assignPairToEduChart(
+      common,
+      webt,
+      {
+        recommendedSemester: 2,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 2,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 2,
+        requirement: RequirementType.REQIRED,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      adatbalap,
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      adatbalap,
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      jatekfejl,
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.CHOSEN,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      python,
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      alga2,
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      fonya,
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      digikep,
+      {
+        recommendedSemester: 6,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 6,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 6,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+    ),
+  ]);
 }
 
 async function seedFallCourses(common: CommonParams) {
@@ -431,6 +633,152 @@ async function seedFallCourses(common: CommonParams) {
       irinyiRooms,
       2,
       conference,
+    ),
+  ]);
+  return Promise.all([
+    assignPairToEduChart(
+      common,
+      progalap,
+      {
+        recommendedSemester: 1,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 1,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 1,
+        requirement: RequirementType.REQIRED,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      prog2,
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQIRED,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      koszi,
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      szkript,
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      alkstat,
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      alkfejl2,
+      {
+        recommendedSemester: 5,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 5,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 5,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      adatb,
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 3,
+        requirement: RequirementType.REQIRED,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      mestint,
+      {
+        recommendedSemester: 5,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 5,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 5,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      bonya,
+      {
+        recommendedSemester: 5,
+        requirement: RequirementType.REQIRED,
+      },
+      {
+        recommendedSemester: 5,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 5,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
     ),
   ]);
 }
