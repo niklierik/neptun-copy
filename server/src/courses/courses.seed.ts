@@ -47,6 +47,7 @@ async function createWithType(
   name: string,
   hoursAWeek: number,
   type: SubjectType,
+  credit: number,
 ) {
   if (hoursAWeek <= 0) {
     return;
@@ -56,6 +57,7 @@ async function createWithType(
       name,
       hoursAWeek,
       type,
+      credit,
     }),
   );
 }
@@ -96,12 +98,29 @@ async function createPracticesFor(
     const teacher =
       teachers[faker.datatype.number({ min: 0, max: teachers.length - 1 })];
     const slots = getAvailableSlots(common.timetable, rooms);
+    if (slots.length == 0) {
+      throw new Error("Unable to seed courses, not enough space.");
+    }
     const slot =
       slots[faker.datatype.number({ min: 0, max: slots.length - 1 })];
+    const [next] = getAllSlotsAt(common.timetable, slot.day, slot.hour + 1, [
+      slot.room,
+    ]);
+    if (next == null) {
+      throw new Error("Should not happen.");
+    }
     slot.available = false;
     slot.subject = subject;
     slot.teacher = teacher;
     slot.course = await createPracticeFor(common, subject, teacher, slot);
+    next.available = slot.available = false;
+    next.teacher = slot.teacher = teacher;
+    next.subject = slot.subject = subject;
+    if (subject.hoursAWeek == 2) {
+      next.course = slot.course;
+    } else {
+      next.course = await createPracticeFor(common, subject, teacher, slot);
+    }
   }
 }
 
@@ -118,7 +137,7 @@ async function createPracticeFor(
       semester: common.semester,
       subject,
       year: common.year,
-      start: new Date(0, 0, 0, slot.hour, 0, 0, 0),
+      start: slot.hour,
       dayOfWeek: slot.day,
     }),
   );
@@ -138,7 +157,7 @@ async function createLectureFor(
       teachers: [teacher],
       dayOfWeek: slot.day,
       year: common.year,
-      start: new Date(0, 0, 0, slot.hour),
+      start: slot.hour,
       semester: common.semester,
     }),
   );
@@ -149,9 +168,11 @@ async function createSubject(
   name: string,
   hoursAWeekPractice: number,
   numberOfPractices: number,
+  creditForPractice: number,
   useRooms: Room[],
   hoursAWeekLecture?: number,
   lectureRoom?: Room,
+  creditForLecture?: number,
 ) {
   const teacher = await createTeacher(common);
   const [practice, lecture] = await Promise.all([
@@ -160,12 +181,14 @@ async function createSubject(
       name,
       hoursAWeekPractice,
       SubjectType.LECTURE,
+      creditForPractice,
     ),
     createWithType(
       common.subjects,
       name,
       hoursAWeekLecture ?? hoursAWeekPractice,
       SubjectType.PRACTICE,
+      creditForLecture ?? creditForPractice,
     ),
   ]);
   if (hoursAWeekLecture >= 0 && lectureRoom) {
@@ -191,7 +214,7 @@ async function createSubject(
       teacher,
       slot,
     );
-    if (hoursAWeekPractice == 2) {
+    if (lecture.hoursAWeek == 2) {
       next.course = slot.course;
     } else {
       next.course = await createLectureFor(
@@ -337,12 +360,22 @@ async function seedSpringCourses(common: CommonParams) {
     mobilalk,
     jatekfejl,
   ] = await Promise.all([
-    createSubject(common, "Programozás I.", 2, 3, [irinyi217], 2, conference),
+    createSubject(
+      common,
+      "Programozás I.",
+      2,
+      3,
+      4,
+      [irinyi217],
+      2,
+      conference,
+    ),
     createSubject(
       common,
       "Adatbázis alapú rendszerek",
       2,
       3,
+      2,
       irinyiRooms,
       2,
       conference,
@@ -352,16 +385,18 @@ async function seedSpringCourses(common: CommonParams) {
       "Algoritmusok és Adatszerkezetek II.",
       1,
       3,
+      2,
       irinyiRooms,
       2,
       conference,
     ),
-    createSubject(common, "Webtervezés", 1, 3, [irinyi217], 2, conference),
+    createSubject(common, "Webtervezés", 1, 3, 2, [irinyi217], 2, conference),
     createSubject(
       common,
       "Webfejlesztési keretrendszerek",
       2,
       1,
+      2,
       [irinyi217],
       2,
       conference,
@@ -371,6 +406,7 @@ async function seedSpringCourses(common: CommonParams) {
       "Python programozás a gyakorlatban",
       2,
       1,
+      3,
       [irinyi217],
       0,
     ),
@@ -379,21 +415,32 @@ async function seedSpringCourses(common: CommonParams) {
       "Digitális képfeldolgozás",
       1,
       3,
+      2,
       irinyiRooms,
       2,
       conference,
     ),
-    createSubject(common, "Formális nyelvek", 1, 3, irinyiRooms, 2, conference),
+    createSubject(
+      common,
+      "Formális nyelvek",
+      1,
+      3,
+      2,
+      irinyiRooms,
+      2,
+      conference,
+    ),
     createSubject(
       common,
       "Mobilalkalmazás fejlesztés",
       1,
       2,
+      2,
       [irinyi217],
       2,
       conference,
     ),
-    createSubject(common, "Játékfejlesztés", 1, 1, irinyiRooms),
+    createSubject(common, "Játékfejlesztés", 1, 1, 3, irinyiRooms),
   ]);
   return Promise.all([
     assignPairToEduChart(
@@ -582,6 +629,7 @@ async function seedFallCourses(common: CommonParams) {
       "Közelítő és Szimbólikus Számítások",
       1,
       3,
+      2,
       irinyiRooms,
       2,
       conference,
@@ -591,16 +639,27 @@ async function seedFallCourses(common: CommonParams) {
       "Alkalmazott Statisztika",
       1,
       3,
+      2,
       irinyiRooms,
       2,
       conference,
     ),
-    createSubject(common, "Szkriptnyelvek", 1, 3, irinyiRooms, 2, conference),
+    createSubject(
+      common,
+      "Szkriptnyelvek",
+      1,
+      3,
+      2,
+      irinyiRooms,
+      2,
+      conference,
+    ),
     createSubject(
       common,
       "Alkalmazás Fejlesztés II.",
       2,
       3,
+      2,
       [irinyi217],
       2,
       conference,
@@ -610,16 +669,27 @@ async function seedFallCourses(common: CommonParams) {
       "Programozás Alapjai",
       2,
       4,
+      4,
       [irinyi217],
       2,
       conference,
     ),
-    createSubject(common, "Programozás II.", 1, 3, irinyiRooms, 2, conference),
-    createSubject(common, "Adatbázisok", 1, 3, irinyiRooms, 2, conference),
+    createSubject(
+      common,
+      "Programozás II.",
+      1,
+      3,
+      2,
+      irinyiRooms,
+      2,
+      conference,
+    ),
+    createSubject(common, "Adatbázisok", 1, 3, 2, irinyiRooms, 2, conference),
     createSubject(
       common,
       "Mesterséges Intelligencia",
       1,
+      2,
       2,
       irinyiRooms,
       2,
@@ -629,6 +699,7 @@ async function seedFallCourses(common: CommonParams) {
       common,
       "Bonyolultság-elmélet",
       1,
+      2,
       2,
       irinyiRooms,
       2,
@@ -807,7 +878,7 @@ export async function seedCourses(app: INestApplication) {
   await seedFallCourses(common);
   await seedSpringCourses(common);
   await appendFile(
-    "seeded-users.txt",
+    "../seeded-users.txt",
     EOL + EOL + "--------" + EOL + EOL + seededUsers.join(EOL),
     {
       encoding: "utf-8",

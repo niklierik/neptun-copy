@@ -49,18 +49,18 @@ export function getAvailableSlots(
   timetable: TimeTableOfWeek,
   rooms: Room[],
 ): Slot[] {
-  const slots = [];
+  const res = [];
   for (let day = 1; day <= 5; day++) {
     for (let hour = 8; hour < 20; hour += 2) {
       const slots = getAllSlotsAt(timetable, day, hour, rooms);
       for (const slot of slots) {
         if (slot.available) {
-          slots.push(slot);
+          res.push(slot);
         }
       }
     }
   }
-  return slots;
+  return res;
 }
 
 export function createTimetableFor(
@@ -94,9 +94,12 @@ export function createTimetable(rooms: Room[], day: DayOfWeek): TimeTableOfDay {
 }
 
 export function createTimetables(rooms: Room[]): TimeTableOfWeek {
+  if (rooms.length == 0) {
+    return new Map<DayOfWeek, TimeTableOfDay>();
+  }
   const map = new Map<DayOfWeek, TimeTableOfDay>();
   for (let day = DayOfWeek.MONDAY; day <= DayOfWeek.FRIDAY; day++) {
-    createTimetable(rooms, day);
+    map.set(day, createTimetable(rooms, day));
   }
   return map;
 }

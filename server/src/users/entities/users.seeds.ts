@@ -112,7 +112,7 @@ export async function seedUsers(app: INestApplication): Promise<void> {
     promises.push(createRandomUser(repo));
   }
   await Promise.all(promises);
-  await fs.writeFile("./seeded-users.txt", seededUsers.join(EOL), {
+  await fs.writeFile("../seeded-users.txt", seededUsers.join(EOL), {
     encoding: "utf-8",
   });
 }

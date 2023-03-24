@@ -21,10 +21,6 @@ let seedings: Seeding[] = [
     id: 3,
     functionToRun: seedCourses,
   },
-  {
-    id: 4,
-    functionToRun: seedCourses,
-  },
 ];
 
 @Injectable()

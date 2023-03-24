@@ -7,6 +7,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
@@ -36,12 +37,12 @@ export class Course {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((type) => Subject, (subject) => subject.courses, {
     eager: true,
-    cascade: true,
+    cascade: ["insert", "update"],
   })
   subject: Subject;
 
-  @Column({ type: "interval day to second" })
-  start: Date;
+  @Column()
+  start: number;
 
   @Column()
   dayOfWeek: DayOfWeek;
@@ -55,21 +56,18 @@ export class Course {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((type) => Room, (room) => room.courses, {
     eager: true,
-    cascade: true,
   })
   room: Room;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((type) => ForumMsg, (forum) => forum.course, {
     eager: true,
-    cascade: true,
   })
   forum: ForumMsg[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((type) => News, (news) => news.course, {
     eager: true,
-    cascade: true,
   })
   news: News[];
 
@@ -79,14 +77,16 @@ export class Course {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToMany((type) => User, (user) => user.courses, {
     eager: false,
-    cascade: true,
+    cascade: ["insert", "update"],
   })
+  @JoinTable()
   students: User[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToMany((type) => User, (user) => user.teaching, {
     eager: false,
-    cascade: true,
+    cascade: ["insert", "update"],
   })
+  @JoinTable()
   teachers: User[];
 }

@@ -58,41 +58,35 @@ export class User {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToMany((type) => Exam, (exam) => exam.examinees, {
     eager: true,
-    cascade: true,
   })
   exams: Exam[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((type) => Message, (msg) => msg.from, {
-    cascade: true,
     eager: true,
   })
   sentMessages: Message;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((type) => Message, (msg) => msg.to, {
-    cascade: true,
     eager: true,
   })
   receivedMessages: Message;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToMany((type) => Course, (course) => course.students, {
-    cascade: true,
     eager: true,
   })
   courses: Course[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToMany((type) => Course, (course) => course.teachers, {
-    cascade: true,
     eager: true,
   })
   teaching: Course[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((type) => Mark, (mark) => mark.user, {
-    cascade: true,
     eager: true,
   })
   marks: Mark[];
