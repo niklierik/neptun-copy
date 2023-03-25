@@ -23,13 +23,15 @@ export default function Login() {
 
     function onLogin(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        let err: string[] = [];
         if (!loginState.email) {
-            setErrors([...errors, "Nincs email megadva!"]);
+            err = ([...err, "Nincs email megadva!"]);
         }
         if (!loginState.password) {
-            setErrors([...errors, "Nincs jelszó megadva!"])
+            err = ([...err, "Nincs jelszó megadva!"])
         }
-        if (errors.length > 0) {
+        setErrors(err);
+        if (err.length > 0) {
             return;
         }
         setLoggingIn(true);
@@ -40,14 +42,20 @@ export default function Login() {
 
         }).catch(err => {
             setLoggingIn(false);
-            setErrors([...errors, err.toString()]);
+            setErrors([...errors, JSON.stringify(err)]);
         })
-
     }
 
     return <main>
         <div className="login_parent to_center">
             <Form onSubmit={onLogin} className="format to_center_login " >
+
+                {errors.length == 0 ? <></> : <div className="error_div">
+                    {
+                        errors.map(error => <p>{error}</p>)
+                    }
+                </div>}
+
                 <Form.Group className="form_group mb-3" controlId="formBasicEmail">
                     <Form.Label>Email cím</Form.Label>
                     <Form.Control className="form_control" type="email" placeholder="Email" onChange={(event) => {
@@ -71,12 +79,6 @@ export default function Login() {
                 </div>
             </Form>
         </div>
-        {errors.length == 0 ? <></> : <div>
-            {
-                errors.map(error => <p>{error}</p>)
-            }
-        </div>}
-
 
     </main>
 
