@@ -35,7 +35,7 @@ export default function Login() {
             return;
         }
         setLoggingIn(true);
-        axios.post<LoginResponse>(getServerUrl("login"), loginState).then(res => {
+        axios.post<LoginResponse>(getServerUrl("users/login"), loginState).then(res => {
             setLoggingIn(false);
             // TODO nem biztonságos
             localStorage.setItem("jwt", res.data.accessToken);

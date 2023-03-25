@@ -54,7 +54,7 @@ export default function Register() {
 
     setRegisterIn(true);
 
-    axios.post(getServerUrl("register"), registerState).then(res => {
+    axios.post(getServerUrl("users/register"), registerState).then(res => {
       setRegisterIn(false);
     }).catch(err => {
       setRegisterIn(false);
