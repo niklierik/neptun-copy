@@ -6,6 +6,7 @@ import Header from '@/common/header';
 import { FormEvent, useState } from 'react';
 import axios from 'axios';
 import { getServerUrl } from '@/common/cfg';
+import { getJwtToken, handleError } from '@/common/utils';
 
 
 export default function Register() {
@@ -54,11 +55,14 @@ export default function Register() {
 
     setRegisterIn(true);
 
-    axios.post(getServerUrl("users/register"), registerState).then(res => {
+    axios.post(getServerUrl("users/register"), registerState, { headers: { Authorization: getJwtToken() } }).then(res => {
       setRegisterIn(false);
+
+
+
     }).catch(err => {
       setRegisterIn(false);
-      setErrors([...errors, err.toString()]);
+      handleError(err, setErrors);
     })
 
   }

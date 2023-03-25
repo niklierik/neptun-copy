@@ -3,8 +3,9 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { FormEvent, useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { getServerUrl } from '@/common/cfg';
+import { handleError } from '@/common/utils';
 
 interface LoginResponse {
     accessToken: string;
@@ -40,9 +41,11 @@ export default function Login() {
             // TODO nem biztonságos
             localStorage.setItem("jwt", res.data.accessToken);
 
+
         }).catch(err => {
             setLoggingIn(false);
-            setErrors([...errors, JSON.stringify(err)]);
+            handleError(err, setErrors);
+
         })
     }
 
@@ -58,7 +61,7 @@ export default function Login() {
 
                 <Form.Group className="form_group mb-3" controlId="formBasicEmail">
                     <Form.Label>Email cím</Form.Label>
-                    <Form.Control className="form_control" type="email" placeholder="Email" onChange={(event) => {
+                    <Form.Control className="form_control" type="text" placeholder="Email" onChange={(event) => {
                         const value = event.target.value;
                         setLoginState({ ...loginState, email: value });
                     }} />
