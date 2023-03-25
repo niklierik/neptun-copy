@@ -5,6 +5,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -28,6 +29,7 @@ export class Exam {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToMany((type) => User, (user) => user.exams, { eager: false })
+  @JoinTable()
   examinees: User[];
 
   @CreateDateColumn()

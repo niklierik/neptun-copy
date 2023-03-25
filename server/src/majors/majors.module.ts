@@ -15,6 +15,6 @@ import { PassportModule } from "@nestjs/passport";
     }),
   ],
   controllers: [MajorsController],
-  exports: [MajorsService],
+  exports: [MajorsService, MajorsRepository],
 })
 export class MajorsModule {}

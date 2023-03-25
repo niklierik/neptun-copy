@@ -56,26 +56,38 @@ export class User {
   major?: Major;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToMany((type) => Exam, (exam) => exam.examinees, { eager: true })
+  @ManyToMany((type) => Exam, (exam) => exam.examinees, {
+    eager: true,
+  })
   exams: Exam[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @OneToMany((type) => Message, (msg) => msg.from, { eager: true })
+  @OneToMany((type) => Message, (msg) => msg.from, {
+    eager: true,
+  })
   sentMessages: Message;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @OneToMany((type) => Message, (msg) => msg.to, { eager: true })
+  @OneToMany((type) => Message, (msg) => msg.to, {
+    eager: true,
+  })
   receivedMessages: Message;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToMany((type) => Course, (course) => course.students, { eager: true })
+  @ManyToMany((type) => Course, (course) => course.students, {
+    eager: true,
+  })
   courses: Course[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToMany((type) => Course, (course) => course.teachers, { eager: true })
+  @ManyToMany((type) => Course, (course) => course.teachers, {
+    eager: true,
+  })
   teaching: Course[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @OneToMany((type) => Mark, (mark) => mark.user, { eager: true })
+  @OneToMany((type) => Mark, (mark) => mark.user, {
+    eager: true,
+  })
   marks: Mark[];
 }

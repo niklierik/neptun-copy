@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { cfg, readConfig } from "./config/config";
+import { cfg, createTypeORMModuleCfg } from "./config/config";
 import { UsersModule } from "./users/users.module";
 import { MajorsModule } from "./majors/majors.module";
 import { MessagingModule } from "./messaging/messaging.module";
@@ -16,27 +16,15 @@ import { EducationChartsModule } from "./education-charts/education-charts.modul
 import { MarksModule } from "./marks/marks.module";
 import { PassportModule } from "@nestjs/passport";
 import { JwtModule } from "@nestjs/jwt";
+import { SeedsModule } from "./seeds/seeds.module";
 
 @Module({
   imports: [
     UsersModule,
     TypeOrmModule.forRootAsync({
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      async useFactory(...args) {
-        await readConfig();
-        return {
-          type: "oracle",
-          host: cfg().db.host,
-          port: cfg().db.port,
-          username: cfg().db.user,
-          password: cfg().db.password,
-          database: cfg().db.name,
-          autoLoadEntities: true,
-          synchronize: true,
-          logging: true,
-          logger: "file",
-          schema: cfg().db.schema,
-        };
+      async useFactory(..._args) {
+        return createTypeORMModuleCfg();
       },
     }),
     PassportModule.register({
@@ -45,7 +33,6 @@ import { JwtModule } from "@nestjs/jwt";
     JwtModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       async useFactory(..._args) {
-        await readConfig();
         return {
           secret: cfg().jwtSecret,
           signOptions: { expiresIn: cfg().sessionsExpiresIn },
@@ -62,6 +49,7 @@ import { JwtModule } from "@nestjs/jwt";
     NewsModule,
     EducationChartsModule,
     MarksModule,
+    SeedsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
