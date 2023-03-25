@@ -8,13 +8,13 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { compare, genSalt, hash } from "bcrypt";
-import { cfg } from "src/config/config";
+import { compare } from "bcrypt";
 import {
   invalidLoginData,
   passwordsMustMatch,
   pwdReqMessage,
 } from "src/messages/messages";
+import { hashPwd } from "src/utils/password";
 import { ChangePasswordDto } from "./dtos/change-password.dto";
 import { FinishRegistrationDto } from "./dtos/finish-registration.dto";
 import { LoginUserDto } from "./dtos/login-user.dto";
@@ -65,7 +65,7 @@ export class UsersService {
     }
     return await this.usersRepository.setPassword(
       user,
-      await this.hashPwd(newPassword),
+      await hashPwd(newPassword),
     );
   }
 
@@ -76,7 +76,7 @@ export class UsersService {
     if (newPassword !== newPasswordAgain) {
       throw new PreconditionFailedException(passwordsMustMatch);
     }
-    const hash = await this.hashPwd(newPassword);
+    const hash = await hashPwd(newPassword);
     const res = await this.usersRepository.setPasswordByToken(token, hash);
     if (!res) {
       throw new UnauthorizedException("Ez a validációs token nem megfelelő!");
@@ -98,12 +98,6 @@ export class UsersService {
       );
     }
     return await this.usersRepository.deleteUserByEmail(email);
-  }
-
-  async hashPwd(pwd: string) {
-    const salt = await genSalt(cfg().saltingRounds);
-    const hashedPwd = await hash(pwd, salt);
-    return hashedPwd;
   }
 
   async requestToken(email: string) {

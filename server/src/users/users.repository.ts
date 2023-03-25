@@ -88,7 +88,7 @@ export class UsersRepository extends Repository<User> {
         .where("u.email = :email", { email })
         .andWhere("u.isValid = 1")
         .getOne();
-      return res.password;
+      return res?.password;
     } catch (err) {
       Logger.error(err);
       throw new InternalServerErrorException(serverError);
