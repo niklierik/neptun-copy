@@ -6,6 +6,7 @@ import { Major } from "@/common/models/major";
 import DataTable from "@/common/table";
 import { getAuthToken, handleError } from "@/common/utils";
 import axios from "axios";
+import { format } from "date-fns";
 import { GetStaticProps } from "next";
 import { useEffect, useState } from "react";
 import useSWR from 'swr';
@@ -48,7 +49,7 @@ export default function MajorsData() {
     const rows = major?.map((major, id) => [
         major.majorID,
         major.displayName,
-        major.createdAt,
+        format(new Date(major.createdAt), "YYYY / MM / DD HH:mm:ss"),
     ]);
 
     console.log(rows);

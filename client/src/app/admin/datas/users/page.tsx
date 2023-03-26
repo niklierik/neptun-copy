@@ -7,6 +7,7 @@ import { User } from "@/common/models/user";
 import DataTable from "@/common/table";
 import { getAuthToken, handleError } from "@/common/utils";
 import axios from "axios";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import useSWR from 'swr';
 
@@ -59,8 +60,8 @@ export default function UsersData() {
         `${user.major?.displayName}  (${user.major?.majorID})`,
 
         user.address,
-        user.birthdate,
-        user.createdAt,
+        format(new Date(user.birthdate), "YYYY / MM / DD"),
+        format(new Date(user.createdAt), "YYYY / MM / DD HH:mm:ss"),
         user.isAdmin ? "Igen" : "Nem",
         user.isValid ? "Igen" : "Nem",
     ]);
