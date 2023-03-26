@@ -1,4 +1,4 @@
-import { Subject } from "src/subjects/subject.entity";
+import { Subject } from "src/subjects/entities/subject.entity";
 import {
   Column,
   CreateDateColumn,

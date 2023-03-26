@@ -1,4 +1,4 @@
-import { Subject } from "src/subjects/subject.entity";
+import { Subject } from "src/subjects/entities/subject.entity";
 import { User } from "src/users/entities/users.entity";
 import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
