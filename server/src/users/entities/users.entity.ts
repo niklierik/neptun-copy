@@ -7,6 +7,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToMany,
   ManyToOne,
   OneToMany,
@@ -53,6 +54,7 @@ export class User {
     eager: true,
     nullable: true,
   })
+  @JoinColumn({ name: "major", referencedColumnName: "majorID" })
   major?: Major;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

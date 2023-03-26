@@ -31,5 +31,5 @@ export class RegisterUserDto {
 
   @IsString()
   @IsOptional()
-  majorID: string;
+  major: string;
 }
