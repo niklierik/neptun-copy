@@ -6,7 +6,7 @@ import Header from '@/common/header';
 import { FormEvent, useState } from 'react';
 import axios from 'axios';
 import { getServerUrl } from '@/common/cfg';
-import { getJwtToken, handleError } from '@/common/utils';
+import { getAuthToken, handleError } from '@/common/utils';
 
 
 export default function Register() {
@@ -18,7 +18,7 @@ export default function Register() {
     address: "",
     forename: "",
     familyname: "",
-    majorID: "",
+    major: "",
     isAdmin: false
   });
 
@@ -45,7 +45,7 @@ export default function Register() {
     if (!registerState.forename) {
       err = ([...err, "Nincs keresztnév megadva!"]);
     }
-    if (!registerState.majorID) {
+    if (!registerState.major) {
       err = ([...err, "Nincs szak megadva!"]);
     }
     setErrors(err);
@@ -55,7 +55,7 @@ export default function Register() {
 
     setRegisterIn(true);
 
-    axios.post(getServerUrl("users/register"), registerState, { headers: { Authorization: getJwtToken() } }).then(res => {
+    axios.post(getServerUrl("users/register"), registerState, { headers: { Authorization: getAuthToken() } }).then(res => {
       setRegisterIn(false);
 
 
@@ -70,7 +70,7 @@ export default function Register() {
 
   return <main>
 
-    <Header email={email}></Header>
+    <Header></Header>
 
     <div className="to_center">
       <Form className="format" onSubmit={onRegister}>
@@ -125,7 +125,7 @@ export default function Register() {
           <Form.Label>Szak</Form.Label>
           <Form.Control className="form_control" type="text" placeholder="Szak" onChange={(event) => {
             const value = event.target.value;
-            setRegisterState({ ...registerState, majorID: value });
+            setRegisterState({ ...registerState, major: value });
           }} />
         </Form.Group>
 

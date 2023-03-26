@@ -9,8 +9,8 @@ export default function DataTable({ header, rows }: { header: string[], rows: st
             <thead>
                 <tr>
                     {
-                        header.map(header => (
-                            <th>{header}</th>
+                        header.map((header, index) => (
+                            <th key={index}>{header}</th>
                         ))
                     }
                 </tr>
@@ -18,9 +18,9 @@ export default function DataTable({ header, rows }: { header: string[], rows: st
             <tbody>
 
                 {
-                    rows.map(data => <tr>{(
-                        data.map(d => (
-                            <td>{d}</td>
+                    rows.map((data, index) => <tr key={index}>{(
+                        data.map((d, index) => (
+                            <td key={index}>{d}</td>
                         ))
                     )}</tr>)
                 }
