@@ -1,4 +1,4 @@
-import { Course } from "src/courses/course.entity";
+import { Course } from "src/courses/entities/course.entity";
 import { User } from "src/users/entities/users.entity";
 import {
   Column,
