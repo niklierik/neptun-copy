@@ -137,7 +137,7 @@ async function createPracticeFor(
       semester: common.semester,
       subject,
       year: common.year,
-      start: slot.hour,
+      startAt: slot.hour,
       dayOfWeek: slot.day,
     }),
   );
@@ -157,7 +157,7 @@ async function createLectureFor(
       teachers: [teacher],
       dayOfWeek: slot.day,
       year: common.year,
-      start: slot.hour,
+      startAt: slot.hour,
       semester: common.semester,
     }),
   );
