@@ -2,9 +2,9 @@ import { INestApplication } from "@nestjs/common";
 import { Room } from "src/rooms/room.entity";
 import { RoomsRepository } from "src/rooms/rooms.repository";
 import { User } from "src/users/entities/users.entity";
-import { SubjectType } from "../subjects/subject-type.enum";
-import { SubjectsRepository } from "../subjects/subjects.repository";
-import { CoursesRepository } from "./courses.repository";
+import { SubjectType } from "../../subjects/entities/subject-type.enum";
+import { SubjectsRepository } from "../../subjects/subjects.repository";
+import { CoursesRepository } from "../courses.repository";
 import {
   TimeTableOfWeek,
   createTimetables,
@@ -15,7 +15,7 @@ import {
 import { faker } from "@faker-js/faker/locale/hu";
 import { UsersRepository } from "src/users/users.repository";
 import { createFakeUserInfo } from "src/users/entities/users.seeds";
-import { Subject } from "src/subjects/subject.entity";
+import { Subject } from "src/subjects/entities/subject.entity";
 import { Semester } from "./course.entity";
 import { appendFile } from "fs/promises";
 import { EOL } from "os";
