@@ -108,24 +108,34 @@ export class UsersRepository extends Repository<User> {
     }
   }
 
-  async createUser(registerDto: RegisterUserDto) {
+  async createUser({
+    address,
+    birthdate,
+    email,
+    familyname,
+    forename,
+    isAdmin,
+    major,
+  }: RegisterUserDto) {
     try {
-      const majorID = registerDto.majorID;
-      delete registerDto.majorID; // utólag adjuk hozzá a user objecthez a majort
-      const user = this.create(registerDto);
+      const user = this.create({
+        address,
+        birthdate,
+        email,
+        familyname,
+        forename,
+        isAdmin,
+      });
       user.password = null;
       user.isValid = false;
       user.validationToken = uuid();
       user.major = {
-        majorID,
+        majorID: major,
       } as any;
       await this.insert(user);
       return user.validationToken;
     } catch (err) {
-      throwIfUniqueConstraint(
-        err,
-        `Ez az e-mail cím már foglalt: ${registerDto.email}.`,
-      );
+      throwIfUniqueConstraint(err, `Ez az e-mail cím már foglalt: ${email}.`);
       Logger.error(err);
       throw new InternalServerErrorException(serverError);
     }
@@ -149,22 +159,24 @@ export class UsersRepository extends Repository<User> {
   }
 
   async search({ email, major, limit, name, skip }: SearchUserDto) {
-    let query = this.createQueryBuilder("u").where("u.isValid = 1");
+    let query = this.createQueryBuilder("user")
+      .leftJoinAndSelect("user.major", "major")
+      .addSelect("user.isValid");
     if (email) {
-      query = query.andWhere("u.email LIKE :email", {
+      query = query.andWhere("user.email LIKE :email", {
         email: `%${email}%`,
       });
     }
     if (name) {
       query = query.andWhere(
-        "(((u.familyname || ' ' || u.forename) LIKE :name) OR ((u.forename || ' ' || u.familyname) LIKE :name))",
+        "(((user.familyname || ' ' || user.forename) LIKE :name) OR ((user.forename || ' ' || user.familyname) LIKE :name))",
         {
           name: `%${name}%`,
         },
       );
     }
     if (major) {
-      query = query.andWhere("u.majorMajorID = :major", { major });
+      query = query.andWhere("user.major = :major", { major });
     }
     if (limit) {
       query = query.limit(limit);
@@ -173,5 +185,13 @@ export class UsersRepository extends Repository<User> {
       query = query.skip(skip);
     }
     return query.getMany();
+  }
+
+  async listUsers() {
+    return this.find({
+      select: {
+        isValid: true,
+      },
+    });
   }
 }
