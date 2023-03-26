@@ -2,9 +2,9 @@ import { INestApplication } from "@nestjs/common";
 import { Room } from "src/rooms/room.entity";
 import { RoomsRepository } from "src/rooms/rooms.repository";
 import { User } from "src/users/entities/users.entity";
-import { SubjectType } from "../subjects/entities/subject-type.enum";
-import { SubjectsRepository } from "../subjects/subjects.repository";
-import { CoursesRepository } from "./courses.repository";
+import { SubjectType } from "../../subjects/entities/subject-type.enum";
+import { SubjectsRepository } from "../../subjects/subjects.repository";
+import { CoursesRepository } from "../courses.repository";
 import {
   TimeTableOfWeek,
   createTimetables,

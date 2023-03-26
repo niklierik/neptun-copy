@@ -1,4 +1,4 @@
-import { Course } from "src/courses/course.entity";
+import { Course } from "src/courses/entities/course.entity";
 import { CommonForumMsg } from "src/forums/common-forum-msg.entity";
 import { CommonNews } from "src/news/common-news.entity";
 import {

@@ -2,7 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { INestApplication } from "@nestjs/common/interfaces";
 import { InjectRepository } from "@nestjs/typeorm";
 import { seedMajors } from "src/majors/entities/majors.seeds";
-import { seedCourses } from "src/courses/courses.seed";
+import { seedCourses } from "src/courses/entities/courses.seed";
 import { seedUsers } from "src/users/entities/users.seeds";
 import { Repository } from "typeorm";
 import { Seeded } from "./seeded.entity";
