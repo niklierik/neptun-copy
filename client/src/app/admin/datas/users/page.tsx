@@ -60,8 +60,8 @@ export default function UsersData() {
         `${user.major?.displayName}  (${user.major?.majorID})`,
 
         user.address,
-        format(new Date(user.birthdate), "YYYY / MM / DD"),
-        format(new Date(user.createdAt), "YYYY / MM / DD HH:mm:ss"),
+        format(new Date(user.birthdate), "yyyy / MM / dd"),
+        format(new Date(user.createdAt), "yyyy / MM / dd HH:mm:ss"),
         user.isAdmin ? "Igen" : "Nem",
         user.isValid ? "Igen" : "Nem",
     ]);
