@@ -4,6 +4,7 @@ import { promises as fs } from "fs";
 import { EOL } from "os";
 import { INestApplication } from "@nestjs/common";
 import { UsersRepository } from "../users.repository";
+import { User } from "./users.entity";
 
 const numberOfSeededUsers = 50;
 
@@ -32,7 +33,7 @@ async function createUser(
     password,
     isValid: true,
     isAdmin,
-  });
+  } as User);
   await repo.save(user);
 }
 
@@ -44,7 +45,9 @@ export async function createFakeUserInfo(teacher?: boolean) {
   const email = faker.internet.email(forename, familyname).toLowerCase();
   const address = `${faker.address.zipCode(
     "####",
-  )} ${faker.address.cityName()}, ${faker.address.street()} ${faker.address.buildingNumber()}`;
+  )} ${faker.address.cityName()}, ${faker.address.street()} ${faker.datatype.number(
+    { min: 2, max: 99 },
+  )}`;
   teacher ??= Math.random() > 0.8; // próbáljuk inkább fiatalabakkal feltölteni az adatbázist, de legyenek idősebbek is
   const password = `${faker.random
     .words(2)
