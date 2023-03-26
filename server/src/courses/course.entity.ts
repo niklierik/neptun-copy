@@ -42,7 +42,7 @@ export class Course {
   subject: Subject;
 
   @Column()
-  start: number;
+  startAt: number;
 
   @Column()
   dayOfWeek: DayOfWeek;
