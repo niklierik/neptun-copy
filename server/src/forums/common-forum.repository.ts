@@ -1,5 +1,4 @@
 import { Injectable } from "@nestjs/common";
-import { Major } from "src/majors/entities/majors.entity";
 import { Repository, DataSource } from "typeorm";
 import { CommonForumMsg } from "./entities/common-forum-msg.entity";
 

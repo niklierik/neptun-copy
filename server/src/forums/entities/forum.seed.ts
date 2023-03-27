@@ -59,14 +59,6 @@ async function genCommonForum(
   );
 }
 
-async function runManyTimes<T>(action: () => Promise<T>): Promise<T[]> {
-  const promises = [];
-  for (let i = 0; i < numberOfMessages; i++) {
-    promises.push(action);
-  }
-  return Promise.all(promises);
-}
-
 export async function seedForum(app: INestApplication) {
   const forum = await app.resolve(ForumRepository);
   const commonForum = await app.resolve(CommonForumRepository);
