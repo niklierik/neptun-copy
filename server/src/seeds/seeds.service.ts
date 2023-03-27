@@ -7,6 +7,9 @@ import { seedUsers } from "src/users/entities/users.seeds";
 import { Repository } from "typeorm";
 import { Seeded } from "./seeded.entity";
 import { Seeding } from "./seeding";
+import { seedForum } from "src/forums/entities/forum.seed";
+import { seedMessages } from "src/messaging/entities/messages.seed";
+import { seedNews } from "src/news/entities/news.seed";
 
 let seedings: Seeding[] = [
   {
@@ -20,6 +23,18 @@ let seedings: Seeding[] = [
   {
     id: 3,
     functionToRun: seedCourses,
+  },
+  {
+    id: 4,
+    functionToRun: seedMessages,
+  },
+  {
+    id: 5,
+    functionToRun: seedForum,
+  },
+  {
+    id: 6,
+    functionToRun: seedNews,
   },
 ];
 

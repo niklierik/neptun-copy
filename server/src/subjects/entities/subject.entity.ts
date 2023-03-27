@@ -1,6 +1,6 @@
 import { Course } from "src/courses/entities/course.entity";
-import { CommonForumMsg } from "src/forums/common-forum-msg.entity";
-import { CommonNews } from "src/news/common-news.entity";
+import { CommonForumMsg } from "src/forums/entities/common-forum-msg.entity";
+import { CommonNews } from "src/news/entities/common-news.entity";
 import {
   Column,
   CreateDateColumn,
