@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { INestApplication } from "@nestjs/common";
-import _ from "lodash";
+import * as _ from "lodash";
 import { LoremIpsum } from "lorem-ipsum";
 import { User } from "src/users/entities/users.entity";
 import { UsersRepository } from "src/users/users.repository";
