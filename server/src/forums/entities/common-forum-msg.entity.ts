@@ -5,12 +5,12 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 
 @Entity("common_forum")
 export class CommonForumMsg {
-  @PrimaryColumn("uuid")
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -76,6 +76,14 @@ export async function seedForum(app: INestApplication) {
   const courses = await coursesR.find({});
   const subjectsR = await app.resolve(SubjectsRepository);
   const subjects = await subjectsR.find({});
-  await runManyTimes(() => genForum(users, forum, courses));
-  await runManyTimes(() => genCommonForum(users, commonForum, subjects));
+  let promises = [];
+  for (let i = 0; i < numberOfMessages; i++) {
+    promises.push(genForum(users, forum, courses));
+  }
+  await Promise.all(promises);
+  promises = [];
+  for (let i = 0; i < numberOfMessages; i++) {
+    promises.push(genCommonForum(users, commonForum, subjects));
+  }
+  await Promise.all(promises);
 }
