@@ -10,10 +10,20 @@ export class ForumsService {
   ) {}
 
   async list() {
-    return this.forumsRepo.find({});
+    return this.forumsRepo.find({
+      relations: {
+        sender: true,
+        course: true,
+      },
+    });
   }
 
   async listCommon() {
-    return this.commonForumsRepo.find({});
+    return this.commonForumsRepo.find({
+      relations: {
+        sender: true,
+        subject: true,
+      },
+    });
   }
 }
