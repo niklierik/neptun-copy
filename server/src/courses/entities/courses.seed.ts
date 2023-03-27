@@ -180,14 +180,14 @@ async function createSubject(
       common.subjects,
       name,
       hoursAWeekPractice,
-      SubjectType.LECTURE,
+      SubjectType.PRACTICE,
       creditForPractice,
     ),
     createWithType(
       common.subjects,
       name,
       hoursAWeekLecture ?? hoursAWeekPractice,
-      SubjectType.PRACTICE,
+      SubjectType.LECTURE,
       creditForLecture ?? creditForPractice,
     ),
   ]);

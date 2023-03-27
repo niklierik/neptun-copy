@@ -1,5 +1,5 @@
-import { ForumMsg } from "src/forums/forum-msg.entity";
-import { News } from "src/news/news.entity";
+import { ForumMsg } from "src/forums/entities/forum-msg.entity";
+import { News } from "src/news/entities/news.entity";
 import { Room } from "src/rooms/room.entity";
 import { Subject } from "src/subjects/entities/subject.entity";
 import { User } from "src/users/entities/users.entity";
