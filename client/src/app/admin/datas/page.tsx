@@ -17,7 +17,7 @@ export default function Data() {
   ]
   return (
     <main>
-      <Header email={email}></Header>
+      <Header></Header>
 
       <DataTable header={header} rows={rows}></DataTable>
 

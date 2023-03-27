@@ -1,3 +1,5 @@
+"use client";
+
 import { AxiosError } from "axios";
 
 export function handleError(err: any, setErrors: (s: string[]) => void) {
@@ -21,5 +23,9 @@ export function handleError(err: any, setErrors: (s: string[]) => void) {
 }
 
 export function getJwtToken() {
-    return "Bearer " + localStorage.getItem("jwt");
+    return localStorage.getItem("jwt");
+}
+
+export function getAuthToken() {
+    return "Bearer " + getJwtToken();
 }

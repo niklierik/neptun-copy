@@ -56,17 +56,38 @@ export default function MyNavbar({ email }: { email: string }) {
                       Regisztrálás
                     </NavDropdown.Item>
                     <NavDropdown.Divider></NavDropdown.Divider>
-                    <NavDropdown.Item href="/admin/datas">
+                    <NavDropdown.Item href="/admin/datas/users">
                       Felhasználók
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="/admin/datas">
+                    <NavDropdown.Item href="/admin/datas/rooms">
                       Termek
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="/admin/datas">
+                    <NavDropdown.Item href="/admin/datas/courses">
                       Kurzusok
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="/admin/datas">
+                    <NavDropdown.Item href="/admin/datas/subjects">
                       Tantárgyak
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/admin/datas/majors">
+                      Szakok
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/admin/datas/education-charts">
+                      Mintatanterv
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/admin/datas/messagings">
+                      Üzenetek
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/admin/datas/forums">
+                      Fórum
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/admin/datas/news">
+                      Hirdetmények
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/admin/datas/common-news">
+                      Összevont hirdetmények
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/admin/datas/common-forums">
+                      Összevont fórum
                     </NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
