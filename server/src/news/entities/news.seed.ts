@@ -20,7 +20,7 @@ function random<T>(array: T[]): T {
   return array[faker.datatype.number({ min: 0, max: array.length - 1 })];
 }
 
-async function genForum(news: NewsRepository, courses: Course[]) {
+async function genNews(news: NewsRepository, courses: Course[]) {
   const course = random(courses);
   return news.save(
     news.create({
@@ -32,7 +32,7 @@ async function genForum(news: NewsRepository, courses: Course[]) {
   );
 }
 
-async function genCommonForum(
+async function genCommonNews(
   commonNews: CommonNewsRepository,
   subjects: Subject[],
 ) {
@@ -47,14 +47,6 @@ async function genCommonForum(
   );
 }
 
-async function runManyTimes<T>(action: () => Promise<T>): Promise<T[]> {
-  const promises = [];
-  for (let i = 0; i < numberOfMessages; i++) {
-    promises.push(action);
-  }
-  return Promise.all(promises);
-}
-
 export async function seedNews(app: INestApplication) {
   const news = await app.resolve(NewsRepository);
   const commonNews = await app.resolve(CommonNewsRepository);
@@ -62,6 +54,14 @@ export async function seedNews(app: INestApplication) {
   const courses = await coursesR.find({});
   const subjectsR = await app.resolve(SubjectsRepository);
   const subjects = await subjectsR.find({});
-  await runManyTimes(() => genForum(news, courses));
-  await runManyTimes(() => genCommonForum(commonNews, subjects));
+  let promises = [];
+  for (let i = 0; i < numberOfMessages; i++) {
+    promises.push(genNews(news, courses));
+  }
+  await Promise.all(promises);
+  promises = [];
+  for (let i = 0; i < numberOfMessages; i++) {
+    promises.push(genCommonNews(commonNews, subjects));
+  }
+  await Promise.all(promises);
 }

@@ -6,6 +6,6 @@ import { CommonForumMsg } from "./entities/common-forum-msg.entity";
 @Injectable()
 export class CommonForumRepository extends Repository<CommonForumMsg> {
   constructor(ds: DataSource) {
-    super(Major, ds.createEntityManager());
+    super(CommonForumMsg, ds.createEntityManager());
   }
 }

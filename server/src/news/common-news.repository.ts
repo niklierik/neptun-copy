@@ -6,6 +6,6 @@ import { CommonNews } from "./entities/common-news.entity";
 @Injectable()
 export class CommonNewsRepository extends Repository<CommonNews> {
   constructor(ds: DataSource) {
-    super(Major, ds.createEntityManager());
+    super(CommonNews, ds.createEntityManager());
   }
 }
