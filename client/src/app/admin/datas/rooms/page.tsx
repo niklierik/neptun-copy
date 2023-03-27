@@ -4,6 +4,7 @@ import { getServerUrl } from "@/common/cfg";
 import Header from "@/common/header";
 import { Course, dayOfWeekToString, Semester } from "@/common/models/course";
 import { Major } from "@/common/models/major";
+import { Room } from "@/common/models/room";
 import { SubjectType } from "@/common/models/subject";
 import { User } from "@/common/models/user";
 import DataTable from "@/common/table";
@@ -15,23 +16,23 @@ import useSWR from 'swr';
 
 
 
-async function loadCourse() {
-    const res = await axios.get<Course[]>(getServerUrl("courses"), { headers: { Authorization: getAuthToken() } });
+async function loadRoom() {
+    const res = await axios.get<Room[]>(getServerUrl("rooms"), { headers: { Authorization: getAuthToken() } });
 
     return res.data;
 }
 
-export default function CoursesData() {
+export default function RoomsData() {
 
-    const { data, error, isLoading } = useSWR(getServerUrl("courses"), loadCourse, {
+    const { data, error, isLoading } = useSWR(getServerUrl("rooms"), loadRoom, {
         revalidateIfStale: false,
         revalidateOnFocus: false,
     });
     const [errors, setErrors] = useState([] as string[]);
-    const [courses, setCourses] = useState([] as Course[]);
+    const [rooms, setRooms] = useState([] as Room[]);
     useEffect(() => {
         if (data && data.length) {
-            setCourses(data ?? []);
+            setRooms(data ?? []);
         }
         if (error) {
             handleError(error, setErrors);
@@ -46,22 +47,16 @@ export default function CoursesData() {
 
     const header = [
         "ID",
-        "Tantárgy neve",
-        "Tantárgy típusa",
-        "Terem",
-        "Időpont",
-        "Félév",
+        "Terem neve",
+        "Terem kapacitása",
         "Létrehozás dátuma",
     ];
 
-    const rows = courses?.map((course) => [
-        course.id,
-        course.subject.name,
-        course.subject.type == SubjectType.LECTURE ? "Előadás" : "Gyakorlat",
-        course.room.name,
-        `${dayOfWeekToString(course.dayOfWeek)}  ${course.startAt}:00`,
-        `${course.year}  ${course.semester == Semester.FALL ? "Ősz" : "Tavasz"}`,
-        format(new Date(course.createdAt), "yyyy / MM / dd HH:mm:ss"),
+    const rows = rooms?.map((room) => [
+        room.id,
+        room.name,
+        room.size + " fő",
+        format(new Date(room.createdAt), "yyyy / MM / dd HH:mm:ss"),
     ]);
 
     return <main>

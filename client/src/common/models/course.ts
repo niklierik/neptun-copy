@@ -19,6 +19,14 @@ export function dayOfWeekToString(day: DayOfWeek) {
     switch (day) {
         case DayOfWeek.MONDAY:
             return "Hétfő";
+        case DayOfWeek.TUESDAY:
+            return "Kedd";
+        case DayOfWeek.WEDNESDAY:
+            return "Szerda";
+        case DayOfWeek.THURSDAY:
+            return "Csütörtök";
+        case DayOfWeek.FRIDAY:
+            return "Péntek";
     }
 }
 
