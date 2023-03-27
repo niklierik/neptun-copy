@@ -10,10 +10,18 @@ export class NewsService {
   ) {}
 
   async list() {
-    return this.newsRepo.find({});
+    return this.newsRepo.find({
+      relations: {
+        course: true,
+      },
+    });
   }
 
   async listCommon() {
-    return this.commonNewsRepo.find({});
+    return this.commonNewsRepo.find({
+      relations: {
+        subject: true,
+      },
+    });
   }
 }

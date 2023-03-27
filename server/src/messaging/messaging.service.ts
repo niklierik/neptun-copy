@@ -6,6 +6,11 @@ export class MessagingService {
   constructor(private readonly messagingRepo: MessagingRepository) {}
 
   async list() {
-    return this.messagingRepo.find({});
+    return this.messagingRepo.find({
+      relations: {
+        from: true,
+        to: true,
+      },
+    });
   }
 }
