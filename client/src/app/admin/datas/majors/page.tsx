@@ -49,7 +49,7 @@ export default function MajorsData() {
     const rows = major?.map((major, id) => [
         major.majorID,
         major.displayName,
-        format(new Date(major.createdAt), "YYYY / MM / DD HH:mm:ss"),
+        format(new Date(major.createdAt), "yyyy / MM / dd HH:mm:ss"),
     ]);
 
     console.log(rows);
