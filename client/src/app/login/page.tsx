@@ -40,7 +40,7 @@ export default function Login() {
             setLoggingIn(false);
             // TODO nem biztonságos
             localStorage.setItem("jwt", res.data.accessToken);
-
+            window.location.href = "/admin/datas/users";
 
         }).catch(err => {
             setLoggingIn(false);
