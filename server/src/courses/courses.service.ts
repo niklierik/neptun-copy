@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { CoursesRepository } from "./courses.repository";
+import { Course } from "./entities/course.entity";
 
 @Injectable()
 export class CoursesService {
@@ -16,5 +17,10 @@ export class CoursesService {
         students: false,
       },
     });
+  }
+
+  async getCourses(user: string): Promise<Course[]> {
+    const courses = await this.coursesRepository.findFor(user);
+    return courses;
   }
 }
