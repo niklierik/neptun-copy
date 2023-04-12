@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Repository, DataSource, ArrayContains } from "typeorm";
+import { Repository, DataSource } from "typeorm";
 import { Course } from "./entities/course.entity";
 
 @Injectable()
@@ -9,7 +9,8 @@ export class CoursesRepository extends Repository<Course> {
   }
 
   async findFor(user: string) {
-    return this.find({
+    let res = await this.find({
+      loadEagerRelations: false,
       relations: {
         forum: false,
         news: false,
@@ -18,10 +19,13 @@ export class CoursesRepository extends Repository<Course> {
         teachers: true,
         subject: true,
       },
-      where: [
-        { teachers: ArrayContains([{ email: user }]) },
-        { students: ArrayContains([{ email: user }]) },
-      ],
     });
+    // TODO let dataabase filter these out
+    res = res.filter(
+      (c) =>
+        Boolean(c.students.find((u) => u.email === user)) ||
+        Boolean(c.teachers.find((u) => u.email === user)),
+    );
+    return res;
   }
 }
