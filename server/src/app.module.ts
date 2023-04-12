@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { cfg, createTypeORMModuleCfg } from "./config/config";
+import { createTypeORMModuleCfg } from "./config/config";
 import { UsersModule } from "./users/users.module";
 import { MajorsModule } from "./majors/majors.module";
 import { MessagingModule } from "./messaging/messaging.module";
@@ -14,9 +14,8 @@ import { ForumsModule } from "./forums/forums.module";
 import { NewsModule } from "./news/news.module";
 import { EducationChartsModule } from "./education-charts/education-charts.module";
 import { MarksModule } from "./marks/marks.module";
-import { PassportModule } from "@nestjs/passport";
-import { JwtModule } from "@nestjs/jwt";
 import { SeedsModule } from "./seeds/seeds.module";
+import { LandingPageModule } from "./landing-page/landing-page.module";
 
 @Module({
   imports: [
@@ -25,18 +24,6 @@ import { SeedsModule } from "./seeds/seeds.module";
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       async useFactory(..._args) {
         return createTypeORMModuleCfg();
-      },
-    }),
-    PassportModule.register({
-      defaultStrategy: "jwt",
-    }),
-    JwtModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      async useFactory(..._args) {
-        return {
-          secret: cfg().jwtSecret,
-          signOptions: { expiresIn: cfg().sessionsExpiresIn },
-        };
       },
     }),
     MajorsModule,
@@ -50,6 +37,7 @@ import { SeedsModule } from "./seeds/seeds.module";
     EducationChartsModule,
     MarksModule,
     SeedsModule,
+    LandingPageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

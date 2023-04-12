@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from "@nestjs/common";
+import { Controller, UseGuards, Get, Param } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { CoursesService } from "./courses.service";
 
@@ -10,5 +10,10 @@ export class CoursesController {
   @Get()
   async list() {
     return this.coursesService.list();
+  }
+
+  @Get("/:user")
+  async getCourses(@Param("user") user: string) {
+    return this.coursesService.getCourses(user);
   }
 }

@@ -8,7 +8,7 @@ import { SubjectsController } from "./subjects.controller";
 @Module({
   imports: [TypeOrmModule.forFeature([Subject])],
   providers: [SubjectsRepository, SubjectsService],
-  exports: [SubjectsRepository],
+  exports: [SubjectsRepository, SubjectsService],
   controllers: [SubjectsController],
 })
 export class SubjectsModule {}

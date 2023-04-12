@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { Course } from "src/courses/entities/course.entity";
 import { SubjectsRepository } from "./subjects.repository";
 
 @Injectable()
@@ -7,5 +8,27 @@ export class SubjectsService {
 
   async list() {
     return this.subjectsRepository.find({});
+  }
+
+  async getCourses(subjectID: string): Promise<Course[]> {
+    const subject = await this.subjectsRepository.findOne({
+      where: {
+        id: subjectID,
+      },
+      relations: {
+        courses: {
+          forum: false,
+          news: false,
+          room: false,
+          students: false,
+          subject: false,
+          teachers: true,
+        },
+      },
+    });
+    if (subject == null) {
+      return [];
+    }
+    return subject.courses;
   }
 }
