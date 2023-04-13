@@ -23,6 +23,8 @@ import { EducationChartsRepository } from "src/education-charts/education-chart.
 import { Major } from "src/majors/entities/majors.entity";
 import { MajorsRepository } from "src/majors/majors.repository";
 import { RequirementType } from "src/education-charts/education-chart.entity";
+import _ from "lodash";
+import { In, Not } from "typeorm";
 
 const seededUsers = [];
 
@@ -40,6 +42,8 @@ interface CommonParams {
   proginf: Major;
   minf: Major;
   gazdinf: Major;
+  students?: User[];
+  teachers: string[];
 }
 
 async function createWithType(
@@ -80,7 +84,19 @@ async function createTeacher(common: CommonParams): Promise<User> {
       majorID: gen.major,
     },
   });
+  common.teachers.push(user.email);
   return common.users.save(user);
+}
+
+async function getStudents(common: CommonParams) {
+  if (common.students == null) {
+    common.students = await common.users.find({
+      where: {
+        email: Not(In(common.teachers)),
+      },
+    });
+  }
+  return common.students;
 }
 
 async function createPracticesFor(
@@ -106,6 +122,13 @@ async function createPracticesFor(
     const [next] = getAllSlotsAt(common.timetable, slot.day, slot.hour + 1, [
       slot.room,
     ]);
+    const students: User[] = [];
+    const users: User[] = await getStudents(common);
+    _.shuffle(users);
+    const count = Math.random() * 15;
+    for (let i = 0; i < count; i++) {
+      students.push(users[i]);
+    }
     if (next == null) {
       throw new Error("Should not happen.");
     }
@@ -874,6 +897,7 @@ export async function seedCourses(app: INestApplication) {
     proginf: await majors.findById("proginf", false),
     gazdinf: await majors.findById("gazdinf", false),
     minf: await majors.findById("minf", false),
+    teachers: [],
   };
   await seedFallCourses(common);
   await seedSpringCourses(common);
