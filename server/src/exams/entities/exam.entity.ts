@@ -28,7 +28,10 @@ export class Exam {
   room: Room;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToMany((type) => User, (user) => user.exams, { eager: false })
+  @ManyToMany((type) => User, (user) => user.exams, {
+    eager: false,
+    cascade: ["insert", "update"],
+  })
   @JoinTable()
   examinees: User[];
 

@@ -4,7 +4,7 @@ BEFORE INSERT OR UPDATE
 ON "SYSTEM"."users"
 FOR EACH ROW
 BEGIN
-    IF  (:NEW."email" NOT LIKE '%@%') OR
+    IF  (LENGTH(:NEW."email") = 0) OR
         (LENGTH(:NEW."address") = 0) OR
         (LENGTH(:NEW."forename") = 0) OR
         (LENGTH(:NEW."familyname") = 0) OR

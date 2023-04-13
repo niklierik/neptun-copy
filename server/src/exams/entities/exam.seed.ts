@@ -63,7 +63,22 @@ export async function seedExams(app: INestApplication) {
       relations: {
         news: false,
         forum: false,
-        courses: false,
+        courses: {
+          forum: false,
+          news: false,
+          room: false,
+          students: {
+            courses: false,
+            exams: false,
+            marks: false,
+            receivedMessages: false,
+            sentMessages: false,
+            teaching: false,
+            major: false,
+          },
+          teachers: false,
+          subject: false,
+        },
       },
     }),
   };
