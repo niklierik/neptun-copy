@@ -250,6 +250,10 @@ async function createSubject(
     }
   }
   await createPracticesFor(common, numberOfPractices, practice, useRooms);
+  lecture.bridgePracticeLecture = practice;
+  practice.bridgePracticeLecture = lecture;
+  await common.subjects.save(lecture);
+  await common.subjects.save(practice);
   return { lecture, practice };
 }
 
