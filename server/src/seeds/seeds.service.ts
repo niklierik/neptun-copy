@@ -10,6 +10,7 @@ import { Seeding } from "./seeding";
 import { seedForum } from "src/forums/entities/forum.seed";
 import { seedMessages } from "src/messaging/entities/messages.seed";
 import { seedNews } from "src/news/entities/news.seed";
+import { seedExams } from "src/exams/entities/exam.seed";
 
 let seedings: Seeding[] = [
   {
@@ -35,6 +36,10 @@ let seedings: Seeding[] = [
   {
     id: 6,
     functionToRun: seedNews,
+  },
+  {
+    id: 7,
+    functionToRun: seedExams,
   },
 ];
 
