@@ -1,6 +1,6 @@
 import { Subject } from "src/subjects/entities/subject.entity";
 import { User } from "src/users/entities/users.entity";
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("marks")
 export class Mark {
@@ -14,4 +14,7 @@ export class Mark {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((type) => Subject, { eager: true })
   subject: Subject;
+
+  @Column()
+  mark: number;
 }

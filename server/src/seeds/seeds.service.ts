@@ -11,6 +11,7 @@ import { seedForum } from "src/forums/entities/forum.seed";
 import { seedMessages } from "src/messaging/entities/messages.seed";
 import { seedNews } from "src/news/entities/news.seed";
 import { seedExams } from "src/exams/entities/exam.seed";
+import { seedMarks } from "src/marks/entities/marks.seed";
 
 let seedings: Seeding[] = [
   {
@@ -40,6 +41,10 @@ let seedings: Seeding[] = [
   {
     id: 7,
     functionToRun: seedExams,
+  },
+  {
+    id: 8,
+    functionToRun: seedMarks,
   },
 ];
 

@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { SubjectType } from "./subject-type.enum";
@@ -21,7 +22,7 @@ export class Subject {
   name: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @OneToMany((type) => Course, (course) => course.subject, { eager: false })
+  @OneToMany((_type) => Course, (course) => course.subject, { eager: false })
   courses: Course[];
 
   @Column()
@@ -34,15 +35,24 @@ export class Subject {
   type: SubjectType;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @OneToMany((type) => CommonForumMsg, (forum) => forum.subject, {
+  @OneToMany((_type) => CommonForumMsg, (forum) => forum.subject, {
     eager: true,
   })
   forum: CommonForumMsg[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @OneToMany((type) => CommonNews, (news) => news.subject, { eager: true })
+  @OneToMany((_type) => CommonNews, (news) => news.subject, { eager: true })
   news: CommonNews[];
 
   @CreateDateColumn()
   createdAt: Date;
+
+  /**
+   * Relation to make available the current subject's lecture if it is a practice, or vice-versa
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @OneToOne((_type) => Subject, (subject) => subject.bridgePracticeLecture, {
+    eager: false,
+  })
+  bridgePracticeLecture: Subject;
 }
