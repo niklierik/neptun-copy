@@ -1,31 +1,17 @@
-DROP TABLE "users";
-
-DROP TABLE "rooms";
-
-DROP TABLE "subjects";
-
-DROP TABLE "courses";
-
-DROP TABLE "education_chart";
-
-DROP TABLE "exams";
-
-DROP TABLE "common_forum";
-
-DROP TABLE "forum";
-
-DROP TABLE "marks";
-
-DROP TABLE "majors";
-
-DROP TABLE "messages";
-
-DROP TABLE "common_news";
-
-DROP TABLE "news";
-
-DROP TABLE "users_course_student";
-
-DROP TABLE "users_course_teacher";
-
-DROP TABLE "users_exams";
+DELETE FROM "SYSTEM"."rooms";
+DELETE FROM "SYSTEM"."news";
+DELETE FROM "SYSTEM"."common_news";
+DELETE FROM "SYSTEM"."forum";
+DELETE FROM "SYSTEM"."common_forum";
+DELETE FROM "SYSTEM"."messages";
+DELETE FROM "SYSTEM"."exams";
+DELETE FROM "SYSTEM"."exams_examinees_users";
+DELETE FROM "SYSTEM"."users";
+DELETE FROM "SYSTEM"."subjects";
+DELETE FROM "SYSTEM"."seeded";
+DELETE FROM "SYSTEM"."marks";
+DELETE FROM "SYSTEM"."majors";
+DELETE FROM "SYSTEM"."education_chart";
+DELETE FROM "SYSTEM"."courses_teachers_users";
+DELETE FROM "SYSTEM"."courses_students_users";
+DELETE FROM "SYSTEM"."courses";
