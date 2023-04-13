@@ -46,13 +46,4 @@ export class Subject {
 
   @CreateDateColumn()
   createdAt: Date;
-
-  /**
-   * Relation to make available the current subject's lecture if it is a practice, or vice-versa
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @OneToOne((_type) => Subject, (subject) => subject.bridgePracticeLecture, {
-    eager: false,
-  })
-  bridgePracticeLecture: Subject;
 }

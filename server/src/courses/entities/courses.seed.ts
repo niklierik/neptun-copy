@@ -23,7 +23,7 @@ import { EducationChartsRepository } from "src/education-charts/education-chart.
 import { Major } from "src/majors/entities/majors.entity";
 import { MajorsRepository } from "src/majors/majors.repository";
 import { RequirementType } from "src/education-charts/education-chart.entity";
-import _ from "lodash";
+import * as _ from "lodash";
 import { In, Not } from "typeorm";
 
 const seededUsers = [];
@@ -56,7 +56,7 @@ async function createWithType(
   if (hoursAWeek <= 0) {
     return;
   }
-  return await subjects.save(
+  return subjects.save(
     subjects.create({
       name,
       hoursAWeek,
@@ -104,6 +104,7 @@ async function createPracticesFor(
   numberOfPractices: number,
   subject: Subject,
   rooms: Room[],
+  users: User[],
 ) {
   const teachers: User[] = [];
   const numberOfTeachers = Math.random() * numberOfPractices;
@@ -122,27 +123,32 @@ async function createPracticesFor(
     const [next] = getAllSlotsAt(common.timetable, slot.day, slot.hour + 1, [
       slot.room,
     ]);
-    const students: User[] = [];
-    let users: User[] = await getStudents(common);
-    users = _.shuffle(users);
-    const count = Math.random() * 15;
-    for (let i = 0; i < count; i++) {
-      students.push(users[i]);
-    }
     if (next == null) {
       throw new Error("Should not happen.");
+    }
+    const count = Math.random() * 2 + 1;
+    users = _.shuffle(users);
+    const students: User[] = [];
+    for (let i = 0; i < count && i < users.length; i++) {
+      students.push(users.pop());
     }
     slot.available = false;
     slot.subject = subject;
     slot.teacher = teacher;
-    slot.course = await createPracticeFor(common, subject, teacher, slot);
+    slot.course = await createPracticeFor(
+      common,
+      subject,
+      teacher,
+      slot,
+      students,
+    );
     next.available = slot.available = false;
     next.teacher = slot.teacher = teacher;
     next.subject = slot.subject = subject;
     if (subject.hoursAWeek == 2) {
       next.course = slot.course;
     } else {
-      next.course = await createPracticeFor(common, subject, teacher, slot);
+      next.course = await createPracticeFor(common, subject, teacher, slot, []);
     }
   }
 }
@@ -152,6 +158,7 @@ async function createPracticeFor(
   subject: Subject,
   teacher: User,
   slot: Slot,
+  students: User[],
 ) {
   return common.courses.save(
     common.courses.create({
@@ -162,6 +169,7 @@ async function createPracticeFor(
       year: common.year,
       startAt: slot.hour,
       dayOfWeek: slot.day,
+      students,
     }),
   );
 }
@@ -172,6 +180,7 @@ async function createLectureFor(
   subject: Subject,
   teacher: User,
   slot: Slot,
+  students: User[],
 ) {
   return common.courses.save(
     common.courses.create({
@@ -182,6 +191,7 @@ async function createLectureFor(
       year: common.year,
       startAt: slot.hour,
       semester: common.semester,
+      students,
     }),
   );
 }
@@ -198,6 +208,13 @@ async function createSubject(
   creditForLecture?: number,
 ) {
   const teacher = await createTeacher(common);
+  const students: User[] = [];
+  let users: User[] = await getStudents(common);
+  users = _.shuffle(users);
+  const count = Math.random() * 13 + 2;
+  for (let i = 0; i < count; i++) {
+    students.push(users[i]);
+  }
   const [practice, lecture] = [
     await createWithType(
       common.subjects,
@@ -236,24 +253,16 @@ async function createSubject(
       lecture,
       teacher,
       slot,
+      students,
     );
-    if (lecture.hoursAWeek == 2) {
-      next.course = slot.course;
-    } else {
-      next.course = await createLectureFor(
-        common,
-        lectureRoom,
-        lecture,
-        teacher,
-        next,
-      );
-    }
   }
-  await createPracticesFor(common, numberOfPractices, practice, useRooms);
-  lecture.bridgePracticeLecture = practice;
-  practice.bridgePracticeLecture = lecture;
-  await common.subjects.save(lecture);
-  await common.subjects.save(practice);
+  await createPracticesFor(
+    common,
+    numberOfPractices,
+    practice,
+    useRooms,
+    students,
+  );
   return { lecture, practice };
 }
 
