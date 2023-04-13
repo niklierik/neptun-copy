@@ -123,8 +123,8 @@ async function createPracticesFor(
       slot.room,
     ]);
     const students: User[] = [];
-    const users: User[] = await getStudents(common);
-    _.shuffle(users);
+    let users: User[] = await getStudents(common);
+    users = _.shuffle(users);
     const count = Math.random() * 15;
     for (let i = 0; i < count; i++) {
       students.push(users[i]);
@@ -198,22 +198,22 @@ async function createSubject(
   creditForLecture?: number,
 ) {
   const teacher = await createTeacher(common);
-  const [practice, lecture] = await Promise.all([
-    createWithType(
+  const [practice, lecture] = [
+    await createWithType(
       common.subjects,
       name,
       hoursAWeekPractice,
       SubjectType.PRACTICE,
       creditForPractice,
     ),
-    createWithType(
+    await createWithType(
       common.subjects,
       name,
       hoursAWeekLecture ?? hoursAWeekPractice,
       SubjectType.LECTURE,
       creditForLecture ?? creditForPractice,
     ),
-  ]);
+  ];
   if (hoursAWeekLecture >= 0 && lectureRoom) {
     const slots = getAvailableSlots(common.timetable, [lectureRoom]);
     if (slots.length == 0) {
