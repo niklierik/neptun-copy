@@ -22,8 +22,10 @@ function random<T>(array: T[]): T {
 
 async function genNews(news: NewsRepository, courses: Course[]) {
   const course = random(courses);
+  const createdAt = faker.date.recent(120);
   return news.save(
     news.create({
+      createdAt,
       content: new LoremIpsum().generateWords(
         faker.datatype.number({ min: 3, max: 10 }),
       ),
@@ -37,8 +39,10 @@ async function genCommonNews(
   subjects: Subject[],
 ) {
   const subject = random(subjects);
+  const createdAt = faker.date.recent(120);
   return commonNews.save(
     commonNews.create({
+      createdAt,
       content: new LoremIpsum().generateWords(
         faker.datatype.number({ min: 3, max: 10 }),
       ),

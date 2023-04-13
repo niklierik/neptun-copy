@@ -30,9 +30,11 @@ async function genForum(
 ) {
   const sender = random(users);
   const course = random(courses);
+  const createdAt = faker.date.recent(120);
   return forum.save(
     forum.create({
       sender,
+      createdAt,
       message: new LoremIpsum().generateWords(
         faker.datatype.number({ min: 3, max: 10 }),
       ),
@@ -48,9 +50,11 @@ async function genCommonForum(
 ) {
   const sender = random(users);
   const subject = random(subjects);
+  const createdAt = faker.date.recent(120);
   return commonForum.save(
     commonForum.create({
       sender,
+      createdAt,
       message: new LoremIpsum().generateWords(
         faker.datatype.number({ min: 3, max: 10 }),
       ),

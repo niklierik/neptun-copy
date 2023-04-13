@@ -23,10 +23,12 @@ function selectTwo<T>(array: T[]): [u1: T, u2: T] {
 
 async function genMessage(users: User[], messages: MessagingRepository) {
   const [from, to] = selectTwo(users);
+  const createdAt = faker.date.recent(120);
   return messages.save(
     messages.create({
       from,
       to,
+      createdAt,
       message: new LoremIpsum().generateWords(
         faker.datatype.number({ min: 3, max: 10 }),
       ),

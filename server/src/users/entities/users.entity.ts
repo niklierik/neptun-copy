@@ -1,5 +1,5 @@
 import { Course } from "src/courses/entities/course.entity";
-import { Exam } from "src/exams/exam.entity";
+import { Exam } from "src/exams/entities/exam.entity";
 import { Major } from "src/majors/entities/majors.entity";
 import { Mark } from "src/marks/mark.entity";
 import { Message } from "src/messaging/entities/message.entity";
