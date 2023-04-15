@@ -1,4 +1,10 @@
-import { ForbiddenException, Injectable } from "@nestjs/common";
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
+import { CoursesRepository } from "src/courses/courses.repository";
+import { SubjectsRepository } from "src/subjects/subjects.repository";
 import { User } from "src/users/entities/users.entity";
 import { FindOptionsWhere } from "typeorm";
 import { CommonForumRepository } from "./common-forum.repository";
@@ -11,11 +17,13 @@ export class ForumsService {
   constructor(
     private readonly forumsRepo: ForumRepository,
     private readonly commonForumsRepo: CommonForumRepository,
+    private readonly subjectsRepo: SubjectsRepository,
+    private readonly coursesRepo: CoursesRepository,
   ) {}
 
   async list(user: User, courseId?: string) {
     if (courseId == null && !user.isAdmin) {
-      throw new ForbiddenException();
+      throw new ForbiddenException("Nincs jogod ehhez!");
     }
     const where: FindOptionsWhere<ForumMsg> = {};
     if (courseId != null) {
@@ -50,14 +58,14 @@ export class ForumsService {
         forum[0].course.teachers.find((u) => u.email === user.email)
       )
     ) {
-      throw new ForbiddenException();
+      throw new ForbiddenException("Nincs jogod ehhez!");
     }
     return forum;
   }
 
   async listCommon(user: User, subjectId?: string) {
     if (subjectId == null && !user.isAdmin) {
-      throw new ForbiddenException();
+      throw new ForbiddenException("Nincs jogod ehhez!");
     }
     const where: FindOptionsWhere<CommonForumMsg> = {};
     if (subjectId) {
@@ -91,8 +99,81 @@ export class ForumsService {
           course.teachers.find((u) => u.email === user.email) != null,
       )
     ) {
-      throw new ForbiddenException();
+      throw new ForbiddenException("Nincs jogod ehhez!");
     }
     return forum;
+  }
+
+  async post(user: User, courseId: string, message: string) {
+    const course = await this.coursesRepo.findOne({
+      loadEagerRelations: false,
+      relations: {
+        teachers: true,
+      },
+      where: {
+        id: courseId,
+      },
+    });
+    if (course == null) {
+      throw new NotFoundException();
+    }
+    if (
+      !(
+        course.teachers.find((u) => u.email === user.email) != null ||
+        course.students.find((u) => u.email === user.email) != null
+      )
+    ) {
+      throw new ForbiddenException("Nincs jogod ehhez!");
+    }
+    return this.forumsRepo.save(
+      this.forumsRepo.create({
+        message,
+        course: {
+          id: courseId,
+        },
+        sender: {
+          email: user.email,
+        },
+      }),
+    );
+  }
+
+  async postCommon(user: User, subjectId: string, message: string) {
+    const subject = await this.subjectsRepo.findOne({
+      loadEagerRelations: false,
+      relations: {
+        courses: {
+          teachers: true,
+        },
+      },
+      where: {
+        id: subjectId,
+      },
+    });
+    if (subject == null) {
+      throw new NotFoundException();
+    }
+    if (
+      !(
+        subject.courses.find(
+          (c) =>
+            c.teachers.find((u) => u.email === user.email) != null ||
+            c.students.find((u) => u.email === user.email) != null,
+        ) != null
+      )
+    ) {
+      throw new ForbiddenException("Nincs jogod ehhez!");
+    }
+    return this.commonForumsRepo.save(
+      this.commonForumsRepo.create({
+        message,
+        subject: {
+          id: subjectId,
+        },
+        sender: {
+          email: user.email,
+        },
+      }),
+    );
   }
 }
