@@ -23,4 +23,14 @@ export class CoursesService {
     const courses = await this.coursesRepository.findFor(user);
     return courses;
   }
+
+  async getCoursesOf(subject: string): Promise<Course[]> {
+    return this.coursesRepository.find({
+      where: {
+        subject: {
+          id: subject,
+        },
+      },
+    });
+  }
 }
