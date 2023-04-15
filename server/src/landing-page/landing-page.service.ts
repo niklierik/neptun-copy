@@ -41,7 +41,11 @@ export class LandingPageService {
   ) {
     let res = subjects.find((s) => s.subject.id === subject.id);
     if (res == null) {
-      const courses = await this.subjectsService.getCourses(subject.id);
+      const courses = await this.subjectsService.getCourses(
+        subject.id,
+        "2023", // TODO get from NOW
+        "spring",
+      );
       res = {
         courses: [],
         one: courses.length < 2,
