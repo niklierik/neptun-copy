@@ -2,6 +2,9 @@ CREATE TABLE "marks" (
   "id" varchar(36) NOT NULL,
   "user" varchar2(255) NOT NULL,
   "subject" varchar2(36) NOT NULL,
+  "mark" number NOT NULL,
+  "year" number NOT NULL,
+  "semester" number NOT NULL,
   CONSTRAINT "PK_users_exams" PRIMARY KEY ("id")
 );
 

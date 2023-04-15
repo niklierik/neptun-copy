@@ -22,14 +22,26 @@ export async function seedMarkForStudent(
       name: exam.subject.name,
       type: SubjectType.PRACTICE,
     },
+    loadEagerRelations: false,
+    relations: {
+      courses: true,
+      forum: false,
+      news: false,
+    },
   });
   if (practice == null) {
     throw new Error(`Unable to find practice of subject ${exam.subject.name}.`);
+  }
+  const [course] = practice.courses;
+  if (course == null) {
+    throw new Error(`There are no courses for subject ${practice.id}.`);
   }
   const mark = marks.create({
     subject: practice,
     user,
     mark: faker.datatype.number({ min: 2, max: 5 }),
+    year: course.year,
+    semester: course.semester,
   });
   await marks.save(mark);
 }
@@ -55,7 +67,14 @@ export async function seedMarks(app: INestApplication) {
       examinees: true,
       room: false,
       subject: {
-        courses: false,
+        courses: {
+          forum: false,
+          room: false,
+          news: false,
+          students: false,
+          subject: false,
+          teachers: false,
+        },
         forum: false,
         news: false,
       },
