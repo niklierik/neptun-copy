@@ -1,4 +1,10 @@
-import { ForbiddenException, Injectable } from "@nestjs/common";
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
+import { CoursesRepository } from "src/courses/courses.repository";
+import { SubjectsRepository } from "src/subjects/subjects.repository";
 import { User } from "src/users/entities/users.entity";
 import { FindOptionsWhere } from "typeorm";
 import { CommonNewsRepository } from "./common-news.repository";
@@ -11,11 +17,13 @@ export class NewsService {
   constructor(
     private readonly newsRepo: NewsRepository,
     private readonly commonNewsRepo: CommonNewsRepository,
+    private readonly subjectsRepo: SubjectsRepository,
+    private readonly coursesRepo: CoursesRepository,
   ) {}
 
   async list(user: User, courseId?: string) {
     if (courseId == null && !user.isAdmin) {
-      throw new ForbiddenException();
+      throw new ForbiddenException("Nincs jogod ehhez!");
     }
     const where: FindOptionsWhere<News> = {};
     if (courseId != null) {
@@ -49,7 +57,7 @@ export class NewsService {
         news[0].course.teachers.find((u) => u.email === user.email)
       )
     ) {
-      throw new ForbiddenException();
+      throw new ForbiddenException("Nincs jogod ehhez!");
     }
     return news;
   }
@@ -82,8 +90,50 @@ export class NewsService {
           course.teachers.find((u) => u.email === user.email) != null,
       )
     ) {
-      throw new ForbiddenException();
+      throw new ForbiddenException("Nincs jogod ehhez!");
     }
     return news;
+  }
+
+  async post(user: User, courseId: string) {
+    const course = await this.coursesRepo.findOne({
+      loadEagerRelations: false,
+      relations: {
+        teachers: true,
+      },
+      where: {
+        id: courseId,
+      },
+    });
+    if (course == null) {
+      throw new NotFoundException();
+    }
+    if (!course.teachers.find((t) => t.email === user.email) != null) {
+      throw new ForbiddenException("Nincs jogod ehhez!");
+    }
+  }
+
+  async postCommon(user: User, subjectId: string) {
+    const subject = await this.subjectsRepo.findOne({
+      loadEagerRelations: false,
+      relations: {
+        courses: {
+          teachers: true,
+        },
+      },
+      where: {
+        id: subjectId,
+      },
+    });
+    if (subject == null) {
+      throw new NotFoundException();
+    }
+    if (
+      !subject.courses.find(
+        (c) => c.teachers.find((t) => t.email === user.email) != null,
+      )
+    ) {
+      throw new ForbiddenException("Nincs jogod ehhez!");
+    }
   }
 }
