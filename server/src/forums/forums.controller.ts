@@ -1,5 +1,7 @@
-import { Controller, Get, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { CurrentUser } from "src/users/decorators/current-user.decorator";
+import { User } from "src/users/entities/users.entity";
 import { ForumsService } from "./forums.service";
 
 @Controller("forums")
@@ -8,12 +10,22 @@ export class ForumsController {
   constructor(private readonly forumService: ForumsService) {}
 
   @Get("courses")
-  async list() {
-    return this.forumService.list();
+  async list(@CurrentUser() user: User) {
+    return this.forumService.list(user);
   }
 
   @Get("subjects")
-  async listCommon() {
-    return this.forumService.listCommon();
+  async listCommon(@CurrentUser() user: User) {
+    return this.forumService.listCommon(user);
+  }
+
+  @Get("courses/:id")
+  async listById(@Param("id") id: string, @CurrentUser() user: User) {
+    return this.forumService.list(user, id);
+  }
+
+  @Get("subjects/:id")
+  async listCommonById(@Param("id") id: string, @CurrentUser() user: User) {
+    return this.forumService.listCommon(user, id);
   }
 }
