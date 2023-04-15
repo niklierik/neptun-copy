@@ -6,9 +6,10 @@ import { ForumMsg } from "./entities/forum-msg.entity";
 import { ForumRepository } from "./forum.repository";
 import { ForumsService } from "./forums.service";
 import { ForumsController } from "./forums.controller";
+import { UsersModule } from "src/users/users.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ForumMsg, CommonForumMsg])],
+  imports: [TypeOrmModule.forFeature([ForumMsg, CommonForumMsg]), UsersModule],
   providers: [ForumRepository, CommonForumRepository, ForumsService],
   exports: [ForumRepository, CommonForumRepository],
   controllers: [ForumsController],

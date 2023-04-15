@@ -6,9 +6,10 @@ import { News } from "./entities/news.entity";
 import { NewsRepository } from "./news.repository";
 import { NewsController } from "./news.controller";
 import { NewsService } from "./news.service";
+import { UsersModule } from "src/users/users.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CommonNews, News])],
+  imports: [TypeOrmModule.forFeature([CommonNews, News]), UsersModule],
   providers: [CommonNewsRepository, NewsRepository, NewsService],
   exports: [CommonNewsRepository, NewsRepository],
   controllers: [NewsController],

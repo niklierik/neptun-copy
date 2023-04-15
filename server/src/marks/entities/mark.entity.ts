@@ -1,3 +1,4 @@
+import { Semester } from "src/courses/entities/course.entity";
 import { Subject } from "src/subjects/entities/subject.entity";
 import { User } from "src/users/entities/users.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -17,4 +18,10 @@ export class Mark {
 
   @Column()
   mark: number;
+
+  @Column()
+  year: number;
+
+  @Column("number")
+  semester: Semester;
 }
