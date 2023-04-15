@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "src/users/decorators/current-user.decorator";
 import { User } from "src/users/entities/users.entity";
@@ -30,12 +30,20 @@ export class ForumsController {
   }
 
   @Post("subjects/:id")
-  async post(@Param("id") id: string, @CurrentUser() user: User) {
-    return this.forumService.post(user, id);
+  async post(
+    @Param("id") id: string,
+    @Body("message") message: string,
+    @CurrentUser() user: User,
+  ) {
+    return this.forumService.post(user, id, message);
   }
 
   @Post("courses/:id")
-  async postCommon(@Param("id") id: string, @CurrentUser() user: User) {
-    return this.forumService.postCommon(user, id);
+  async postCommon(
+    @Param("id") id: string,
+    @Body("message") message: string,
+    @CurrentUser() user: User,
+  ) {
+    return this.forumService.postCommon(user, id, message);
   }
 }

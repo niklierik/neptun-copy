@@ -95,7 +95,7 @@ export class NewsService {
     return news;
   }
 
-  async post(user: User, courseId: string) {
+  async post(user: User, courseId: string, message: string) {
     const course = await this.coursesRepo.findOne({
       loadEagerRelations: false,
       relations: {
@@ -108,12 +108,20 @@ export class NewsService {
     if (course == null) {
       throw new NotFoundException();
     }
-    if (!course.teachers.find((t) => t.email === user.email) != null) {
+    if (!(course.teachers.find((t) => t.email === user.email) != null)) {
       throw new ForbiddenException("Nincs jogod ehhez!");
     }
+    return this.newsRepo.save(
+      this.newsRepo.create({
+        course: {
+          id: courseId,
+        },
+        content: message,
+      }),
+    );
   }
 
-  async postCommon(user: User, subjectId: string) {
+  async postCommon(user: User, subjectId: string, message: string) {
     const subject = await this.subjectsRepo.findOne({
       loadEagerRelations: false,
       relations: {
@@ -129,11 +137,21 @@ export class NewsService {
       throw new NotFoundException();
     }
     if (
-      !subject.courses.find(
-        (c) => c.teachers.find((t) => t.email === user.email) != null,
+      !(
+        subject.courses.find(
+          (c) => c.teachers.find((t) => t.email === user.email) != null,
+        ) != null
       )
     ) {
       throw new ForbiddenException("Nincs jogod ehhez!");
     }
+    return this.commonNewsRepo.save(
+      this.commonNewsRepo.create({
+        subject: {
+          id: subjectId,
+        },
+        content: message,
+      }),
+    );
   }
 }

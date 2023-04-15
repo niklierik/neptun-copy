@@ -104,7 +104,7 @@ export class ForumsService {
     return forum;
   }
 
-  async post(user: User, courseId: string) {
+  async post(user: User, courseId: string, message: string) {
     const course = await this.coursesRepo.findOne({
       loadEagerRelations: false,
       relations: {
@@ -117,12 +117,28 @@ export class ForumsService {
     if (course == null) {
       throw new NotFoundException();
     }
-    if (!course.teachers.find((t) => t.email === user.email) != null) {
+    if (
+      !(
+        course.teachers.find((u) => u.email === user.email) != null ||
+        course.students.find((u) => u.email === user.email) != null
+      )
+    ) {
       throw new ForbiddenException("Nincs jogod ehhez!");
     }
+    return this.forumsRepo.save(
+      this.forumsRepo.create({
+        message,
+        course: {
+          id: courseId,
+        },
+        sender: {
+          email: user.email,
+        },
+      }),
+    );
   }
 
-  async postCommon(user: User, subjectId: string) {
+  async postCommon(user: User, subjectId: string, message: string) {
     const subject = await this.subjectsRepo.findOne({
       loadEagerRelations: false,
       relations: {
@@ -138,11 +154,26 @@ export class ForumsService {
       throw new NotFoundException();
     }
     if (
-      !subject.courses.find(
-        (c) => c.teachers.find((t) => t.email === user.email) != null,
+      !(
+        subject.courses.find(
+          (c) =>
+            c.teachers.find((u) => u.email === user.email) != null ||
+            c.students.find((u) => u.email === user.email) != null,
+        ) != null
       )
     ) {
       throw new ForbiddenException("Nincs jogod ehhez!");
     }
+    return this.commonForumsRepo.save(
+      this.commonForumsRepo.create({
+        message,
+        subject: {
+          id: subjectId,
+        },
+        sender: {
+          email: user.email,
+        },
+      }),
+    );
   }
 }
