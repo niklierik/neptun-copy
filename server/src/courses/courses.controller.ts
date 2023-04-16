@@ -1,5 +1,7 @@
-import { Controller, UseGuards, Get, Param } from "@nestjs/common";
+import { Controller, UseGuards, Get, Patch, Body } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { CurrentUser } from "src/users/decorators/current-user.decorator";
+import { User } from "src/users/entities/users.entity";
 import { CoursesService } from "./courses.service";
 
 @Controller("courses")
@@ -8,12 +10,12 @@ export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 
   @Get()
-  async list() {
-    return this.coursesService.list();
+  async list(@CurrentUser() user: User) {
+    return this.coursesService.list(user);
   }
 
-  @Get("/:user")
-  async getCourses(@Param("user") user: string) {
-    return this.coursesService.getCourses(user);
+  @Patch("")
+  async joinCourse(@CurrentUser() user: User, @Body("course") course: string) {
+    return this.coursesService.joinCourse(user, course);
   }
 }
