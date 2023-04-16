@@ -19,13 +19,13 @@ import { LandingPageModule } from "./landing-page/landing-page.module";
 
 @Module({
   imports: [
-    UsersModule,
     TypeOrmModule.forRootAsync({
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       async useFactory(..._args) {
         return createTypeORMModuleCfg();
       },
     }),
+    UsersModule,
     MajorsModule,
     MessagingModule,
     ExamsModule,
