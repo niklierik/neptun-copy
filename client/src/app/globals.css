@@ -158,3 +158,9 @@ th {
     border-bottom: solid 1px #F3F3F3;
     margin: 0px 30px 10px 70px;
 }
+
+.border_3px {
+    border-bottom: solid 3px #F3F3F3;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
