@@ -46,8 +46,8 @@ export default function MyNavbar({ email }: { email: string }) {
                     title="Admin"
                     id="basic-nav-dropdown"
                   >
-                    <NavDropdown.Item href="#action/3.1">
-                      Action
+                    <NavDropdown.Item href="/admin/subjects">
+                      Tantárgyak
                     </NavDropdown.Item>
                     <NavDropdown.Item href="/admin/rooms">
                       Termek

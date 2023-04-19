@@ -12,11 +12,12 @@ export interface Subject {
     createdAt: string;
 }
 
-export function subjectTypeToString(sub: SubjectType) {
+export function subjectTypeToString(sub?: SubjectType) {
     switch (sub) {
         case SubjectType.LECTURE:
             return "Előadás";
         case SubjectType.PRACTICE:
             return "Gyakorlat";
     }
+    return "";
 }
