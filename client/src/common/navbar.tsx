@@ -17,7 +17,7 @@ export default function MyNavbar({ email }: { email: string }) {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                  <Nav.Link className="nav_link" href="#home">
+                  <Nav.Link className="nav_link" href="/">
                     Főoldal
                   </Nav.Link>
                   <Nav.Link className="nav_link" href="#link">

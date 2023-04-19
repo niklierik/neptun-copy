@@ -118,3 +118,43 @@ th {
 .white_text {
     color: white;
 }
+
+.border_2px {
+    border-bottom: 2px solid #F3F3F3;
+    margin: 0px 20px;
+}
+
+.main_white_color {
+    color: #F3F3F3;
+}
+
+.inline_block {
+    display: inline-block;
+}
+
+.flex_container {
+    display: flex;
+}
+
+.flex_child {
+    width: fit-content;
+    margin: 0px 10px;
+}
+
+.flex_child:first-child {
+    margin-right: 20px;
+}
+
+.border_1px {
+    border-bottom: solid 1px #F3F3F3;
+    margin: 0px 30px;
+}
+
+.margin_left {
+    margin-left: 40px;
+}
+
+.bottom_border {
+    border-bottom: solid 1px #F3F3F3;
+    margin: 0px 30px 0px 70px;
+}
