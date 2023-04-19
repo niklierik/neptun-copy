@@ -49,8 +49,8 @@ export default function MyNavbar({ email }: { email: string }) {
                     <NavDropdown.Item href="#action/3.1">
                       Action
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">
-                      Another action
+                    <NavDropdown.Item href="/admin/rooms">
+                      Termek
                     </NavDropdown.Item>
                     <NavDropdown.Item href="/admin/register">
                       Regisztrálás
