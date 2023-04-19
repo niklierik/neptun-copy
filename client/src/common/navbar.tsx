@@ -52,6 +52,9 @@ export default function MyNavbar({ email }: { email: string }) {
                     <NavDropdown.Item href="/admin/rooms">
                       Termek
                     </NavDropdown.Item>
+                    <NavDropdown.Item href="/admin/courses">
+                      Kurzusok
+                    </NavDropdown.Item>
                     <NavDropdown.Item href="/admin/register">
                       Regisztrálás
                     </NavDropdown.Item>
