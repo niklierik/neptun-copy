@@ -47,8 +47,9 @@ export class LandingPageService {
         one: courses.length < 2,
         subject,
         teacher:
+          user.email === "sysadmin" ||
           courses.find((c) => c.teachers.find((t) => t.email == user.email)) !=
-          null,
+            null,
       };
       subjects.push(res);
     }

@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { User } from "src/users/entities/users.entity";
+import { FindOptionsOrder } from "typeorm";
 import { CoursesRepository } from "./courses.repository";
 import { Course } from "./entities/course.entity";
 
@@ -44,7 +45,20 @@ export class CoursesService {
   }
 
   async getCourses(user: string): Promise<Course[]> {
-    const courses = await this.coursesRepository.findFor(user);
+    const order: FindOptionsOrder<Course> = {
+      year: "DESC",
+      semester: "DESC",
+      subject: {
+        name: "ASC",
+        type: "ASC",
+      },
+    };
+    if (user === "sysadmin") {
+      return this.coursesRepository.find({
+        order,
+      });
+    }
+    const courses = await this.coursesRepository.findFor(user, order);
     return courses;
   }
 

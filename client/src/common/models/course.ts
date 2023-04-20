@@ -40,6 +40,10 @@ export function courseInterval(course?: Course) {
     return `${start}:00 - ${end}:00`;
 }
 
+export function semesterToString(semester: Semester) {
+    return `${semester == Semester.FALL ? "Ősz" : "Tavasz"}`;
+}
+
 export interface Course {
     id: string;
     startAt: number;
