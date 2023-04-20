@@ -20,7 +20,7 @@ export default function MyNavbar({ email }: { email: string }) {
                   <Nav.Link className="nav_link" href="/">
                     Főoldal
                   </Nav.Link>
-                  <Nav.Link className="nav_link" href="#link">
+                  <Nav.Link className="nav_link" href="/studies">
                     Tanulmányok
                   </Nav.Link>
                   <Nav.Link className="nav_link" href="#a1">
