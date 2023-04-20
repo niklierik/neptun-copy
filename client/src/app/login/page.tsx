@@ -7,12 +7,17 @@ import axios from "axios";
 import { getServerUrl } from "@/common/cfg";
 import { handleError } from "@/common/utils";
 import { Errors } from "@/common/errors";
+import { getEmail } from "@/common/header";
 
 interface LoginResponse {
     accessToken: string;
 }
 
 export default function Login() {
+    if (getEmail()) {
+        window.location.href = "/";
+        return <></>;
+    }
     const [loginState, setLoginState] = useState({
         email: "",
         password: "",

@@ -1,14 +1,12 @@
 "use client";
 
+import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { User } from "./models/user";
-import { asyncTask } from "./utils/async-task";
-import { getServerUrl } from "./cfg";
-import { UsersService } from "./services/users.service";
+import { signout } from "./utils";
 
 export function Admin() {
     return (
@@ -113,6 +111,15 @@ export default function MyNavbar({
                                         Hirdetmények
                                     </Nav.Link>
                                     {isAdmin ? <Admin></Admin> : <></>}
+                                    <Nav.Link
+                                        className="nav_link"
+                                        onClick={() => {
+                                            signout();
+                                            window.location.href = "/login";
+                                        }}
+                                    >
+                                        Kijelentkezés
+                                    </Nav.Link>
                                 </Nav>
                             </Navbar.Collapse>
                         </Container>

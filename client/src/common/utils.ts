@@ -26,6 +26,11 @@ export function handleError(err: any, setErrors: (s: string[]) => void) {
     setErrors([...err.response.data.message]);
 }
 
+// TODO move these to UsersService
+export function signout() {
+    localStorage.removeItem("jwt");
+}
+
 export function getJwtToken() {
     return localStorage.getItem("jwt");
 }
