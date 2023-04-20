@@ -219,3 +219,43 @@ th {
     border-top: 10px white solid;
     margin-bottom: 100px;
 }
+
+.flex_container_subject {
+    display: flex;
+    justify-content: left;
+    font-weight: bold;
+}
+
+.flex_child_subject {
+    margin: 0px 50px;
+}
+
+.flex_child_subject:first-child {
+    margin-right: 20px;
+}
+
+.border_subject {
+    border-bottom: solid 2px #f3f3f3;
+    margin: 0px 40px;
+}
+
+.flex_container_course {
+    display: flex;
+    justify-content: center;
+}
+
+.flex_child_course {
+    margin: 0px 50px;
+}
+
+.flex_child_course:first-child {
+    margin-right: 20px;
+}
+
+.border_course {
+    border-bottom: solid 1px #f3f3f3;
+    border-left: solid 1px #f3f3f3;
+    border-right: solid 1px #f3f3f3;
+    margin: 0px 200px;
+    margin-bottom: 40px;
+}
