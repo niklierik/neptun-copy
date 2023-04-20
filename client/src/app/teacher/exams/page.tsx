@@ -16,6 +16,25 @@ export default function Exams() {
         <div className="to_center">
             <Form className="format">
                 <Form.Group className="mb-3 form_group" controlId="formBasicText">
+                    <Form.Label>Év</Form.Label>
+                    <Form.Control type="text" defaultValue={"2023"} />
+
+                    <Form.Group className="mb-3 form_group">
+                        <Form.Label>Hónap</Form.Label>
+                        <Form.Select>
+                            <option>Január</option>
+                        </Form.Select>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3 form_group">
+                        <Form.Label>Nap</Form.Label>
+                        <Form.Select>
+                            <option>Hétfő</option>
+                        </Form.Select>
+                    </Form.Group>
+
+                </Form.Group>
+                <Form.Group className="mb-3 form_group" controlId="formBasicText">
                     <Form.Label>Kezdés időpontja</Form.Label>
                     <Form.Control type="text" placeholder="12:00" />
 
