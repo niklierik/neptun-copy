@@ -32,7 +32,7 @@ export default function MyNavbar({ email }: { email: string }) {
                   <Nav.Link className="nav_link" href="#a3">
                     Órarend
                   </Nav.Link>
-                  <Nav.Link className="nav_link" href="#a4">
+                  <Nav.Link className="nav_link" href="/mails">
                     Üzenetek
                   </Nav.Link>
                   <Nav.Link className="nav_link" href="#a5">
