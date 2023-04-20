@@ -16,7 +16,7 @@ import { EducationChartsModule } from "./education-charts/education-charts.modul
 import { MarksModule } from "./marks/marks.module";
 import { SeedsModule } from "./seeds/seeds.module";
 import { LandingPageModule } from "./landing-page/landing-page.module";
-import { StudiesModule } from './studies/studies.module';
+import { StudiesModule } from "./studies/studies.module";
 
 @Module({
   imports: [

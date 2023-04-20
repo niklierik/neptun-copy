@@ -29,6 +29,13 @@ export class MarksService {
       where: {
         user: { email: In(course.students.map((s) => s.email)) },
       },
+      order: {
+        user: {
+          familyname: "ASC",
+          forename: "ASC",
+          email: "ASC",
+        },
+      },
       loadEagerRelations: false,
       relations: {
         user: true,

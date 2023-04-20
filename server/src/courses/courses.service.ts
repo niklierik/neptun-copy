@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { User } from "src/users/entities/users.entity";
-import { CoursesRepository } from "./courses.repository";
+import { CoursesRepository, defaultConstOrder } from "./courses.repository";
 import { Course } from "./entities/course.entity";
 
 @Injectable()
@@ -44,7 +44,15 @@ export class CoursesService {
   }
 
   async getCourses(user: string): Promise<Course[]> {
-    const courses = await this.coursesRepository.findFor(user);
+    if (user === "sysadmin") {
+      return this.coursesRepository.find({
+        order: defaultConstOrder,
+      });
+    }
+    const courses = await this.coursesRepository.findFor(
+      user,
+      defaultConstOrder,
+    );
     return courses;
   }
 
