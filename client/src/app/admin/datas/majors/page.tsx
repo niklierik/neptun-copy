@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import { GetStaticProps } from "next";
 import { useEffect, useState } from "react";
 import useSWR from 'swr';
+import { MajorsTable } from "./majors-table";
 
 
 async function loadMajors() {
@@ -19,46 +20,12 @@ async function loadMajors() {
 }
 
 export default function MajorsData() {
-    const header = [
-        "ID",
-        "Szak megnevezése",
-        "Létrehozás dátuma",
-    ];
 
-    const { data, error, isLoading } = useSWR(getServerUrl("majors"), loadMajors);
-    const [errors, setErrors] = useState([] as string[]);
-
-    const [major, setMajors] = useState([] as Major[]);
-    useEffect(() => {
-        if (data && data.length) {
-            setMajors(data ?? []);
-        }
-        if (error) {
-            handleError(error, setErrors);
-        }
-    }, [data, error]);
-
-    if (error) {
-        handleError(error, setErrors);
-        return <main><Header></Header><div className="error_div">{errors.map((e, id) => (<p key={id}>{e}</p>))}</div></main>;
-    }
-    if (isLoading) {
-        return <main><Header></Header><p className="white_text">Loading...</p></main >;
-    }
-
-    const rows = major?.map((major, id) => [
-        major.majorID,
-        major.displayName,
-        format(new Date(major.createdAt), "yyyy / MM / dd HH:mm:ss"),
-    ]);
-
-    console.log(rows);
 
     return <main>
 
         <Header></Header>
-
-        <DataTable header={header} rows={rows ?? []}></DataTable>
+        <MajorsTable></MajorsTable>
 
     </main>
 }
