@@ -1,4 +1,12 @@
-import { Controller, UseGuards, Get, Patch, Body, Query } from "@nestjs/common";
+import {
+  Controller,
+  UseGuards,
+  Get,
+  Patch,
+  Body,
+  Query,
+  Param,
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "src/users/decorators/current-user.decorator";
 import { User } from "src/users/entities/users.entity";
@@ -9,8 +17,13 @@ import { CoursesService } from "./courses.service";
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 
+  @Get("/:id")
+  async find(@Param("id") id: string | undefined, @CurrentUser() user: User) {
+    return this.coursesService.list(user, id);
+  }
+
   @Get()
-  async list(@CurrentUser() user: User, @Query("id") id?: string) {
+  async list(@Query("id") id: string | undefined, @CurrentUser() user: User) {
     return this.coursesService.list(user, id);
   }
 

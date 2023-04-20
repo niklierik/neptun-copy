@@ -3,7 +3,18 @@
 
 import { Form } from "react-bootstrap";
 
-export default function WriteMark({ name, email }: any) {
+
+export interface WriteMarkProps {
+    name: string;
+    email: string;
+    mark: number;
+}
+
+export default function WriteMark({ name, email, mark }: WriteMarkProps) {
+    const marks = [];
+    for (let i = 1; i <= 5; i++) {
+        marks.push(i);
+    }
     return <div className="to_center">
         <div className="flex_container main_white_color bottom_border">
             <div className="flex_child">
@@ -15,11 +26,11 @@ export default function WriteMark({ name, email }: any) {
             <div className="flex_child">
                 <Form.Select size="sm">
                     <option value="">Jegy</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    {
+                        marks.map((m, index) => (
+                            <option key={index} value={m} selected={mark === m}>{m}</option>
+                        ))
+                    }
                 </Form.Select>
             </div>
         </div>

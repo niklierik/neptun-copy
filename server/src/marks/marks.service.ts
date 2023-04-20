@@ -22,12 +22,17 @@ export class MarksService {
         teachers: true,
       },
     });
-    if (!course.teachers.find((t) => t.email === user.email)) {
+    if (!user.isAdmin && !course.teachers.find((t) => t.email === user.email)) {
       throw new ForbiddenException();
     }
     return this.marksRepo.find({
       where: {
-        user: In(course.students),
+        user: { email: In(course.students.map((s) => s.email)) },
+      },
+      loadEagerRelations: false,
+      relations: {
+        user: true,
+        subject: true,
       },
     });
   }
@@ -45,7 +50,10 @@ export class MarksService {
         subject: true,
       },
     });
-    if (!course.teachers.find((t) => t.email === teacher.email)) {
+    if (
+      !teacher.isAdmin &&
+      !course.teachers.find((t) => t.email === teacher.email)
+    ) {
       throw new ForbiddenException();
     }
     return this.marksRepo.save(

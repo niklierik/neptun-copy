@@ -13,8 +13,9 @@ export class CoursesService {
     }
 
     static async getCourse(id: string) {
-        const res = await axios.get<Course>(getServerUrl("courses"), {
+        const res = await axios.get<Course>(getServerUrl(`courses/${id}`), {
             headers: { Authorization: getAuthToken() },
         });
+        return res.data;
     }
 }

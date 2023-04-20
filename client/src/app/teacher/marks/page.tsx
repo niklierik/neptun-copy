@@ -3,15 +3,26 @@
 import { getServerUrl } from "@/common/cfg";
 import Header from "@/common/header";
 import { asyncTask } from "@/common/utils/async-task";
-import { Form } from "react-bootstrap";
 import WriteMark from "./write-mark";
+import { CoursesService } from "@/common/services/courses.service";
+import { Course } from "@/common/models/course";
+import { MarksService } from "@/common/services/marks.service";
+import { Mark } from "@/common/models/mark";
 
 export interface MarksProps {
-    courseID: string;
+    searchParams: { courseID: string };
 }
 
 export default function Marks(props: MarksProps) {
-    const {} = asyncTask(getServerUrl("courses"));
+    const { courseID } = props.searchParams;
+    const { data: course, html: html1 } = asyncTask<Course>(getServerUrl("courses"), async () => CoursesService.getCourse(courseID));
+    const { data: marks, html: html2 } = asyncTask<Mark[]>(getServerUrl("marks"), async () => MarksService.getMarks(courseID));
+    if (html1) {
+        return html1;
+    }
+    if (html2) {
+        return html2;
+    }
     return (
         <main>
             <Header></Header>
@@ -34,7 +45,13 @@ export default function Marks(props: MarksProps) {
                     </div>
                 </div>
             </div>
-            <WriteMark email="n@n.com" name="Nevem"></WriteMark>
+            <div>
+                {
+                    course?.students?.map((s, index) => (
+                        <WriteMark key={index} email={s.email} name={`${s.familyname} ${s.forename}`} mark={marks?.find(m => m?.user?.email === s?.email)?.mark ?? 0}></WriteMark>
+                    ))
+                }
+            </div>
         </main>
     );
 }

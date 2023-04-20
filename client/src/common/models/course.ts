@@ -40,6 +40,5 @@ export interface Course {
     teachers: User[];
     room: Room;
     subject: Subject;
-
-
+    students: User[];
 }
