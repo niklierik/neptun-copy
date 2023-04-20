@@ -199,6 +199,13 @@ th {
 .right_mail {
     display: flex;
     justify-content: right;
+    margin-bottom: 5px;
+}
+
+.left_mail {
+    display: flex;
+    justify-content: left;
+    margin-bottom: 5px;
 }
 
 .mail_button {

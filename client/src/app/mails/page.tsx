@@ -2,6 +2,7 @@
 
 import Header from "@/common/header";
 import { Form, Button, Card } from "react-bootstrap";
+import { Messages } from "./messages";
 
 export default function Mails() {
 
@@ -47,56 +48,17 @@ export default function Mails() {
                 <div className="mail">
                     <p className="main_white_color blue_border">Név (Email)</p>
 
-                    <div className="left_mail">
-                        <Card style={{ width: '18rem' }}>
-
-                            <Card.Body>
-                                <Card.Text>
-                                    Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.
-                                </Card.Text>
-                            </Card.Body>
-                        </Card>
-                    </div>
-                    <div className="left_mail">
-                        <Card style={{ width: '18rem' }}>
-
-                            <Card.Body>
-                                <Card.Text>
-                                    Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.
-                                </Card.Text>
-                            </Card.Body>
-                        </Card>
-                    </div>
-                    <div className="right_mail">
-                        <Card style={{ width: '18rem' }}
-                            bg={"primary"}
-                            text={"white"}>
-
-                            <Card.Body>
-                                <Card.Text>
-                                    Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.
-                                </Card.Text>
-                            </Card.Body>
-                        </Card>
-
-                    </div>
-                    <div className="right_mail">
-                        <Card style={{ width: '18rem' }}
-                            bg={"primary"}
-                            text={"white"}>
-
-                            <Card.Body>
-                                <Card.Text>
-                                    Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.
-                                </Card.Text>
-                            </Card.Body>
-                        </Card>
-
-                    </div>
+                    <Messages sender={false} message="asd"></Messages>
+                    <Messages sender={true} message="asd"></Messages>
+                    <Messages sender={false} message="asd"></Messages>
+                    <Messages sender={true} message="asd"></Messages>
+                    <Messages sender={true} message="asd"></Messages>
+                    <Messages sender={true} message="asd"></Messages>
+                    <Messages sender={false} message="asd"></Messages>
+                    <Messages sender={false} message="asd"></Messages>
+                    <Messages sender={false} message="asd"></Messages>
+                    <Messages sender={true} message="asd"></Messages>
+                    <Messages sender={false} message="asd"></Messages>
 
 
                     <div className="send_mail">
