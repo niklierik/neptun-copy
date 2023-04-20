@@ -1,6 +1,7 @@
 
 "use client";
 
+import { Spacer } from "@/common/spacer";
 import { Form } from "react-bootstrap";
 
 

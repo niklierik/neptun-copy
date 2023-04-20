@@ -5,9 +5,10 @@ import Header from "@/common/header";
 import { asyncTask } from "@/common/utils/async-task";
 import WriteMark from "./write-mark";
 import { CoursesService } from "@/common/services/courses.service";
-import { Course } from "@/common/models/course";
+import { Course, courseInterval, dayOfWeekToString } from "@/common/models/course";
 import { MarksService } from "@/common/services/marks.service";
 import { Mark } from "@/common/models/mark";
+import { subjectTypeToString } from "@/common/models/subject";
 
 export interface MarksProps {
     searchParams: { courseID: string };
@@ -29,19 +30,16 @@ export default function Marks(props: MarksProps) {
             <div className="to_center">
                 <div className="flex_container main_white_color border_2px">
                     <div className="flex_child">
-                        <p>ABC-567</p>
+                        <p>{course?.subject.name}</p>
                     </div>
                     <div className="flex_child">
-                        <p>Programozási nyelvek</p>
+                        <p>{course?.room?.name}</p>
                     </div>
                     <div className="flex_child">
-                        <p>IR-217-3 - Irinyi 217 PC-terem (IR-217-3)</p>
+                        <p>{dayOfWeekToString(course?.dayOfWeek)} {courseInterval(course ?? undefined)}</p>
                     </div>
                     <div className="flex_child">
-                        <p>Hétfő 18:00-20:00</p>
-                    </div>
-                    <div className="flex_child">
-                        <p>Gyakorlat</p>
+                        <p>{subjectTypeToString(course?.subject?.type)}</p>
                     </div>
                 </div>
             </div>
