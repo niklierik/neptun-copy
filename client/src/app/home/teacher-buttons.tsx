@@ -1,9 +1,13 @@
+import { Course } from "@/common/models/course";
+import { Subject } from "@/common/models/subject";
 import { Button } from "react-bootstrap";
 
 export interface TeacherButtonsProps {
     giveMark?: boolean;
     createExam?: boolean;
     statistics?: boolean;
+    course?: Course;
+    subject?: Subject;
 }
 
 export function TeacherButtons({
