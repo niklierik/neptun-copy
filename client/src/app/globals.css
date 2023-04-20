@@ -4,6 +4,7 @@ body {
     background-color: #303841;
 }
 
+
 /* register */
 
 .form_group {
@@ -45,6 +46,7 @@ body {
     font-size: 11pt;
 }
 
+
 /* navbar */
 
 .navigation {
@@ -77,6 +79,7 @@ body {
 .zero_padding {
     padding: 0px;
 }
+
 
 /* datas */
 
@@ -162,6 +165,55 @@ th {
     margin-bottom: 20px;
 }
 
-.spacer {
-    flex: 1 1 auto;
+.name_email_button {
+    margin: 0px 0px 5px 20px;
+    background-color: #3A4750;
+    color: #F3F3F3;
+    border: none;
+    width: 20%;
+    font-weight: bold;
+}
+
+.flex_container_mail {
+    display: flex;
+}
+
+.flex_child_mail {
+    width: 50%;
+    margin: 0px 10px;
+}
+
+.flex_child_mail:first-child {
+    margin-right: 20px;
+}
+
+.mail {
+    background-color: #3A4750;
+    padding: 5px 10px;
+}
+
+.blue_border {
+    border-bottom: solid 1px #2185D5;
+}
+
+.right_mail {
+    display: flex;
+    justify-content: right;
+    margin-bottom: 5px;
+}
+
+.left_mail {
+    display: flex;
+    justify-content: left;
+    margin-bottom: 5px;
+}
+
+.mail_button {
+    width: 20%;
+}
+
+.send_mail {
+    margin-top: 30px;
+    padding-top: 5px;
+    border-top: solid 1px #2185D5;
 }
