@@ -1,6 +1,5 @@
 import { SubjectAndCourses } from "@/common/models/landing-page";
 import { CourseInfo } from "./course-info";
-import { Button } from "react-bootstrap";
 import { TeacherButtons } from "./teacher-buttons";
 import { subjectTypeToString } from "@/common/models/subject";
 import { StudentButtons } from "./student-buttons";
