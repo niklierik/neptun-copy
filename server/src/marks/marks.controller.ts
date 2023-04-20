@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "src/users/decorators/current-user.decorator";
 import { User } from "src/users/entities/users.entity";
@@ -11,7 +11,10 @@ export class MarksController {
   constructor(private readonly marksService: MarksService) {}
 
   @Post()
-  async giveMark(@CurrentUser() teacher: User, giveMarkDto: GiveMarkDto) {
+  async giveMark(
+    @CurrentUser() teacher: User,
+    @Body() giveMarkDto: GiveMarkDto,
+  ) {
     return this.marksService.giveMark(giveMarkDto, teacher);
   }
 

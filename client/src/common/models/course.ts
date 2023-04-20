@@ -15,7 +15,7 @@ export enum DayOfWeek {
     FRIDAY = 5,
 }
 
-export function dayOfWeekToString(day: DayOfWeek) {
+export function dayOfWeekToString(day?: DayOfWeek) {
     switch (day) {
         case DayOfWeek.MONDAY:
             return "Hétfő";
@@ -28,6 +28,16 @@ export function dayOfWeekToString(day: DayOfWeek) {
         case DayOfWeek.FRIDAY:
             return "Péntek";
     }
+    return "";
+}
+
+export function courseInterval(course?: Course) {
+    const start = course?.startAt;
+    const end = course?.subject?.hoursAWeek;
+    if (start == null || end == null) {
+        return "";
+    }
+    return `${start}:00 - ${end}:00`;
 }
 
 export interface Course {
@@ -40,6 +50,5 @@ export interface Course {
     teachers: User[];
     room: Room;
     subject: Subject;
-
-
+    students: User[];
 }

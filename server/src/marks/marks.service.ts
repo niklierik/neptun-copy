@@ -22,12 +22,17 @@ export class MarksService {
         teachers: true,
       },
     });
-    if (!course.teachers.find((t) => t.email === user.email)) {
+    if (!user.isAdmin && !course.teachers.find((t) => t.email === user.email)) {
       throw new ForbiddenException();
     }
     return this.marksRepo.find({
       where: {
-        user: In(course.students),
+        user: { email: In(course.students.map((s) => s.email)) },
+      },
+      loadEagerRelations: false,
+      relations: {
+        user: true,
+        subject: true,
       },
     });
   }
@@ -45,11 +50,29 @@ export class MarksService {
         subject: true,
       },
     });
-    if (!course.teachers.find((t) => t.email === teacher.email)) {
+    if (
+      !teacher.isAdmin &&
+      !course.teachers.find((t) => t.email === teacher.email)
+    ) {
       throw new ForbiddenException();
     }
-    return this.marksRepo.save(
-      this.marksRepo.create({
+    let m = await this.marksRepo.findOne({
+      loadEagerRelations: false,
+      relations: {
+        user: true,
+        subject: true,
+      },
+      where: {
+        user: {
+          email: target,
+        },
+        subject: {
+          id: course.subject.id,
+        },
+      },
+    });
+    if (m == null) {
+      m = this.marksRepo.create({
         mark,
         semester: Semester.SPRING, // TODO get from NOW()
         year: 2023,
@@ -57,7 +80,9 @@ export class MarksService {
         user: {
           email: target,
         },
-      }),
-    );
+      });
+    }
+    m.mark = mark;
+    return this.marksRepo.save(m);
   }
 }

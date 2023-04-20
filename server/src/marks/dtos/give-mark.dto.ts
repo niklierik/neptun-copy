@@ -1,8 +1,9 @@
 import { Type } from "class-transformer";
-import { IsString, IsUUID } from "class-validator";
+import { IsNumber, IsString, IsUUID } from "class-validator";
 
 export class GiveMarkDto {
   @Type(() => Number)
+  @IsNumber()
   mark: number;
   @IsString()
   target: string;

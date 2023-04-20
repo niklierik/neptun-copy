@@ -4,21 +4,20 @@ body {
     background-color: #303841;
 }
 
-
 /* register */
 
 .form_group {
-    color: #F3F3F3;
+    color: #f3f3f3;
     font-weight: bold;
 }
 
 .form_control {
-    background-color: #F3F3F3;
+    background-color: #f3f3f3;
 }
 
 .mybutton {
-    background-color: #2185D5;
-    color: #F3F3F3;
+    background-color: #2185d5;
+    color: #f3f3f3;
     border: none;
     width: 80%;
     font-weight: bold;
@@ -42,10 +41,9 @@ body {
     margin-top: 0px;
     margin-bottom: 0px;
     margin-left: 15px;
-    color: #F3F3F3;
+    color: #f3f3f3;
     font-size: 11pt;
 }
-
 
 /* navbar */
 
@@ -54,15 +52,15 @@ body {
     justify-content: center;
     margin-bottom: 20px;
     margin-top: 0px;
-    border-top: 1px dotted #F3F3F3;
-    border-bottom: 3px solid #F3F3F3;
+    border-top: 1px dotted #f3f3f3;
+    border-bottom: 3px solid #f3f3f3;
     background-color: rgb(49, 47, 47);
     width: auto;
 }
 
 .nav_link {
-    color: #F3F3F3 !important;
-    background-color: #2185D5;
+    color: #f3f3f3 !important;
+    background-color: #2185d5;
     font-weight: bold;
 }
 
@@ -72,14 +70,13 @@ body {
 }
 
 .nav-link.active {
-    color: #F3F3F3 !important;
-    background: #3A4750 !important;
+    color: #f3f3f3 !important;
+    background: #3a4750 !important;
 }
 
 .zero_padding {
     padding: 0px;
 }
-
 
 /* datas */
 
@@ -92,7 +89,7 @@ td {
 
 th {
     background-color: rgb(49, 47, 47) !important;
-    color: #F3F3F3 !important;
+    color: #f3f3f3 !important;
     border-left: 1px solid rgb(49, 47, 47);
     border-right: 1px solid rgb(49, 47, 47);
 }
@@ -120,12 +117,12 @@ th {
 }
 
 .border_2px {
-    border-bottom: 2px solid #F3F3F3;
+    border-bottom: 2px solid #f3f3f3;
     margin: 0px 20px 10px 20px;
 }
 
 .main_white_color {
-    color: #F3F3F3;
+    color: #f3f3f3;
 }
 
 .inline_block {
@@ -146,7 +143,7 @@ th {
 }
 
 .border_1px {
-    border-bottom: solid 1px #F3F3F3;
+    border-bottom: solid 1px #f3f3f3;
     margin: 0px 30px;
 }
 
@@ -155,12 +152,16 @@ th {
 }
 
 .bottom_border {
-    border-bottom: solid 1px #F3F3F3;
+    border-bottom: solid 1px #f3f3f3;
     margin: 0px 30px 10px 70px;
 }
 
 .border_3px {
-    border-bottom: solid 3px #F3F3F3;
+    border-bottom: solid 3px #f3f3f3;
     padding-bottom: 20px;
     margin-bottom: 20px;
+}
+
+.spacer {
+    flex: 1 1 auto;
 }
