@@ -7,9 +7,15 @@ import { Course } from "./entities/course.entity";
 export class CoursesService {
   constructor(private readonly coursesRepository: CoursesRepository) {}
 
-  async list(user: User) {
-    if (!user.isAdmin) {
+  async list(user: User, id?: string) {
+    if (!user.isAdmin && id == null) {
       return this.getCourses(user.email);
+    }
+    if (id) {
+      const course = await this.coursesRepository.find({
+        loadEagerRelations: false,
+        relations: {},
+      });
     }
     return this.coursesRepository.find({
       relations: {
