@@ -3,11 +3,7 @@
 import Header from "@/common/header";
 import { Button } from "react-bootstrap";
 
-export async function getData() {
-
-}
-
-export default function Home(props: any) {
+export default function Home() {
   return <main>
 
     <Header></Header>
