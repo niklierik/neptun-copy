@@ -3,9 +3,10 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { FormEvent, useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { getServerUrl } from '@/common/cfg';
 import { handleError } from '@/common/utils';
+import { Errors } from '@/common/errors';
 
 interface LoginResponse {
     accessToken: string;
@@ -53,11 +54,7 @@ export default function Login() {
         <div className="login_parent to_center">
             <Form onSubmit={onLogin} className="format to_center_login " >
 
-                {errors.length == 0 ? <></> : <div className="error_div">
-                    {
-                        errors.map(error => <p>{error}</p>)
-                    }
-                </div>}
+                <Errors errors={errors}></Errors>
 
                 <Form.Group className="form_group mb-3" controlId="formBasicEmail">
                     <Form.Label>Email cím</Form.Label>
