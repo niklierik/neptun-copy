@@ -4,6 +4,7 @@ body {
     background-color: #303841;
 }
 
+
 /* register */
 
 .form_group {
@@ -45,6 +46,7 @@ body {
     font-size: 11pt;
 }
 
+
 /* navbar */
 
 .navigation {
@@ -77,6 +79,7 @@ body {
 .zero_padding {
     padding: 0px;
 }
+
 
 /* datas */
 
@@ -258,4 +261,8 @@ th {
     border-right: solid 1px #f3f3f3;
     margin: 0px 200px;
     margin-bottom: 40px;
+}
+
+.center_news {
+    margin: 0% 20%;
 }
