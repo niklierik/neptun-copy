@@ -56,8 +56,23 @@ export class MarksService {
     ) {
       throw new ForbiddenException();
     }
-    return this.marksRepo.save(
-      this.marksRepo.create({
+    let m = await this.marksRepo.findOne({
+      loadEagerRelations: false,
+      relations: {
+        user: true,
+        subject: true,
+      },
+      where: {
+        user: {
+          email: target,
+        },
+        subject: {
+          id: course.subject.id,
+        },
+      },
+    });
+    if (m == null) {
+      m = this.marksRepo.create({
         mark,
         semester: Semester.SPRING, // TODO get from NOW()
         year: 2023,
@@ -65,7 +80,9 @@ export class MarksService {
         user: {
           email: target,
         },
-      }),
-    );
+      });
+    }
+    m.mark = mark;
+    return this.marksRepo.save(m);
   }
 }

@@ -9,6 +9,7 @@ import { Course, courseInterval, dayOfWeekToString } from "@/common/models/cours
 import { MarksService } from "@/common/services/marks.service";
 import { Mark } from "@/common/models/mark";
 import { subjectTypeToString } from "@/common/models/subject";
+import { useState } from "react";
 
 export interface MarksProps {
     searchParams: { courseID: string };
@@ -18,6 +19,7 @@ export default function Marks(props: MarksProps) {
     const { courseID } = props.searchParams;
     const { data: course, html: html1 } = asyncTask<Course>(getServerUrl("courses"), async () => CoursesService.getCourse(courseID));
     const { data: marks, html: html2 } = asyncTask<Mark[]>(getServerUrl("marks"), async () => MarksService.getMarks(courseID));
+    const [loading, setLoading] = useState(false);
     if (html1) {
         return html1;
     }
@@ -46,10 +48,10 @@ export default function Marks(props: MarksProps) {
             <div>
                 {
                     course?.students?.map((s, index) => (
-                        <WriteMark key={index} email={s.email} name={`${s.familyname} ${s.forename}`} mark={marks?.find(m => m?.user?.email === s?.email)?.mark ?? 0}></WriteMark>
+                        <WriteMark key={index} email={s.email} name={`${s.familyname} ${s.forename}`} mark={marks?.find(m => m?.user?.email === s?.email)?.mark ?? 0} loading={loading} setLoading={setLoading} course={courseID} ></WriteMark>
                     ))
                 }
             </div>
-        </main>
+        </main >
     );
 }
