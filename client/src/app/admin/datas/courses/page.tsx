@@ -2,7 +2,12 @@
 
 import { getServerUrl } from "@/common/cfg";
 import Header from "@/common/header";
-import { Course, dayOfWeekToString, Semester } from "@/common/models/course";
+import {
+    Course,
+    dayOfWeekToString,
+    Semester,
+    semesterToString,
+} from "@/common/models/course";
 import { Major } from "@/common/models/major";
 import { SubjectType } from "@/common/models/subject";
 import { User } from "@/common/models/user";
@@ -39,9 +44,7 @@ export default function CoursesData() {
         course.subject.type == SubjectType.LECTURE ? "Előadás" : "Gyakorlat",
         course.room.name,
         `${dayOfWeekToString(course.dayOfWeek)}  ${course.startAt}:00`,
-        `${course.year}  ${
-            course.semester == Semester.FALL ? "Ősz" : "Tavasz"
-        }`,
+        `${course.year} ${semesterToString(course.semester)}`,
         format(new Date(course.createdAt), "yyyy / MM / dd HH:mm:ss"),
     ]);
 

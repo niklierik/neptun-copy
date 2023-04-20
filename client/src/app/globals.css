@@ -4,7 +4,6 @@ body {
     background-color: #303841;
 }
 
-
 /* register */
 
 .form_group {
@@ -46,7 +45,6 @@ body {
     font-size: 11pt;
 }
 
-
 /* navbar */
 
 .navigation {
@@ -79,7 +77,6 @@ body {
 .zero_padding {
     padding: 0px;
 }
-
 
 /* datas */
 
@@ -167,8 +164,8 @@ th {
 
 .name_email_button {
     margin: 0px 0px 5px 20px;
-    background-color: #3A4750;
-    color: #F3F3F3;
+    background-color: #3a4750;
+    color: #f3f3f3;
     border: none;
     width: 20%;
     font-weight: bold;
@@ -188,12 +185,12 @@ th {
 }
 
 .mail {
-    background-color: #3A4750;
+    background-color: #3a4750;
     padding: 5px 10px;
 }
 
 .blue_border {
-    border-bottom: solid 1px #2185D5;
+    border-bottom: solid 1px #2185d5;
 }
 
 .right_mail {
@@ -215,7 +212,12 @@ th {
 .send_mail {
     margin-top: 30px;
     padding-top: 5px;
-    border-top: solid 1px #2185D5;
+    border-top: solid 1px #2185d5;
+}
+
+.semester-info {
+    border-top: 10px white solid;
+    margin-bottom: 100px;
 }
 
 .flex_container_subject {
@@ -233,7 +235,7 @@ th {
 }
 
 .border_subject {
-    border-bottom: solid 2px #F3F3F3;
+    border-bottom: solid 2px #f3f3f3;
     margin: 0px 40px;
 }
 
@@ -251,9 +253,9 @@ th {
 }
 
 .border_course {
-    border-bottom: solid 1px #F3F3F3;
-    border-left: solid 1px #F3F3F3;
-    border-right: solid 1px #F3F3F3;
+    border-bottom: solid 1px #f3f3f3;
+    border-left: solid 1px #f3f3f3;
+    border-right: solid 1px #f3f3f3;
     margin: 0px 200px;
     margin-bottom: 40px;
 }

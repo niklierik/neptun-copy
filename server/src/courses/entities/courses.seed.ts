@@ -148,7 +148,7 @@ async function createPracticesFor(
     if (subject.hoursAWeek == 2) {
       next.course = slot.course;
     } else {
-      next.course = await createPracticeFor(common, subject, teacher, slot, []);
+      next.course = await createPracticeFor(common, subject, teacher, next, []);
     }
   }
 }

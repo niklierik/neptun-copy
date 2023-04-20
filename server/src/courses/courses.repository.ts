@@ -1,6 +1,17 @@
 import { Injectable } from "@nestjs/common";
-import { Repository, DataSource } from "typeorm";
+import { Repository, DataSource, FindOptionsOrder } from "typeorm";
 import { Course } from "./entities/course.entity";
+
+export const defaultConstOrder: FindOptionsOrder<Course> = {
+  year: "DESC",
+  semester: "DESC",
+  subject: {
+    name: "ASC",
+    type: "ASC",
+  },
+  dayOfWeek: "ASC",
+  startAt: "ASC",
+};
 
 @Injectable()
 export class CoursesRepository extends Repository<Course> {
@@ -8,7 +19,8 @@ export class CoursesRepository extends Repository<Course> {
     super(Course, ds.createEntityManager());
   }
 
-  async findFor(user: string) {
+  async findFor(user: string, order?: FindOptionsOrder<Course>) {
+    order ??= defaultConstOrder;
     let res = await this.find({
       loadEagerRelations: false,
       relations: {
@@ -19,6 +31,7 @@ export class CoursesRepository extends Repository<Course> {
         teachers: true,
         subject: true,
       },
+      order,
     });
     // TODO let dataabase filter these out
     res = res.filter(
