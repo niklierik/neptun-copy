@@ -35,11 +35,12 @@ export class UsersService {
   async login({ email, password }: LoginUserDto): Promise<JwtToken> {
     Logger.log(`User logging in: ${email}...`);
     const storedPasswd = await this.usersRepository.getUserPassword(email);
+    const user = await this.usersRepository.findUser(email);
     const login = await compare(password, storedPasswd ?? "");
     if (!login) {
       throw new UnauthorizedException(invalidLoginData);
     }
-    const payload: JwtPayload = { email };
+    const payload: JwtPayload = { email, isAdmin: user.isAdmin };
     const accessToken = this.jwtService.sign(payload);
     Logger.log(`User logged in: ${email}.`);
     return { accessToken };

@@ -7,6 +7,10 @@ export function handleError(err: any, setErrors: (s: string[]) => void) {
         setErrors(["Nem kezelt hiba történt: " + JSON.stringify(err)]);
         return;
     }
+    if (err.response?.status === 401) {
+        window.location.href = "/login";
+        return;
+    }
     if (err?.code === "ERR_NETWORK") {
         setErrors(["A szerver nem elérhető."]);
         return;

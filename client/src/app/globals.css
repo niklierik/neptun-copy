@@ -4,7 +4,6 @@ body {
     background-color: #303841;
 }
 
-
 /* register */
 
 .form_group {
@@ -46,7 +45,6 @@ body {
     font-size: 11pt;
 }
 
-
 /* navbar */
 
 .navigation {
@@ -79,7 +77,6 @@ body {
 .zero_padding {
     padding: 0px;
 }
-
 
 /* datas */
 
@@ -265,4 +262,9 @@ th {
 
 .center_news {
     margin: 0% 20%;
+}
+
+.messages-list {
+    overflow-y: scroll;
+    max-height: 45vh;
 }
