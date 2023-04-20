@@ -21,9 +21,7 @@ export function TeacherButtons({
         <div className="flex_child">
             {giveMark !== false ? (
                 <Button
-                    href={`/teacher/marks?courseID=${
-                        course?.id ?? subject?.id
-                    }`}
+                    href={`/teacher/marks?courseID=${course?.id}`}
                     variant="primary"
                 >
                     Jegy beírása

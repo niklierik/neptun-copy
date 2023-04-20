@@ -10,8 +10,18 @@ export interface StudentButtonsProps {
 export function StudentButtons({ course, subject }: StudentButtonsProps) {
     return (
         <div className="flex_child">
-            <Button variant="primary">Fórum</Button>{" "}
-            <Button variant="primary">Hirdetmények</Button>{" "}
+            <Button
+                variant="primary"
+                href={`/forum?subjectID=${subject?.id}&courseID=${course?.id}`}
+            >
+                Fórum
+            </Button>{" "}
+            <Button
+                variant="primary"
+                href={`/news?subjectID=${subject?.id}&courseID=${course?.id}`}
+            >
+                Hirdetmények
+            </Button>{" "}
         </div>
     );
 }

@@ -15,12 +15,7 @@ export default function Home() {
         return html;
     }
     if (data == null) {
-        return (
-            <main>
-                <Header></Header>
-                <p className="error_div">Error</p>
-            </main>
-        );
+        return <></>;
     }
     return (
         <main>
