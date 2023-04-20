@@ -1,3 +1,5 @@
+"use client";
+
 import { Form, Button } from "react-bootstrap";
 import { Message } from "./message";
 import { useEffect } from "react";

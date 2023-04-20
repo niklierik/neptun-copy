@@ -1,3 +1,5 @@
+"use client";
+
 import axios from "axios";
 import { getServerUrl } from "../cfg";
 import { getAuthToken } from "../utils";
@@ -11,10 +13,12 @@ export class UsersService {
         return res.data;
     }
     static async getUsers(email?: string, name?: string) {
-        const res = await axios.get<User[]>(getServerUrl("users"), {
-            headers: { Authorization: getAuthToken() },
-            params: { email, name },
-        });
+        const res = await axios.get<User[]>(
+            getServerUrl(`users?email=${email ?? ""}&name=${name ?? ""}`),
+            {
+                headers: { Authorization: getAuthToken() },
+            },
+        );
         return res.data;
     }
 }

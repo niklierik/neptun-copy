@@ -14,10 +14,6 @@ interface LoginResponse {
 }
 
 export default function Login() {
-    if (getEmail()) {
-        window.location.href = "/";
-        return <></>;
-    }
     const [loginState, setLoginState] = useState({
         email: "",
         password: "",

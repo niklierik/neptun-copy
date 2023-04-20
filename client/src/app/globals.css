@@ -167,7 +167,7 @@ th {
     background-color: #3a4750;
     color: #f3f3f3;
     border: none;
-    width: 20%;
+    width: 100%;
     font-weight: bold;
 }
 
@@ -176,7 +176,7 @@ th {
 }
 
 .flex_child_mail {
-    width: 50%;
+    width: 100%;
     margin: 0px 10px;
 }
 

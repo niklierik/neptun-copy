@@ -1,3 +1,5 @@
+"use client";
+
 import { User } from "@/common/models/user";
 import { Button } from "react-bootstrap";
 

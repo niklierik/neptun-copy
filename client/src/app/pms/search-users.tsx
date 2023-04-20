@@ -1,3 +1,5 @@
+"use client";
+
 import { Form } from "react-bootstrap";
 
 export function SearchUsers({
@@ -10,11 +12,12 @@ export function SearchUsers({
     setEmail: (_: string) => void;
     name: string;
     setName: (_: string) => void;
-}) {
+}): JSX.Element {
     return (
         <div className="to_center border_3px">
             <Form className="format">
                 <Form.Group
+                    key="email"
                     className="mb-3 form_group"
                     controlId="formBasicText"
                 >
@@ -22,10 +25,14 @@ export function SearchUsers({
                     <Form.Control
                         type="text"
                         value={email}
-                        onChange={(event) => setEmail(event.target.value)}
+                        onChange={(event) => {
+                            event.preventDefault();
+                            setEmail(event.target.value);
+                        }}
                     />
                 </Form.Group>
                 <Form.Group
+                    key="name"
                     className="mb-3 form_group"
                     controlId="formBasicText"
                 >
@@ -33,7 +40,11 @@ export function SearchUsers({
                     <Form.Control
                         type="text"
                         value={name}
-                        onChange={(event) => setName(event.target.value)}
+                        onChange={(event) => {
+                            event.preventDefault();
+
+                            setName(event.target.value);
+                        }}
                     />
                 </Form.Group>
             </Form>
