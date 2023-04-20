@@ -14,23 +14,37 @@ export function TeacherButtons({
     giveMark,
     createExam,
     statistics,
+    course,
+    subject,
 }: TeacherButtonsProps) {
     return (
         <div className="flex_child">
             {giveMark !== false ? (
-                <Button variant="primary">Jegy beírása</Button>
+                <Button
+                    href={`/teacher/marks?courseID=${
+                        course?.id ?? subject?.id
+                    }`}
+                    variant="primary"
+                >
+                    Jegy beírása
+                </Button>
             ) : (
                 <></>
             )}{" "}
             {createExam !== false ? (
-                <Button href="/teacher/exams" variant="primary">
+                <Button
+                    href={`/teacher/exams?subjectID=${subject?.id}`}
+                    variant="primary"
+                >
                     Vizsga kiírása
                 </Button>
             ) : (
                 <></>
             )}{" "}
             {statistics !== false ? (
-                <Button variant="primary">Statisztika</Button>
+                <Button href={`/teacher/statistics/`} variant="primary">
+                    Statisztika
+                </Button>
             ) : (
                 <></>
             )}{" "}

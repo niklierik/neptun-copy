@@ -21,7 +21,10 @@ export function SubjectInfo({ subject }: SubjectInfoProps) {
                             {subjectTypeToString(course.subject.type)})
                         </p>
                     </div>
-                    <StudentButtons course={course}></StudentButtons>
+                    <StudentButtons
+                        course={course}
+                        subject={subject.subject}
+                    ></StudentButtons>
                     {subject.teacher ? (
                         <TeacherButtons></TeacherButtons>
                     ) : (
@@ -42,6 +45,7 @@ export function SubjectInfo({ subject }: SubjectInfoProps) {
                 </div>
                 <StudentButtons subject={subject.subject}></StudentButtons>
                 <TeacherButtons
+                    subject={subject.subject}
                     createExam={false}
                     giveMark={false}
                 ></TeacherButtons>

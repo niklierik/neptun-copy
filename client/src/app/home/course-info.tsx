@@ -22,8 +22,15 @@ export function CourseInfo({ course }: CourseInfoProps) {
                     {courseInterval(course)}
                 </p>
             </div>
-            <StudentButtons></StudentButtons>
-            <TeacherButtons createExam={false}></TeacherButtons>
+            <StudentButtons
+                subject={course.subject}
+                course={course}
+            ></StudentButtons>
+            <TeacherButtons
+                createExam={false}
+                subject={course.subject}
+                course={course}
+            ></TeacherButtons>
         </div>
     );
 }
