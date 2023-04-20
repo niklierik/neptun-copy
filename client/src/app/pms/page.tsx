@@ -7,8 +7,12 @@ import { asyncTask } from "@/common/utils/async-task";
 import { getServerUrl } from "@/common/cfg";
 import { UsersService } from "@/common/services/users.service";
 import { Messages } from "./messages";
+import { useState } from "react";
 
 export default function Mails() {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+
     const { html, data: users } = asyncTask(
         getServerUrl("users"),
         UsersService.getUsers,
@@ -23,7 +27,12 @@ export default function Mails() {
         <main>
             <Header></Header>
 
-            <SearchUsers></SearchUsers>
+            <SearchUsers
+                email={email}
+                name={name}
+                setName={setName}
+                setEmail={setEmail}
+            ></SearchUsers>
             <ListUsers users={users}></ListUsers>
             <div className="flex_container_mail">
                 <div className="flex_child_mail"></div>
