@@ -26,7 +26,7 @@ export default function Home(props: any) {
       </div>
       <div className="flex_child">
         <Button variant="primary">Jegy beírása</Button>{' '}
-        <Button variant="primary">Vizsga kiírása</Button>{' '}
+        <Button href="/teacher/exams" variant="primary">Vizsga kiírása</Button>{' '}
       </div>
     </div>
 
