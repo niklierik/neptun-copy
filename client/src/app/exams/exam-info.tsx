@@ -1,3 +1,4 @@
+"use client";
 import { Exam } from "@/common/models/exam";
 
 export interface ExamInfoProps {
