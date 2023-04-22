@@ -9,9 +9,10 @@ import { subjectTypeToString } from "@/common/models/subject";
 
 export interface CourseInfoProps {
     course: Course;
+    teacher: boolean;
 }
 
-export function CourseInfo({ course }: CourseInfoProps) {
+export function CourseInfo({ course, teacher }: CourseInfoProps) {
     return (
         <div className="flex_container bottom_border mb-2">
             <div className="flex_child main_white_color margin_left">
@@ -22,15 +23,8 @@ export function CourseInfo({ course }: CourseInfoProps) {
                     {courseInterval(course)}
                 </p>
             </div>
-            <StudentButtons
-                subject={course.subject}
-                course={course}
-            ></StudentButtons>
-            <TeacherButtons
-                createExam={false}
-                subject={course.subject}
-                course={course}
-            ></TeacherButtons>
+            <StudentButtons course={course} teacher={teacher}></StudentButtons>
+            <TeacherButtons createExam={false} course={course}></TeacherButtons>
         </div>
     );
 }

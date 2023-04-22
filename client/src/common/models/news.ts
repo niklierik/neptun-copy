@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import { Course } from "./course";
 
-export interface New {
+export interface News {
     id: string;
     content: string;
     course: Course;
