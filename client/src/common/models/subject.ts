@@ -1,6 +1,8 @@
+import { Course } from "./course";
+
 export enum SubjectType {
     LECTURE = 0,
-    PRACTICE = 1
+    PRACTICE = 1,
 }
 
 export interface Subject {
@@ -10,6 +12,7 @@ export interface Subject {
     hoursAWeek: number;
     type: SubjectType;
     createdAt: string;
+    courses?: Course[];
 }
 
 export function subjectTypeToString(sub?: SubjectType) {

@@ -14,7 +14,10 @@ export class CommonForumMsg {
   id: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => User, { eager: false })
+  @ManyToOne((type) => User, {
+    onDelete: "CASCADE",
+    eager: false,
+  })
   sender: User;
 
   @Column("clob")
@@ -24,6 +27,9 @@ export class CommonForumMsg {
   createdAt: Date;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => Subject, (subject) => subject.forum, { eager: false })
+  @ManyToOne((type) => Subject, (subject) => subject.forum, {
+    onDelete: "CASCADE",
+    eager: false,
+  })
   subject: Subject;
 }

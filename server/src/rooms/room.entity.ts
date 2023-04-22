@@ -19,7 +19,10 @@ export class Room {
   size: number;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @OneToMany((type) => Course, (course) => course.room, { eager: false })
+  @OneToMany((type) => Course, (course) => course.room, {
+    onDelete: "CASCADE",
+    eager: false,
+  })
   courses: Course[];
 
   @CreateDateColumn()

@@ -9,11 +9,17 @@ export class Mark {
   id: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => User, (user) => user.marks, { eager: false })
+  @ManyToOne((type) => User, (user) => user.marks, {
+    onDelete: "CASCADE",
+    eager: false,
+  })
   user: User;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => Subject, { eager: true })
+  @ManyToOne((type) => Subject, {
+    onDelete: "CASCADE",
+    eager: true,
+  })
   subject: Subject;
 
   @Column()

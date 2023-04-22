@@ -16,11 +16,17 @@ export class Message {
   message: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => User, (user) => user.sentMessages, { eager: false })
+  @ManyToOne((type) => User, (user) => user.sentMessages, {
+    onDelete: "CASCADE",
+    eager: false,
+  })
   from: User;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => User, (user) => user.receivedMessages, { eager: false })
+  @ManyToOne((type) => User, (user) => user.receivedMessages, {
+    onDelete: "CASCADE",
+    eager: false,
+  })
   to: User;
 
   @CreateDateColumn()

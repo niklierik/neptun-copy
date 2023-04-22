@@ -14,7 +14,10 @@ export class ForumMsg {
   id: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => User, { eager: false })
+  @ManyToOne((type) => User, {
+    onDelete: "CASCADE",
+    eager: false,
+  })
   sender: User;
 
   @Column("clob")
@@ -24,6 +27,9 @@ export class ForumMsg {
   createdAt: Date;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => Course, (course) => course.forum, { eager: false })
+  @ManyToOne((type) => Course, (course) => course.forum, {
+    onDelete: "CASCADE",
+    eager: false,
+  })
   course: Course;
 }
