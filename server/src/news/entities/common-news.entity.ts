@@ -16,7 +16,10 @@ export class CommonNews {
   content: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => Subject, (subject) => subject.news, { eager: false })
+  @ManyToOne((type) => Subject, (subject) => subject.news, {
+    onDelete: "CASCADE",
+    eager: false,
+  })
   subject: Subject;
 
   @CreateDateColumn()

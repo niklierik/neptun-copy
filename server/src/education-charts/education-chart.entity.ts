@@ -20,11 +20,17 @@ export class EducationChart {
   id: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => Subject, { eager: true })
+  @ManyToOne((type) => Subject, {
+    onDelete: "CASCADE",
+    eager: true,
+  })
   subject: Subject;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => Major, { eager: true })
+  @ManyToOne((type) => Major, {
+    onDelete: "CASCADE",
+    eager: true,
+  })
   major: Major;
 
   @Column()

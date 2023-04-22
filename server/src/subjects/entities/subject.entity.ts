@@ -21,7 +21,10 @@ export class Subject {
   name: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @OneToMany((_type) => Course, (course) => course.subject, { eager: false })
+  @OneToMany((_type) => Course, (course) => course.subject, {
+    onDelete: "CASCADE",
+    eager: false,
+  })
   courses: Course[];
 
   @Column()
@@ -35,12 +38,16 @@ export class Subject {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((_type) => CommonForumMsg, (forum) => forum.subject, {
+    onDelete: "CASCADE",
     eager: true,
   })
   forum: CommonForumMsg[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @OneToMany((_type) => CommonNews, (news) => news.subject, { eager: true })
+  @OneToMany((_type) => CommonNews, (news) => news.subject, {
+    onDelete: "CASCADE",
+    eager: true,
+  })
   news: CommonNews[];
 
   @CreateDateColumn()

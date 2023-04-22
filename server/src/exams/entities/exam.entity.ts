@@ -20,17 +20,24 @@ export class Exam {
   when: Date;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => Subject, { eager: true })
+  @ManyToOne((type) => Subject, {
+    onDelete: "CASCADE",
+    eager: true,
+  })
   subject: Subject;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => Room, { eager: true })
+  @ManyToOne((type) => Room, {
+    onDelete: "CASCADE",
+    eager: true,
+  })
   room: Room;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToMany((type) => User, (user) => user.exams, {
     eager: false,
     cascade: ["insert", "update"],
+    onDelete: "CASCADE",
   })
   @JoinTable()
   examinees: User[];

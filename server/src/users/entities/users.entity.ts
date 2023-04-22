@@ -51,6 +51,7 @@ export class User {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((_type) => Major, (major) => major.users, {
+    onDelete: "CASCADE",
     eager: true,
     nullable: true,
   })
@@ -59,36 +60,42 @@ export class User {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToMany((type) => Exam, (exam) => exam.examinees, {
+    onDelete: "CASCADE",
     eager: true,
   })
   exams: Exam[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((type) => Message, (msg) => msg.from, {
+    onDelete: "CASCADE",
     eager: true,
   })
   sentMessages: Message;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((type) => Message, (msg) => msg.to, {
+    onDelete: "CASCADE",
     eager: true,
   })
   receivedMessages: Message;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToMany((type) => Course, (course) => course.students, {
+    onDelete: "CASCADE",
     eager: true,
   })
   courses: Course[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToMany((type) => Course, (course) => course.teachers, {
+    onDelete: "CASCADE",
     eager: true,
   })
   teaching: Course[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((type) => Mark, (mark) => mark.user, {
+    onDelete: "CASCADE",
     eager: true,
   })
   marks: Mark[];

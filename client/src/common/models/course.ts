@@ -40,7 +40,10 @@ export function courseInterval(course?: Course) {
     return `${start}:00 - ${start + end}:00`;
 }
 
-export function semesterToString(semester: Semester) {
+export function semesterToString(semester?: Semester) {
+    if (semester == null) {
+        return "";
+    }
     return `${semester == Semester.FALL ? "Ősz" : "Tavasz"}`;
 }
 

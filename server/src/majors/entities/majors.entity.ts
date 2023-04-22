@@ -18,7 +18,10 @@ export class Major {
   displayName: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @OneToMany((_type) => User, (user) => user.major, { eager: false })
+  @OneToMany((_type) => User, (user) => user.major, {
+    onDelete: "CASCADE",
+    eager: false,
+  })
   users: User[];
 
   @CreateDateColumn()

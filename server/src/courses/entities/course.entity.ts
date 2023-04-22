@@ -38,6 +38,7 @@ export class Course {
   @ManyToOne((type) => Subject, (subject) => subject.courses, {
     eager: true,
     cascade: ["insert", "update"],
+    onDelete: "CASCADE",
   })
   subject: Subject;
 
@@ -56,18 +57,21 @@ export class Course {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((type) => Room, (room) => room.courses, {
     eager: true,
+    onDelete: "CASCADE",
   })
   room: Room;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((type) => ForumMsg, (forum) => forum.course, {
     eager: true,
+    onDelete: "CASCADE",
   })
   forum: ForumMsg[];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany((type) => News, (news) => news.course, {
     eager: true,
+    onDelete: "CASCADE",
   })
   news: News[];
 
@@ -78,6 +82,7 @@ export class Course {
   @ManyToMany((type) => User, (user) => user.courses, {
     eager: false,
     cascade: ["insert", "update"],
+    onDelete: "CASCADE",
   })
   @JoinTable()
   students: User[];
@@ -86,6 +91,7 @@ export class Course {
   @ManyToMany((type) => User, (user) => user.teaching, {
     eager: false,
     cascade: ["insert", "update"],
+    onDelete: "CASCADE",
   })
   @JoinTable()
   teachers: User[];
