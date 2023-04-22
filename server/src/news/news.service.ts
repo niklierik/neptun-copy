@@ -33,6 +33,9 @@ export class NewsService {
     }
     const news = await this.newsRepo.find({
       loadEagerRelations: false,
+      order: {
+        createdAt: "DESC",
+      },
       relations: {
         course: {
           forum: false,
@@ -52,6 +55,7 @@ export class NewsService {
       return [];
     }
     if (
+      !user.isAdmin &&
       !(
         news[0].course.students.find((u) => u.email === user.email) ||
         news[0].course.teachers.find((u) => u.email === user.email)
@@ -73,9 +77,13 @@ export class NewsService {
       };
     }
     const news = await this.commonNewsRepo.find({
+      order: {
+        createdAt: "DESC",
+      },
       relations: {
         subject: true,
       },
+      loadEagerRelations: false,
     });
     if (subjectId == null) {
       return news;
@@ -84,6 +92,7 @@ export class NewsService {
       return [];
     }
     if (
+      !user.isAdmin &&
       !news[0].subject.courses.find(
         (course) =>
           course.students.find((u) => u.email === user.email) != null ||

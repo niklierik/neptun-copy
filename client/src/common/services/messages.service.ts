@@ -32,4 +32,63 @@ export class MessagesService {
         });
         return res.data;
     }
+
+    static async social(
+        subject: string | undefined,
+        course: string | undefined,
+        news: boolean | undefined,
+    ) {
+        subject = subject || undefined;
+        course = course || undefined;
+        if ((subject == null) == (course == null)) {
+            throw new Error(
+                `Subject (${subject}) and course (${course}) cannot be set at the same time. One must be provided.`,
+            );
+        }
+        const root = news ? "news" : "forums";
+        let url = root;
+        if (subject) {
+            url += "/subjects/" + subject;
+        }
+        if (course) {
+            url += "/courses/" + course;
+        }
+        const res = await axios.get(getServerUrl(url), {
+            headers: { Authorization: getAuthToken() },
+        });
+        return res.data;
+    }
+
+    static async socialSend(
+        subject: string | undefined,
+        course: string | undefined,
+        news: boolean | undefined,
+        message: string | undefined,
+    ) {
+        subject = subject || undefined;
+        course = course || undefined;
+        if ((subject == null) == (course == null)) {
+            throw new Error(
+                `Subject (${subject}) and course (${course}) cannot be set at the same time. One must be provided.`,
+            );
+        }
+        const root = news ? "news" : "forums";
+        let url = root;
+        if (subject) {
+            url += "/subjects/" + subject;
+        }
+        if (course) {
+            url += "/courses/" + course;
+        }
+        const res = await axios.post(
+            getServerUrl(url),
+            {
+                message,
+            },
+            {
+                headers: { Authorization: getAuthToken() },
+            },
+        );
+        return res.data;
+    }
 }

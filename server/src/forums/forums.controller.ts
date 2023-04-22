@@ -35,7 +35,7 @@ export class ForumsController {
     @Body("message") message: string,
     @CurrentUser() user: User,
   ) {
-    return this.forumService.post(user, id, message);
+    return this.forumService.postCommon(user, id, message);
   }
 
   @Post("courses/:id")
@@ -44,6 +44,6 @@ export class ForumsController {
     @Body("message") message: string,
     @CurrentUser() user: User,
   ) {
-    return this.forumService.postCommon(user, id, message);
+    return this.forumService.post(user, id, message);
   }
 }

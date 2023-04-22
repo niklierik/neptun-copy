@@ -21,12 +21,11 @@ export function SubjectInfo({ subject }: SubjectInfoProps) {
                         </p>
                     </div>
                     <StudentButtons
-                        course={course}
                         subject={subject.subject}
+                        teacher={subject.teacher}
                     ></StudentButtons>
                     {subject.teacher ? (
                         <TeacherButtons
-                            course={course}
                             subject={subject.subject}
                         ></TeacherButtons>
                     ) : (
@@ -45,7 +44,10 @@ export function SubjectInfo({ subject }: SubjectInfoProps) {
                         {subjectTypeToString(subject.subject.type)})
                     </p>
                 </div>
-                <StudentButtons subject={subject.subject}></StudentButtons>
+                <StudentButtons
+                    subject={subject.subject}
+                    teacher={subject.teacher}
+                ></StudentButtons>
                 <TeacherButtons
                     subject={subject.subject}
                     createExam={false}
@@ -54,7 +56,11 @@ export function SubjectInfo({ subject }: SubjectInfoProps) {
             </div>
             <div>
                 {subject.courses.map((course, index) => (
-                    <CourseInfo key={index} course={course}></CourseInfo>
+                    <CourseInfo
+                        key={index}
+                        course={course}
+                        teacher={subject.teacher}
+                    ></CourseInfo>
                 ))}
             </div>
         </div>

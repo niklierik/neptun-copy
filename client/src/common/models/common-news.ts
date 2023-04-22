@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import { Subject } from "./subject";
 
-export interface CommonNew {
+export interface CommonNews {
     id: string;
     content: string;
     subject: Subject;

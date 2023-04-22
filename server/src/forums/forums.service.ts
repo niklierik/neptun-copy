@@ -33,6 +33,9 @@ export class ForumsService {
     }
     const forum = await this.forumsRepo.find({
       loadEagerRelations: false,
+      order: {
+        createdAt: "DESC",
+      },
       relations: {
         sender: true,
         course: {
@@ -53,6 +56,7 @@ export class ForumsService {
       return [];
     }
     if (
+      !user.isAdmin &&
       !(
         forum[0].course.students.find((u) => u.email === user.email) ||
         forum[0].course.teachers.find((u) => u.email === user.email)
@@ -75,6 +79,9 @@ export class ForumsService {
     }
     const forum = await this.commonForumsRepo.find({
       loadEagerRelations: false,
+      order: {
+        createdAt: "DESC",
+      },
       relations: {
         sender: true,
         subject: {
@@ -93,6 +100,7 @@ export class ForumsService {
       return [];
     }
     if (
+      !user.isAdmin &&
       !forum[0].subject.courses.find(
         (course) =>
           course.students.find((u) => u.email === user.email) != null ||
@@ -118,6 +126,7 @@ export class ForumsService {
       throw new NotFoundException();
     }
     if (
+      !user.isAdmin &&
       !(
         course.teachers.find((u) => u.email === user.email) != null ||
         course.students.find((u) => u.email === user.email) != null
@@ -154,6 +163,7 @@ export class ForumsService {
       throw new NotFoundException();
     }
     if (
+      !user.isAdmin &&
       !(
         subject.courses.find(
           (c) =>

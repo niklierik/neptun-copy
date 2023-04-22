@@ -21,7 +21,7 @@ export function TeacherButtons({
         <div className="flex_child">
             {giveMark !== false ? (
                 <Button
-                    href={`/teacher/marks?courseID=${course?.id}`}
+                    href={`/teacher/marks?courseID=${course?.id ?? ""}`}
                     variant="primary"
                 >
                     Jegy beírása
@@ -31,7 +31,7 @@ export function TeacherButtons({
             )}{" "}
             {createExam !== false ? (
                 <Button
-                    href={`/teacher/exams?subjectID=${subject?.id}`}
+                    href={`/teacher/exams?subjectID=${subject?.id ?? ""}`}
                     variant="primary"
                 >
                     Vizsga kiírása
@@ -41,7 +41,9 @@ export function TeacherButtons({
             )}{" "}
             {statistics !== false ? (
                 <Button
-                    href={`/teacher/statistics?subjectID=${subject?.id}&courseID=${course?.id}`}
+                    href={`/teacher/statistics?subjectID=${
+                        subject?.id ?? ""
+                    }&courseID=${course?.id ?? ""}`}
                     variant="primary"
                 >
                     Statisztika

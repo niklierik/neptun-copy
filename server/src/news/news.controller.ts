@@ -29,7 +29,7 @@ export class NewsController {
     return this.newsService.listCommon(user, id);
   }
 
-  @Post("subjects/:id")
+  @Post("courses/:id")
   async post(
     @Param("id") id: string,
     @Body("message") message: string,
@@ -38,7 +38,7 @@ export class NewsController {
     return this.newsService.post(user, id, message);
   }
 
-  @Post("courses/:id")
+  @Post("subjects/:id")
   async postCommon(
     @Param("id") id: string,
     @Body("message") message: string,
