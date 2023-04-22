@@ -1,5 +1,5 @@
 "use client";
-import { ExamsService } from "@/common/services/exams-service";
+import { ExamsService } from "@/common/services/exams.service";
 import { asyncTask } from "@/common/utils/async-task";
 
 export function ExamList() {
