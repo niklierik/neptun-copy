@@ -1,7 +1,7 @@
 import {
-  BadRequestException,
   ForbiddenException,
   Injectable,
+  PreconditionFailedException,
 } from "@nestjs/common";
 import { User } from "src/users/entities/users.entity";
 import { MessagingRepository } from "./messaging.repository";
@@ -10,13 +10,27 @@ import { MessagingRepository } from "./messaging.repository";
 export class MessagingService {
   constructor(private readonly messagingRepo: MessagingRepository) {}
 
-  async list(user: User, u1?: string, u2?: string) {
-    if ((u1 == null) != (u2 == null)) {
-      throw new BadRequestException(
-        "Kötelező u1 vagy u2 paraméter megadása, ha az egyiket megadjuk!",
+  async write(user: User, to: string, message: string) {
+    if (!(message && to)) {
+      throw new PreconditionFailedException(
+        "Nincs címzett vagy üzenet megadva!",
       );
     }
-    if (user.isAdmin || u1 === user.email || u2 === user.email) {
+    return this.messagingRepo.save(
+      this.messagingRepo.create({
+        from: user,
+        to: {
+          email: to,
+        },
+        message,
+      }),
+    );
+  }
+
+  async list(user: User, u1?: string, u2?: string) {
+    u1 ??= user.email;
+    u2 ??= user.email;
+    if (!(user.isAdmin || u1 === user.email || u2 === user.email)) {
       throw new ForbiddenException();
     }
     return this.messagingRepo.find({
@@ -36,6 +50,10 @@ export class MessagingService {
         from: true,
         to: true,
       },
+      order: {
+        createdAt: "ASC",
+      },
+      loadEagerRelations: false,
     });
   }
 }

@@ -14,6 +14,7 @@ export function UserBtn({ user }: ShowMessagesOfProps) {
                 className="name_email_button"
                 variant="secondary"
                 type="submit"
+                href={`pms?with=${user?.email}`}
             >
                 {`${user?.familyname} ${user?.forename} (${user?.email})`}
             </Button>

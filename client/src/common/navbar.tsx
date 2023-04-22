@@ -98,10 +98,7 @@ export default function MyNavbar({
                                     <Nav.Link className="nav_link" href="#a3">
                                         Órarend
                                     </Nav.Link>
-                                    <Nav.Link
-                                        className="nav_link"
-                                        href="/mails"
-                                    >
+                                    <Nav.Link className="nav_link" href="/pms">
                                         Üzenetek
                                     </Nav.Link>
                                     <Nav.Link className="nav_link" href="#a5">

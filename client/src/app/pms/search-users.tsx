@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/pro */
 "use client";
 
 import { Form } from "react-bootstrap";
