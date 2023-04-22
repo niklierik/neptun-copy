@@ -1,5 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Course } from "src/courses/entities/course.entity";
+import { CreateSubjectDto } from "./dto/create-subject.dto";
+import { EditSubjectDto } from "./dto/edit-subject.dto";
 import { SubjectsRepository } from "./subjects.repository";
 
 @Injectable()
@@ -49,5 +51,22 @@ export class SubjectsService {
       return [];
     }
     return subject.courses;
+  }
+
+  async create(create: CreateSubjectDto) {
+    return this.subjectsRepository.save(this.subjectsRepository.create(create));
+  }
+
+  async edit(edit: EditSubjectDto) {
+    return this.subjectsRepository.update(
+      { id: edit.id },
+      {
+        ...edit,
+      },
+    );
+  }
+
+  async delete(id: string) {
+    return this.subjectsRepository.delete({ id });
   }
 }
