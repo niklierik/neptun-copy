@@ -1,7 +1,7 @@
 import { Injectable, PreconditionFailedException } from "@nestjs/common";
 import { CoursesRepository } from "src/courses/courses.repository";
 import { User } from "src/users/entities/users.entity";
-import { In } from "typeorm";
+import { In, MoreThan } from "typeorm";
 import { CreateExamDto } from "./dtos/create-exam.dto";
 import { ExamsRepository } from "./exams.repository";
 
@@ -11,6 +11,26 @@ export class ExamsService {
     private readonly coursesRepo: CoursesRepository,
     private readonly examsRepo: ExamsRepository,
   ) {}
+
+  async getOf(subjectID: string, includePassed: boolean) {
+    return this.examsRepo.find({
+      order: {
+        when: "ASC",
+      },
+      where: {
+        when: includePassed ? undefined : MoreThan(new Date()),
+        subject: {
+          id: subjectID,
+        },
+      },
+      loadEagerRelations: false,
+      relations: {
+        subject: true,
+        examinees: true,
+        room: true,
+      },
+    });
+  }
 
   async list(user: User) {
     if (user.isAdmin) {
@@ -76,5 +96,9 @@ export class ExamsService {
       },
     });
     return this.examsRepo.save(exam);
+  }
+
+  async get(id: string) {
+    return this.examsRepo.findOne({ where: { id } });
   }
 }

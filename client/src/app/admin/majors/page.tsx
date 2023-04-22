@@ -7,9 +7,7 @@ import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import axios from "axios";
 import { getServerUrl } from "@/common/cfg";
 import { getAuthToken, handleError } from "@/common/utils";
-
-export type StringState = [string, Dispatch<SetStateAction<string>>];
-export type StringArrayState = [string[], Dispatch<SetStateAction<string[]>>];
+import { StringState, StringArrayState } from "@/common/utils/states";
 
 export function submitMajors(
     event: FormEvent<HTMLFormElement>,
