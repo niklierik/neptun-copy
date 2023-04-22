@@ -9,7 +9,7 @@ export interface ExamsProps {
     };
 }
 
-export default function Exams({ searchParams }: ExamsProps) {
+export default function Exams({ searchParams }: ExamsProps): JSX.Element {
     const { examID } = searchParams;
     const { html, data: exam } = asyncTask("get-exams", () =>
         ExamsService.get(examID),
