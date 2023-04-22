@@ -3,8 +3,8 @@
 import { Errors } from "@/common/errors";
 import Header from "@/common/header";
 import { CoursesService } from "@/common/services/courses.service";
-import { ExamsService } from "@/common/services/exams-service";
-import { RoomsService } from "@/common/services/rooms-service";
+import { ExamsService } from "@/common/services/exams.service";
+import { RoomsService } from "@/common/services/rooms.service";
 import { SubjectsService } from "@/common/services/subjects.service";
 import { handleError } from "@/common/utils";
 import { asyncTask } from "@/common/utils/async-task";

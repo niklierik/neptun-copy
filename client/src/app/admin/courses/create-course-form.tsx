@@ -8,7 +8,7 @@ import {
 } from "@/common/models/course";
 import { subjectTypeToString } from "@/common/models/subject";
 import { CoursesService } from "@/common/services/courses.service";
-import { RoomsService } from "@/common/services/rooms-service";
+import { RoomsService } from "@/common/services/rooms.service";
 import { SubjectsService } from "@/common/services/subjects.service";
 import { asyncTask } from "@/common/utils/async-task";
 import { useState } from "react";

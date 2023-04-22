@@ -1,6 +1,7 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
 import { User } from "src/users/entities/users.entity";
 import { CreateRoomDto } from "./dtos/create-room.dto";
+import { EditRoomDto } from "./dtos/edit-room.dto";
 import { RoomsRepository } from "./rooms.repository";
 
 @Injectable()
@@ -26,5 +27,13 @@ export class RoomsService {
         name: "ASC",
       },
     });
+  }
+
+  async edit(edit: EditRoomDto) {
+    return this.roomsRepository.update({ id: edit.id }, { size: edit.size });
+  }
+
+  async delete(id: string) {
+    return this.roomsRepository.delete({ id });
   }
 }

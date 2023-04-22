@@ -1,46 +1,33 @@
 "use client";
-
 import Header from "@/common/header";
-import { Room } from "@/common/models/room";
-import DataTable from "@/common/table";
-import { Button, Form } from "react-bootstrap";
 import RoomTable from "./roomTable";
-
-const rooms: Partial<Room>[] = [
-    {
-        name: "Irinyi 217",
-        size: 60,
-    }
-];
+import { asyncTask } from "@/common/utils/async-task";
+import { RoomsService } from "@/common/services/rooms.service";
+import { CreateRoomForum } from "./create-room-form";
 
 export default function Rooms() {
-    return <main>
+    const { html, data: rooms } = asyncTask("get-rooms", () =>
+        RoomsService.getRooms(),
+    );
+    if (html) {
+        return html;
+    }
+    if (!rooms) {
+        return <></>;
+    }
 
-        <Header></Header>
+    return (
+        <main>
+            <Header></Header>
 
-        <div className="to_center border_3px">
-            <Form className="format">
-                <Form.Group className="form_group mb-3" controlId="formBasicText">
-                    <Form.Label>Terem neve</Form.Label>
-                    <Form.Control type="text" placeholder="Terem neve" />
-                </Form.Group>
-                <Form.Group className="form_group mb-3" controlId="formBasicText">
-                    <Form.Label>Terem kapacitása</Form.Label>
-                    <Form.Control type="text" placeholder="Terem kapacitása" />
-                </Form.Group>
-                <div className="to_center">
-                    <Button className="mybutton" variant="primary" type="submit">
-                        Terem felvétele
-                    </Button>
-                </div>
-            </Form>
-        </div>
+            <CreateRoomForum></CreateRoomForum>
 
-        <div>
-            <p className="to_center main_white_color">Termek szerkesztése</p>
-            <RoomTable rooms={rooms}></RoomTable>
-        </div>
-
-
-    </main>
+            <div>
+                <p className="to_center main_white_color">
+                    Termek szerkesztése
+                </p>
+                <RoomTable rooms={rooms}></RoomTable>
+            </div>
+        </main>
+    );
 }
