@@ -72,7 +72,7 @@ export default function MyNavbar({
                     <p className="top_text">{email}</p>
                 </div>
                 <div className="navigation">
-                    <Navbar className="zero_padding" expand="lg">
+                    <Navbar className="zero_padding" expand="lg" variant="dark">
                         <Container>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse id="basic-navbar-nav">
@@ -100,12 +100,6 @@ export default function MyNavbar({
                                     </Nav.Link>
                                     <Nav.Link className="nav_link" href="/pms">
                                         Üzenetek
-                                    </Nav.Link>
-                                    <Nav.Link className="nav_link" href="#a5">
-                                        Fórum
-                                    </Nav.Link>
-                                    <Nav.Link className="nav_link" href="#a6">
-                                        Hirdetmények
                                     </Nav.Link>
                                     {isAdmin ? <Admin></Admin> : <></>}
                                     <Nav.Link
