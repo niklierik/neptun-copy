@@ -10,6 +10,10 @@ export class SubjectsService {
     return this.subjectsRepository.find({});
   }
 
+  async get(id: string) {
+    return this.subjectsRepository.findOne({ where: { id } });
+  }
+
   async getCourses(subjectID: string): Promise<Course[]> {
     const subject = await this.subjectsRepository.findOne({
       where: {

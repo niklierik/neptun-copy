@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { SubjectsService } from "./subjects.service";
 
@@ -10,5 +10,10 @@ export class SubjectsController {
   @Get()
   async list() {
     return this.subjectsService.list();
+  }
+
+  @Get("/:id")
+  async get(@Param("id") id: string) {
+    return this.subjectsService.get(id);
   }
 }
