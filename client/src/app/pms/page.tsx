@@ -1,84 +1,49 @@
 "use client";
 
-import Header from "@/common/header";
-import { Form, Button, Card } from "react-bootstrap";
+import dynamic from "next/dynamic";
+import Header, { getEmail } from "@/common/header";
+import { SearchUsers } from "./search-users";
+import { ListUsers } from "./list-users";
 import { Messages } from "./messages";
+import { useEffect, useState } from "react";
+import { User } from "@/common/models/user";
+import { UsersService } from "@/common/services/users.service";
 
-export default function Mails() {
+export interface MailsProps {
+    searchParams: {
+        with: string;
+    };
+}
 
-    return <main>
-        <Header></Header>
+export function Mails({ searchParams }: MailsProps) {
+    let { with: other } = searchParams;
+    other ??= getEmail();
+    useEffect(() => {
+        UsersService.get(other)
+            .then((res) => setWho(res))
+            .catch((err) => setWho(undefined));
+    }, [other]);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [who, setWho] = useState<Partial<User> | undefined>();
+    return (
+        <main suppressHydrationWarning={true}>
+            <Header></Header>
 
-        <div className="to_center border_3px">
-            <Form className="format">
-
-                <Form.Group className="mb-3 form_group" controlId="formBasicText">
-                    <Form.Label className="to_center">Email cím</Form.Label>
-                    <Form.Control type="text" />
-                </Form.Group>
-
-                <div className="to_center">
-                    <Button className="mybutton" variant="primary" type="submit">
-                        Keresés
-                    </Button>
-                </div>
-            </Form>
-        </div>
-
-        <div className="flex_container_mail">
-            <div className="flex_child_mail">
-                <div>
-                    <Button className="name_email_button" variant="secondary" type="submit">Név (Email)</Button>
-                </div>
-                <div>
-                    <Button className="name_email_button" variant="secondary" type="submit">Név (Email)</Button>
-                </div>
-                <div>
-                    <Button className="name_email_button" variant="secondary" type="submit">Név (Email)</Button>
-                </div>
-                <div>
-                    <Button className="name_email_button" variant="secondary" type="submit">Név (Email)</Button>
-                </div>
-                <div>
-                    <Button className="name_email_button" variant="secondary" type="submit">Név (Email)</Button>
-                </div>
+            <SearchUsers
+                email={email}
+                name={name}
+                setName={setName}
+                setEmail={setEmail}
+            ></SearchUsers>
+            <div className="flex_container_mail" suppressHydrationWarning>
+                <ListUsers name={name} email={email}></ListUsers>
+                {<Messages who={who}></Messages>}
             </div>
+        </main>
+    );
+}
 
-            <div className="flex_child_mail">
-                <div className="mail">
-                    <p className="main_white_color blue_border">Név (Email)</p>
-
-                    <Messages sender={false} message="asd"></Messages>
-                    <Messages sender={true} message="asd"></Messages>
-                    <Messages sender={false} message="asd"></Messages>
-                    <Messages sender={true} message="asd"></Messages>
-                    <Messages sender={true} message="asd"></Messages>
-                    <Messages sender={true} message="asd"></Messages>
-                    <Messages sender={false} message="asd"></Messages>
-                    <Messages sender={false} message="asd"></Messages>
-                    <Messages sender={false} message="asd"></Messages>
-                    <Messages sender={true} message="asd"></Messages>
-                    <Messages sender={false} message="asd"></Messages>
-
-
-                    <div className="send_mail">
-                        <Form>
-
-                            <Form.Group className="mb-3" controlId="formBasicText">
-
-                                <Form.Control as="textarea" />
-                            </Form.Group>
-
-                            <div className="to_center">
-                                <Button className="mail_button" variant="primary" type="submit">
-                                    Küldés
-                                </Button>
-                            </div>
-                        </Form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </main >
+export default function MailsPage(props: MailsProps) {
+    return window ? Mails(props) : <></>;
 }

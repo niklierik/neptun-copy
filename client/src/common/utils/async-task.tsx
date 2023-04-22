@@ -36,25 +36,17 @@ export function asyncTask<T>(
     if (errors.length > 0) {
         return {
             html: (
-                <main>
-                    <Header></Header>
-                    <div className="error_div">
-                        {errors.map((e, id) => (
-                            <p key={id}>{e}</p>
-                        ))}
-                    </div>
-                </main>
+                <div className="error_div">
+                    {errors.map((e, id) => (
+                        <p key={id}>{e}</p>
+                    ))}
+                </div>
             ),
         };
     }
     if (isLoading) {
         return {
-            html: (
-                <main>
-                    <Header></Header>
-                    <p className="white_text">Betöltés...</p>
-                </main>
-            ),
+            html: <p className="white_text">Betöltés...</p>,
         };
     }
     return {

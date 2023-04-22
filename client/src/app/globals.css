@@ -4,7 +4,6 @@ body {
     background-color: #303841;
 }
 
-
 /* register */
 
 .form_group {
@@ -46,7 +45,6 @@ body {
     font-size: 11pt;
 }
 
-
 /* navbar */
 
 .navigation {
@@ -79,7 +77,6 @@ body {
 .zero_padding {
     padding: 0px;
 }
-
 
 /* datas */
 
@@ -170,7 +167,7 @@ th {
     background-color: #3a4750;
     color: #f3f3f3;
     border: none;
-    width: 20%;
+    width: 100%;
     font-weight: bold;
 }
 
@@ -179,7 +176,7 @@ th {
 }
 
 .flex_child_mail {
-    width: 50%;
+    width: 100%;
     margin: 0px 10px;
 }
 
@@ -265,4 +262,9 @@ th {
 
 .center_news {
     margin: 0% 20%;
+}
+
+.messages-list {
+    overflow-y: scroll;
+    max-height: 45vh;
 }

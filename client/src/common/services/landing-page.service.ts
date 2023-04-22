@@ -1,3 +1,4 @@
+"use client";
 import axios from "axios";
 import { LandingPage } from "../models/landing-page";
 import { getServerUrl } from "../cfg";

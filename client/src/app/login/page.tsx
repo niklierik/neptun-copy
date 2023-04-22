@@ -7,6 +7,7 @@ import axios from "axios";
 import { getServerUrl } from "@/common/cfg";
 import { handleError } from "@/common/utils";
 import { Errors } from "@/common/errors";
+import { getEmail } from "@/common/header";
 
 interface LoginResponse {
     accessToken: string;
@@ -52,7 +53,11 @@ export default function Login() {
     return (
         <main>
             <div className="login_parent to_center">
-                <Form onSubmit={onLogin} className="format to_center_login ">
+                <Form
+                    onSubmit={onLogin}
+                    className="format to_center_login"
+                    autoComplete="false"
+                >
                     <Errors errors={errors}></Errors>
 
                     <Form.Group

@@ -3,8 +3,13 @@
 import { AxiosError } from "axios";
 
 export function handleError(err: any, setErrors: (s: string[]) => void) {
+    console.log(err);
     if (!(err instanceof AxiosError)) {
         setErrors(["Nem kezelt hiba történt: " + JSON.stringify(err)]);
+        return;
+    }
+    if (err.response?.status === 401) {
+        window.location.href = "/login";
         return;
     }
     if (err?.code === "ERR_NETWORK") {
@@ -19,7 +24,15 @@ export function handleError(err: any, setErrors: (s: string[]) => void) {
         setErrors([err.response.data.message]);
         return;
     }
-    setErrors([...err.response.data.message]);
+    if (err.response.data.message instanceof Array) {
+        setErrors([...err.response.data.message]);
+        return;
+    }
+}
+
+// TODO move these to UsersService
+export function signout() {
+    localStorage.removeItem("jwt");
 }
 
 export function getJwtToken() {
