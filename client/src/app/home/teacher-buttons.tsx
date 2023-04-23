@@ -39,18 +39,6 @@ export function TeacherButtons({
             ) : (
                 <></>
             )}{" "}
-            {statistics !== false ? (
-                <Button
-                    href={`/teacher/statistics?subjectID=${
-                        subject?.id ?? ""
-                    }&courseID=${course?.id ?? ""}`}
-                    variant="primary"
-                >
-                    Statisztika
-                </Button>
-            ) : (
-                <></>
-            )}{" "}
         </div>
     );
 }

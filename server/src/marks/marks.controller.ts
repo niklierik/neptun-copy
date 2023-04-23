@@ -18,6 +18,21 @@ export class MarksController {
     return this.marksService.giveMark(giveMarkDto, teacher);
   }
 
+  @Get("/stats/course/:course")
+  async statsOfCourse(@Param("course") course?: string) {
+    return this.marksService.stats(course);
+  }
+
+  @Get("/stats/subject/:subject")
+  async statsOfSubject(@Param("subject") subject?: string) {
+    return this.marksService.stats(undefined, subject);
+  }
+
+  @Get("/stats")
+  async stats() {
+    return this.marksService.stats();
+  }
+
   @Get("/:id")
   async getMarks(@Param("id") course: string, @CurrentUser() teacher: User) {
     return this.marksService.getMarks(course, teacher);

@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from "@nestjs/common";
+import {
+  ForbiddenException,
+  Injectable,
+  PreconditionFailedException,
+} from "@nestjs/common";
 import { CoursesRepository } from "src/courses/courses.repository";
 import { Semester } from "src/courses/entities/course.entity";
 import { User } from "src/users/entities/users.entity";
@@ -91,5 +95,59 @@ export class MarksService {
     }
     m.mark = mark;
     return this.marksRepo.save(m);
+  }
+
+  async stats(course?: string, subject?: string) {
+    if (course && subject) {
+      throw new PreconditionFailedException(
+        "A kurzus és a tantárgy szűrés is meg lett adva. Kérlek csak egyet adj meg!",
+      );
+    }
+    let res;
+    if (subject) {
+      res = await this.marksRepo.query(
+        `
+        SELECT "m"."mark", COUNT("m"."mark") "noMarks" FROM "SYSTEM"."marks" "m" 
+        INNER JOIN "SYSTEM"."users" "u" ON "m"."userEmail" = "u"."email" 
+        INNER JOIN "SYSTEM"."subjects" "s" ON "s"."id" = "m"."subjectId" 
+        INNER JOIN "SYSTEM"."courses" "c" ON "c"."subjectId"="s"."id"
+        WHERE "s"."id" = :1
+        GROUP BY "m"."mark"
+        `,
+        [subject],
+      );
+    } else if (course) {
+      res = await this.marksRepo.query(
+        `
+        SELECT "m"."mark", COUNT("m"."mark") "noMarks" FROM "SYSTEM"."marks" "m" 
+        INNER JOIN "SYSTEM"."users" "u" ON "m"."userEmail" = "u"."email" 
+        INNER JOIN "SYSTEM"."subjects" "s" ON "s"."id" = "m"."subjectId" 
+        INNER JOIN "SYSTEM"."courses" "c" ON "c"."subjectId"="s"."id"
+        WHERE "c"."id" = :1
+        GROUP BY "m"."mark"
+        `,
+        [course],
+      );
+    } else {
+      res = await this.marksRepo.query(
+        `
+        SELECT "m"."mark", COUNT("m"."mark") "noMarks" FROM "SYSTEM"."marks" "m" 
+        INNER JOIN "SYSTEM"."users" "u" ON "m"."userEmail" = "u"."email" 
+        INNER JOIN "SYSTEM"."subjects" "s" ON "s"."id" = "m"."subjectId" 
+        INNER JOIN "SYSTEM"."courses" "c" ON "c"."subjectId"="s"."id"
+        GROUP BY "m"."mark"
+        `,
+      );
+    }
+
+    // Converting structure from
+    // [{mark: 2, noMark: 12}]
+    // to
+    // { "2": 12 }
+    const object = {};
+    for (const element of res) {
+      object[element.mark] = element.noMarks;
+    }
+    return object;
   }
 }
