@@ -25,7 +25,11 @@ export class ExamsService {
       },
       loadEagerRelations: false,
       relations: {
-        subject: true,
+        subject: {
+          courses: {
+            teachers: true,
+          }
+        },
         examinees: true,
         room: true,
       },

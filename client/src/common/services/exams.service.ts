@@ -12,7 +12,7 @@ export class ExamsService {
     ) {
         time = "T" + time.replace(" ", "");
         const datetime = new Date(date + time);
-        const res = await axios.post(
+        const res = await axios.post<Exam>(
             getServerUrl("exams"),
             {
                 when: datetime,
@@ -48,7 +48,7 @@ export class ExamsService {
     }
 
     static async get(examID?: string) {
-        if (examID) {
+        if (!examID) {
             return undefined;
         }
         const res = await axios.get<Exam>(getServerUrl("exams/" + examID), {

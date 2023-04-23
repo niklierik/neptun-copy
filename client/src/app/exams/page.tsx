@@ -12,15 +12,11 @@ export interface ExamsProps {
 
 export default function Exams({ searchParams }: ExamsProps): JSX.Element {
     const { examID } = searchParams;
-    const { html, data: exam } = asyncTask("get-exams", () =>
-        ExamsService.get(examID),
-    );
-    if (html) {
-        return html;
-    }
-    if (exam) {
+
+    // http://localhost:3000/exams?subjectID=834d6a1a-5c34-42dd-b5e8-5fcc2768156c
+    if (examID) {
         // Page when an exam is selected
-        return <ExamInfo exam={exam}></ExamInfo>;
+        return <ExamInfo examID={examID}></ExamInfo>;
     }
     // List exams
     return <ExamList></ExamList>;
