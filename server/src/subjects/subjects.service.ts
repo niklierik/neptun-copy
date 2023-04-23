@@ -1,16 +1,60 @@
 import { Injectable } from "@nestjs/common";
-import { Course } from "src/courses/entities/course.entity";
+import { Course, Semester } from "src/courses/entities/course.entity";
+import { User } from "src/users/entities/users.entity";
+import { FindOptionsOrder, In } from "typeorm";
 import { CreateSubjectDto } from "./dto/create-subject.dto";
 import { EditSubjectDto } from "./dto/edit-subject.dto";
+import { Subject } from "./entities/subject.entity";
 import { SubjectsRepository } from "./subjects.repository";
 
 @Injectable()
 export class SubjectsService {
   constructor(private readonly subjectsRepository: SubjectsRepository) {}
 
-  async list() {
+  async list(user: User) {
+    const relations = {
+      courses: {
+        room: true,
+        teachers: true,
+        subject: true,
+        students: true,
+      },
+      forum: true,
+      news: true,
+    };
+    const order: FindOptionsOrder<Subject> = {
+      name: "ASC",
+      type: "ASC",
+      id: "ASC",
+      courses: {
+        year: "DESC",
+        semester: "DESC",
+        dayOfWeek: "ASC",
+        startAt: "ASC",
+      },
+    };
+    if (user.isAdmin) {
+      return this.subjectsRepository.find({
+        loadEagerRelations: false,
+        order,
+        relations,
+      });
+    }
     return this.subjectsRepository.find({
-      order: { name: "ASC", type: "ASC", id: "ASC" },
+      loadEagerRelations: false,
+      where: {
+        courses: {
+          year: 2023,
+          semester: Semester.SPRING,
+        },
+        educhart: {
+          major: {
+            majorID: In([user.major.majorID, "", null]),
+          },
+        },
+      },
+      order,
+      relations: { ...relations, educhart: { major: true } },
     });
   }
 

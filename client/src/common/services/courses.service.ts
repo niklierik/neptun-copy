@@ -55,6 +55,18 @@ export class CoursesService {
             headers: { Authorization: getAuthToken() },
         });
     }
+    static async join(id: string) {
+        return axios.patch(
+            getServerUrl("courses"),
+            { course: id },
+            { headers: { Authorization: getAuthToken() } },
+        );
+    }
+    static async leave(id: string) {
+        return axios.delete(getServerUrl("courses/leave/" + id), {
+            headers: { Authorization: getAuthToken() },
+        });
+    }
     static async delete(id: string) {
         return axios.delete(getServerUrl("courses/" + id), {
             headers: { Authorization: getAuthToken() },

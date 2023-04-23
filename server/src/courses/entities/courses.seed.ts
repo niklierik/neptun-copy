@@ -390,6 +390,7 @@ async function seedSpringCourses(common: CommonParams) {
     adatbalap,
     alga2,
     webt,
+    webkert,
     python,
     digikep,
     fonya,
@@ -482,6 +483,22 @@ async function seedSpringCourses(common: CommonParams) {
     assignPairToEduChart(
       common,
       mobilalk,
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+      {
+        recommendedSemester: 4,
+        requirement: RequirementType.REQUIRED_CHOSEN,
+      },
+    ),
+    assignPairToEduChart(
+      common,
+      webkert,
       {
         recommendedSemester: 4,
         requirement: RequirementType.REQUIRED_CHOSEN,

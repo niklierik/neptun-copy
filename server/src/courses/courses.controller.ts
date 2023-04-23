@@ -36,18 +36,23 @@ export class CoursesController {
     return this.coursesService.list(user, id);
   }
 
-  @Patch()
-  async joinCourse(@CurrentUser() user: User, @Body("course") course: string) {
-    return this.coursesService.joinCourse(user, course);
-  }
-
   @Patch("/edit")
   async editCourse(@CurrentUser() user: User, @Body() course: EditCourseDto) {
     return this.coursesService.editCourse(user, course);
   }
 
+  @Patch()
+  async joinCourse(@CurrentUser() user: User, @Body("course") course: string) {
+    return this.coursesService.joinCourse(user, course);
+  }
+
+  @Delete("/leave/:id")
+  async removeUser(@CurrentUser() user: User, @Param("id") id: string) {
+    return this.coursesService.leave(user, id);
+  }
+
   @Delete("/:id")
   async delete(@CurrentUser() user: User, @Param("id") id: string) {
-    return this.coursesService.delete(id);
+    return this.coursesService.delete(id, user);
   }
 }

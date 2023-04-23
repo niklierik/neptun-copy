@@ -97,10 +97,16 @@ export class UsersRepository extends Repository<User> {
 
   async findUser(email: string): Promise<User> {
     try {
-      const res = await this.createQueryBuilder("u")
-        .where("u.email = :email", { email })
-        .andWhere("u.isValid = 1")
-        .getOne();
+      const res = await this.findOne({
+        loadEagerRelations: false,
+        where: {
+          isValid: true,
+          email,
+        },
+        relations: {
+          major: true,
+        },
+      });
       return res;
     } catch (err) {
       Logger.error(err);

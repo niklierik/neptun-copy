@@ -1,4 +1,5 @@
 import { Course } from "src/courses/entities/course.entity";
+import { EducationChart } from "src/education-charts/education-chart.entity";
 import { CommonForumMsg } from "src/forums/entities/common-forum-msg.entity";
 import { CommonNews } from "src/news/entities/common-news.entity";
 import {
@@ -52,4 +53,11 @@ export class Subject {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @OneToMany((_type) => EducationChart, (educhart) => educhart.subject, {
+    eager: false,
+    onDelete: "CASCADE",
+  })
+  educhart: EducationChart[];
 }
