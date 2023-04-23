@@ -37,3 +37,5 @@ lerna-debug.log*
 # Config files
 env.json
 seeded-users.txt
+
+logs/

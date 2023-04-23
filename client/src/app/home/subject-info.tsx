@@ -27,6 +27,7 @@ export function SubjectInfo({ subject }: SubjectInfoProps) {
                     {subject.teacher ? (
                         <TeacherButtons
                             subject={subject.subject}
+                            course={course}
                         ></TeacherButtons>
                     ) : (
                         <></>

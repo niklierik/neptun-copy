@@ -5,11 +5,16 @@ import Header from "@/common/header";
 import { asyncTask } from "@/common/utils/async-task";
 import WriteMark from "./write-mark";
 import { CoursesService } from "@/common/services/courses.service";
-import { Course, courseInterval, dayOfWeekToString } from "@/common/models/course";
+import {
+    Course,
+    courseInterval,
+    dayOfWeekToString,
+} from "@/common/models/course";
 import { MarksService } from "@/common/services/marks.service";
 import { Mark } from "@/common/models/mark";
 import { subjectTypeToString } from "@/common/models/subject";
 import { useState } from "react";
+import { MarksTable } from "@/common/marks-table/marks-table";
 
 export interface MarksProps {
     searchParams: { courseID: string };
@@ -17,8 +22,15 @@ export interface MarksProps {
 
 export default function Marks(props: MarksProps) {
     const { courseID } = props.searchParams;
-    const { data: course, html: html1 } = asyncTask<Course>(getServerUrl("courses"), async () => CoursesService.getCourse(courseID));
-    const { data: marks, html: html2 } = asyncTask<Mark[]>(getServerUrl("marks"), async () => MarksService.getMarks(courseID));
+    const [counter, setCounter] = useState(0);
+    const { data: course, html: html1 } = asyncTask<Course>(
+        getServerUrl("courses"),
+        async () => CoursesService.getCourse(courseID),
+    );
+    const { data: marks, html: html2 } = asyncTask<Mark[]>(
+        getServerUrl("marks"),
+        async () => MarksService.getMarks(courseID),
+    );
     const [loading, setLoading] = useState(false);
     if (html1) {
         return html1;
@@ -38,7 +50,10 @@ export default function Marks(props: MarksProps) {
                         <p>{course?.room?.name}</p>
                     </div>
                     <div className="flex_child">
-                        <p>{dayOfWeekToString(course?.dayOfWeek)} {courseInterval(course ?? undefined)}</p>
+                        <p>
+                            {dayOfWeekToString(course?.dayOfWeek)}{" "}
+                            {courseInterval(course ?? undefined)}
+                        </p>
                     </div>
                     <div className="flex_child">
                         <p>{subjectTypeToString(course?.subject?.type)}</p>
@@ -46,12 +61,24 @@ export default function Marks(props: MarksProps) {
                 </div>
             </div>
             <div>
-                {
-                    course?.students?.map((s, index) => (
-                        <WriteMark key={index} email={s.email} name={`${s.familyname} ${s.forename}`} mark={marks?.find(m => m?.user?.email === s?.email)?.mark ?? 0} loading={loading} setLoading={setLoading} course={courseID} ></WriteMark>
-                    ))
-                }
+                {course?.students?.map((s, index) => (
+                    <WriteMark
+                        key={index}
+                        email={s.email}
+                        name={`${s.familyname} ${s.forename}`}
+                        mark={
+                            marks?.find((m) => m?.user?.email === s?.email)
+                                ?.mark ?? 0
+                        }
+                        loading={loading}
+                        setLoading={setLoading}
+                        counter={counter}
+                        setCounter={setCounter}
+                        course={courseID}
+                    ></WriteMark>
+                ))}
             </div>
-        </main >
+            <MarksTable course={courseID} counter={counter}></MarksTable>
+        </main>
     );
 }

@@ -95,8 +95,11 @@ export default function MyNavbar({
                                     <Nav.Link className="nav_link" href="#a2">
                                         Vizsgák
                                     </Nav.Link>
-                                    <Nav.Link className="nav_link" href="#a3">
-                                        Órarend
+                                    <Nav.Link
+                                        className="nav_link"
+                                        href="/marks"
+                                    >
+                                        Jegy statisztika
                                     </Nav.Link>
                                     <Nav.Link className="nav_link" href="/pms">
                                         Üzenetek

@@ -24,7 +24,11 @@ export function CourseInfo({ course, teacher }: CourseInfoProps) {
                 </p>
             </div>
             <StudentButtons course={course} teacher={teacher}></StudentButtons>
-            <TeacherButtons createExam={false} course={course}></TeacherButtons>
+            <TeacherButtons
+                createExam={false}
+                course={course}
+                subject={course.subject}
+            ></TeacherButtons>
         </div>
     );
 }
