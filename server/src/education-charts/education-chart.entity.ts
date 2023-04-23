@@ -20,7 +20,7 @@ export class EducationChart {
   id: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => Subject, {
+  @ManyToOne((type) => Subject, (subject) => subject, {
     onDelete: "CASCADE",
     eager: true,
   })

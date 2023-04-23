@@ -1,4 +1,5 @@
 import { Course } from "./course";
+import { EducationChart } from "./education-chart";
 
 export enum SubjectType {
     LECTURE = 0,
@@ -13,6 +14,7 @@ export interface Subject {
     type: SubjectType;
     createdAt: string;
     courses?: Course[];
+    educhart?: EducationChart[];
 }
 
 export function subjectTypeToString(sub?: SubjectType) {

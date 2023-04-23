@@ -9,6 +9,8 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { CurrentUser } from "src/users/decorators/current-user.decorator";
+import { User } from "src/users/entities/users.entity";
 import { CreateSubjectDto } from "./dto/create-subject.dto";
 import { EditSubjectDto } from "./dto/edit-subject.dto";
 import { SubjectsService } from "./subjects.service";
@@ -24,8 +26,8 @@ export class SubjectsController {
   }
 
   @Get()
-  async list() {
-    return this.subjectsService.list();
+  async list(@CurrentUser() user: User) {
+    return this.subjectsService.list(user);
   }
 
   @Get("/:id")
