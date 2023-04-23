@@ -97,8 +97,8 @@ export default function Exams({ searchParams }: ExamsProps) {
                                     roomState[0],
                                     subjectID,
                                 )
-                                    .then((_) => {
-                                        window.location.href = `/exams?subjectID=${subjectID}`;
+                                    .then((res) => {
+                                        window.location.href = `/exams?examID=${res.id}`;
                                     })
                                     .catch((e) =>
                                         handleError(e, errorState[1]),

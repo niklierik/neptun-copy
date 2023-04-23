@@ -268,3 +268,25 @@ th {
     overflow-y: scroll;
     max-height: 45vh;
 }
+
+.flex_container_exam {
+    display: flex;
+}
+
+.flex_child_exam {
+    width: 100%;
+    margin: 0px 10px;
+}
+
+.flex_child_exam:first-child {
+    margin-left: 80px;
+}
+
+.border_3px_no_margin {
+    border-bottom: 3px solid #f3f3f3;
+}
+
+.border_exam_list {
+    border-bottom: 1px solid #f3f3f3 ;
+    
+}
