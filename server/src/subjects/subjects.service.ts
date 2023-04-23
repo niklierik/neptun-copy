@@ -36,6 +36,7 @@ export class SubjectsService {
       where: {
         id: subjectID,
       },
+      loadEagerRelations: false,
       relations: {
         courses: {
           forum: false,
