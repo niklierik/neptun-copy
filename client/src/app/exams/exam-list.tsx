@@ -1,6 +1,9 @@
 "use client";
+import Header from "@/common/header";
 import { ExamsService } from "@/common/services/exams.service";
 import { asyncTask } from "@/common/utils/async-task";
+import { ExamListHeader } from "./exam-list-header";
+import { ExamListExams } from "./exam-list-exams";
 
 export function ExamList() {
     const { html, data: exams } = asyncTask("get-exams", () =>
@@ -9,5 +12,12 @@ export function ExamList() {
     if (html) {
         return html;
     }
-    return <></>;
+    return (
+        <main>
+            <Header></Header>
+
+            <ExamListHeader></ExamListHeader>
+            <ExamListExams exam={exams}></ExamListExams>
+        </main>
+    );
 }

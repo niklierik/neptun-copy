@@ -58,7 +58,7 @@ export class ExamsService {
     }
 
     static async list() {
-        const res = await axios.get<Exam>(getServerUrl("exams"), {
+        const res = await axios.get<Exam[]>(getServerUrl("exams"), {
             headers: { Authorization: getAuthToken() },
         });
         return res.data;

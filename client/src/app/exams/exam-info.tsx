@@ -1,4 +1,5 @@
 "use client";
+import Header from "@/common/header";
 import { Exam } from "@/common/models/exam";
 
 export interface ExamInfoProps {
@@ -6,5 +7,9 @@ export interface ExamInfoProps {
 }
 
 export function ExamInfo({ exam }: ExamInfoProps) {
-    return <></>;
+    return (
+        <main>
+            <Header></Header>
+        </main>
+    );
 }
