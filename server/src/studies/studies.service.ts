@@ -26,6 +26,11 @@ export class StudiesService {
         subject: true,
         user: true,
       },
+      order: {
+        subject: {
+          name: "ASC",
+        },
+      },
     });
     /*
     Create map / tree like: 
@@ -39,7 +44,7 @@ export class StudiesService {
         ]
       },
       "2023": {
-        "1": [ // ' is SPRING
+        "1": [ // 1 is SPRING
           {
             "subject": "Database Systems",
             "mark": 5
