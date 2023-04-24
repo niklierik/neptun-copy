@@ -19,8 +19,6 @@ export class SubjectsService {
         subject: true,
         students: true,
       },
-      forum: true,
-      news: true,
     };
     const order: FindOptionsOrder<Subject> = {
       name: "ASC",
@@ -66,10 +64,6 @@ export class SubjectsService {
         courses: {
           room: true,
           subject: true,
-          forum: false,
-          news: false,
-          students: false,
-          teachers: false,
         },
       },
     });
