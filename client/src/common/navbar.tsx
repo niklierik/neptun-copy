@@ -92,7 +92,10 @@ export default function MyNavbar({
                                     >
                                         Tárgyfelvétel
                                     </Nav.Link>
-                                    <Nav.Link className="nav_link" href="#a2">
+                                    <Nav.Link
+                                        className="nav_link"
+                                        href="/exams"
+                                    >
                                         Vizsgák
                                     </Nav.Link>
                                     <Nav.Link

@@ -7,7 +7,7 @@ export function ExamInfoHeader() {
                 <p>Tárgy neve</p>
             </div>
             <div className="flex_child_exam form_group">
-                <p>Tanár</p>
+                <p>Vizsgáztatók</p>
             </div>
             <div className="flex_child_exam form_group">
                 <p>Időpont</p>

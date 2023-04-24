@@ -1,4 +1,9 @@
-import { Injectable, PreconditionFailedException } from "@nestjs/common";
+import {
+  ForbiddenException,
+  Injectable,
+  PreconditionFailedException,
+} from "@nestjs/common";
+import { subDays } from "date-fns";
 import { CoursesRepository } from "src/courses/courses.repository";
 import { User } from "src/users/entities/users.entity";
 import { In, MoreThan } from "typeorm";
@@ -12,23 +17,20 @@ export class ExamsService {
     private readonly examsRepo: ExamsRepository,
   ) {}
 
-  async getOf(subjectID: string, includePassed: boolean) {
-    return this.examsRepo.find({
+  async getOf(examID: string) {
+    return this.examsRepo.findOne({
       order: {
         when: "ASC",
       },
       where: {
-        when: includePassed ? undefined : MoreThan(new Date()),
-        subject: {
-          id: subjectID,
-        },
+        id: examID,
       },
       loadEagerRelations: false,
       relations: {
         subject: {
           courses: {
             teachers: true,
-          }
+          },
         },
         examinees: true,
         room: true,
@@ -36,12 +38,16 @@ export class ExamsService {
     });
   }
 
-  async list(user: User) {
+  async list(user: User, includePassed?: boolean) {
     if (user.isAdmin) {
       return this.examsRepo.find({
         loadEagerRelations: false,
         relations: {
-          subject: true,
+          subject: {
+            courses: {
+              teachers: true,
+            },
+          },
           examinees: true,
           room: true,
         },
@@ -65,7 +71,8 @@ export class ExamsService {
         room: true,
       },
       where: {
-        subject: In(subjects),
+        subject: { id: In(subjects.map((s) => s.id)) },
+        when: includePassed ? undefined : MoreThan(new Date()),
       },
     });
   }
@@ -83,6 +90,11 @@ export class ExamsService {
     });
     if (exam.examinees.length >= exam.room.size) {
       throw new PreconditionFailedException("A vizsgaalkalom megtelt.");
+    }
+    if (subDays(exam.when, 1) <= new Date()) {
+      throw new PreconditionFailedException(
+        "Nem tudsz vizsgára jelentkezni a vizsga előtt egy nappal.",
+      );
     }
     exam.examinees.push(user);
     return this.examsRepo.save(exam);
@@ -104,5 +116,37 @@ export class ExamsService {
 
   async get(id: string) {
     return this.examsRepo.findOne({ where: { id } });
+  }
+
+  async delete(id: string, user: User) {
+    const exam = await this.examsRepo.findOne({
+      where: { id },
+      loadEagerRelations: false,
+      relations: { subject: { courses: { teachers: true } } },
+    });
+    if (
+      !user.isAdmin &&
+      !exam.subject.courses
+        .map((c) => c.teachers)
+        .flat(1)
+        .find((t) => t.email === user.email)
+    ) {
+      throw new ForbiddenException("Nincs jogod ehhez.");
+    }
+    return this.examsRepo.delete({ id });
+  }
+  async leave(id: string, user: User) {
+    const exam = await this.examsRepo.findOne({
+      where: { id },
+      loadEagerRelations: false,
+      relations: { examinees: true },
+    });
+    if (subDays(exam.when, 1) <= new Date()) {
+      throw new PreconditionFailedException(
+        "Nem tudsz vizsgáról lejelentkezni a vizsga előtt egy nappal.",
+      );
+    }
+    exam.examinees = exam.examinees.filter((u) => u.email !== user.email);
+    return this.examsRepo.save(exam);
   }
 }
