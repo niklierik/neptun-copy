@@ -1,5 +1,6 @@
 --- Admin ezzel készít kurzust
 -- Paraméterek: 
+-- - id: A kurzus ID-je
 -- - roomId: Szoba ID-je 
 -- - subjectId: Tantárgy ID-je
 -- - year: Melyik évben van tartva a kurzus?
@@ -11,5 +12,6 @@
 SELECT * FROM "SYSTEM"."rooms" "r", "SYSTEM"."subjects" "s" 
 WHERE "r"."id" = :roomId AND "s"."id" = :subjectId;
 
-INSERT INTO "SYSTEM"."courses" ("dayOfWeek","roomId","subjectId","year","startAt","semester")
-VALUES (:dayOfWeek,:roomId)
+INSERT INTO "SYSTEM"."courses" 
+("id", "dayOfWeek","roomId","subjectId","year","startAt","semester")
+VALUES (:id, :dayOfWeek,:roomId, :subjectId, :year, :startAt, :semester)
