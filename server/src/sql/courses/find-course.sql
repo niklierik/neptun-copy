@@ -16,7 +16,7 @@ LEFT JOIN "SYSTEM"."news" "n" ON "c"."id" = "n"."coursesId"
 -- get common news
 LEFT JOIN "SYSTEM"."common_news" "cn" ON "cn"."coursesId" = "c"."id"
 -- get room
-LEFT JOIN "SYSTEM"."rooms" "r" ON "c"."roomsId" = "r"."id"
+LEFT JOIN "SYSTEM"."rooms" "r" ON "c"."roomId" = "r"."id"
 -- get subject
-LEFT JOIN "SYSTEM"."subject" "s" ON "c"."subjectsId" = "s"."id"
+LEFT JOIN "SYSTEM"."subject" "s" ON "c"."subjectId" = "s"."id"
 WHERE "c"."id" = :courseId;

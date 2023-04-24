@@ -140,7 +140,7 @@ ALTER TABLE  "courses" ADD CONSTRAINT "FK_courses_subjectId" FOREIGN KEY ("subje
 ALTER TABLE  "courses" ADD CONSTRAINT "FK_courses_roomId" FOREIGN KEY ("roomId") REFERENCES "rooms" ("id");
 
 -- education_chart tábla
-ALTER TABLE "education_chart" ADD CONSTRAINT "FK_education_chart_major" FOREIGN KEY ("majorId") REFERENCES "majors" ("majorID");
+ALTER TABLE "education_chart" ADD CONSTRAINT "FK_education_chart_major" FOREIGN KEY ("majorMajorID") REFERENCES "majors" ("majorID");
 ALTER TABLE "education_chart" ADD CONSTRAINT "FK_education_chart_subject" FOREIGN KEY ("subjectId") REFERENCES "subjects" ("id");
 
 
