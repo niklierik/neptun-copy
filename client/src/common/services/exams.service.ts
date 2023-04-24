@@ -38,13 +38,37 @@ export class ExamsService {
     }
 
     static async join(examID?: string) {
-        if (examID) {
-            return undefined;
+        if (!examID) {
+            throw "No Exam ID.";
         }
-        const res = await axios.patch<Exam>(getServerUrl("exams/" + examID), {
+        const res = await axios.patch<Exam>(
+            getServerUrl("exams/" + examID),
+            {},
+            {
+                headers: { Authorization: getAuthToken() },
+            },
+        );
+        return res.data;
+    }
+
+    static async leave(id: string) {
+        if (!id) {
+            throw "No exam ID.";
+        }
+        const res = await axios.delete(getServerUrl("exams/leave/" + id), {
             headers: { Authorization: getAuthToken() },
         });
-        return res.data;
+        return res;
+    }
+
+    static async delete(id: string) {
+        if (!id) {
+            throw "No exam ID.";
+        }
+        const res = await axios.delete(getServerUrl("exams/" + id), {
+            headers: { Authorization: getAuthToken() },
+        });
+        return res;
     }
 
     static async get(examID?: string) {

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -20,16 +21,16 @@ export class ExamsController {
   constructor(private readonly examsService: ExamsService) {}
 
   @Get()
-  async list(@CurrentUser() user: User) {
-    return this.examsService.list(user);
+  async list(
+    @CurrentUser() user: User,
+    @Query("includeFiltered") includeFiltered?: string,
+  ) {
+    return this.examsService.list(user, includeFiltered === "true");
   }
 
-  @Get("/of/:subject")
-  async getOf(
-    @Param("subject") id: string,
-    @Query("includePassed") includePassed?: string,
-  ) {
-    return this.examsService.getOf(id, includePassed === "true");
+  @Get("/:examID")
+  async getOf(@Param("examID") id: string) {
+    return this.examsService.getOf(id);
   }
 
   @Post()
@@ -44,5 +45,15 @@ export class ExamsController {
   @Get("/:exam")
   async get(@Param("exam") id: string) {
     return this.examsService.get(id);
+  }
+
+  @Delete("/leave/:exam")
+  async leave(@Param("exam") id: string, @CurrentUser() user: User) {
+    return this.examsService.leave(id, user);
+  }
+
+  @Delete("exam")
+  async delete(@Param("exam") id: string, @CurrentUser() user: User) {
+    return this.examsService.delete(id, user);
   }
 }

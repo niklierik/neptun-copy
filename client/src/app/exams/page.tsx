@@ -1,6 +1,4 @@
 "use client";
-import { ExamsService } from "@/common/services/exams.service";
-import { asyncTask } from "@/common/utils/async-task";
 import { ExamInfo } from "./exam-info";
 import { ExamList } from "./exam-list";
 

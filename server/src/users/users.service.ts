@@ -106,7 +106,7 @@ export class UsersService {
   }
 
   async search(search: SearchUserDto) {
-    const res = this.usersRepository.search(search);
+    const res = await this.usersRepository.search(search);
     if (res == null) {
       throw new NotFoundException("Felhasználó nem található.");
     }
