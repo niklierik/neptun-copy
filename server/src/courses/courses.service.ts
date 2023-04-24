@@ -8,6 +8,7 @@ import { PreconditionFailedException } from "@nestjs/common/exceptions/precondit
 import { RoomsRepository } from "src/rooms/rooms.repository";
 import { SubjectsRepository } from "src/subjects/subjects.repository";
 import { User } from "src/users/entities/users.entity";
+import { UsersRepository } from "src/users/users.repository";
 import { CoursesRepository, defaultConstOrder } from "./courses.repository";
 import { CreateCourseDto } from "./dtos/create-course.dto";
 import { EditCourseDto } from "./dtos/edit-course.dto";
@@ -19,6 +20,7 @@ export class CoursesService {
     private readonly coursesRepository: CoursesRepository,
     private readonly roomsRepository: RoomsRepository,
     private readonly subjectsRepository: SubjectsRepository,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   async create(create: CreateCourseDto, user: User) {
@@ -82,6 +84,7 @@ export class CoursesService {
     if (!user.isAdmin) {
       throw new ForbiddenException();
     }
+
     const course = await this.coursesRepository.findOne({
       loadEagerRelations: false,
       relations: {
@@ -96,10 +99,43 @@ export class CoursesService {
         id: dto.id,
       },
     });
+    if (course.subject == null) {
+      throw new BadRequestException("Tantárgy a megadott ID-val nem létezik.");
+    }
+
     if (dto.day) {
       course.dayOfWeek = dto.day;
     }
     if (dto.roomID) {
+      const room = await this.roomsRepository.findOne({
+        where: {
+          id: dto.roomID,
+        },
+        loadEagerRelations: false,
+        relations: {
+          courses: {
+            subject: true,
+          },
+        },
+      });
+      if (room == null) {
+        throw new BadRequestException("Terem a megadott ID-val nem létezik.");
+      }
+      const other = room.courses.find((c) => {
+        const start1 = c.startAt;
+        const end1 = c.startAt + c.subject.hoursAWeek;
+        const start2 = dto.start;
+        const end2 = dto.start + course.subject.hoursAWeek;
+        // https://stackoverflow.com/questions/3269434/whats-the-most-efficient-way-to-test-if-two-ranges-overlap
+        return start1 <= end2 && end1 >= start2;
+      });
+      if (other) {
+        throw new PreconditionFailedException(
+          "A terem ebben az időpontban le van foglalva már: " +
+            JSON.stringify(other) +
+            ".",
+        );
+      }
       course.room.id = dto.roomID;
     }
     if (dto.start) {
@@ -144,14 +180,15 @@ export class CoursesService {
     });
   }
 
-  async getCourses(user: string): Promise<Course[]> {
-    if (user === "sysadmin") {
+  async getCourses(email: string): Promise<Course[]> {
+    const user = await this.usersRepository.findOne({ where: { email } });
+    if (user.isAdmin) {
       return this.coursesRepository.find({
         order: defaultConstOrder,
       });
     }
     const courses = await this.coursesRepository.findFor(
-      user,
+      user.email,
       defaultConstOrder,
     );
     return courses;

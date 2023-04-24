@@ -32,6 +32,18 @@ export class CoursesRepository extends Repository<Course> {
         subject: true,
       },
       order,
+      /*where: [
+        {
+          students: {
+            email: user,
+          },
+        },
+        {
+          teachers: {
+            email: user,
+          },
+        },
+      ],*/
     });
     // TODO let dataabase filter these out
     res = res.filter(
