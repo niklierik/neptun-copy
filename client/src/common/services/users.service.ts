@@ -3,7 +3,7 @@
 import axios from "axios";
 import { getServerUrl } from "../cfg";
 import { getAuthToken } from "../utils";
-import { User } from "../models/user";
+import { User, UserCount } from "../models/user";
 
 export class UsersService {
     static async get(email: string): Promise<User | undefined> {
@@ -27,10 +27,17 @@ export class UsersService {
      */
     static async count(mode?: "students" | "teachers" | "both" | "every") {
         mode ??= "every";
-        const res = await axios.get(getServerUrl(`count?mode=${mode}`), {
-            headers: { Authorization: getAuthToken() },
-        });
-        return res;
+        const res = await axios.get<UserCount[]>(
+            getServerUrl(`users/count?mode=${mode}`),
+            {
+                headers: { Authorization: getAuthToken() },
+            },
+        );
+        const result = res.data;
+        if (result == null) {
+            return undefined;
+        }
+        return result[0];
     }
 
     static async changePwd(

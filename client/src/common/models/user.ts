@@ -1,5 +1,11 @@
 import { Major } from "./major";
 
+export interface UserCount {
+    TEACHERS?: number;
+    STUDENTS?: number;
+    BOTH?: number;
+}
+
 export interface User {
     email: string;
     familyname: string;

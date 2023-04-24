@@ -75,7 +75,7 @@ export class StudiesService {
       [user.email],
     );
     if (res != null) {
-      obj["avg"] = res[0]?.avg ?? undefined;
+      obj["avg"] = res[0]?.AVG ?? undefined;
     }
     return obj;
   }
