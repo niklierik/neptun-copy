@@ -16,3 +16,12 @@ DELETE FROM "SYSTEM"."courses";
 DELETE FROM "SYSTEM"."subjects";
 DELETE FROM "SYSTEM"."rooms";
 DELETE FROM "SYSTEM"."seeded";
+
+DROP TRIGGER UserValidationTrigger;
+DROP TRIGGER RoomSizeValidationTrigger;
+DROP TRIGGER MarkValidationTrigger;
+
+DROP FUNCTION AverageMarkOfUser;
+DROP FUNCTION NumberOfTeachers;
+DROP FUNCTION NumberOfStudents;
+DROP FUNCTION NumberOfIntersection;
