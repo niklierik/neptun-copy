@@ -173,37 +173,37 @@ ALTER TABLE "news" ADD CONSTRAINT "FK_new_course" FOREIGN KEY ("courseId") REFER
 
 --- Kapcsolótáblák
 -- Felhasználó-kurzus mint hallgató
-CREATE TABLE "users_course_student" (
+CREATE TABLE "courses_students_users" (
   "id" varchar(36) NOT NULL,
   "user" varchar2(255) NOT NULL,
   "course" varchar2(36) NOT NULL,
-  CONSTRAINT "PK_users_course_student_id" PRIMARY KEY ("id")
+  CONSTRAINT "PK_courses_students_users_id" PRIMARY KEY ("id")
 );
 
-ALTER TABLE "users_course_student" ADD CONSTRAINT "FK_users_course_student_user" FOREIGN KEY ("user") REFERENCES "users" ("email");
-ALTER TABLE "users_course_student" ADD CONSTRAINT "FK_users_course_student_course" FOREIGN KEY ("course") REFERENCES "courses" ("id");
+ALTER TABLE "courses_students_users" ADD CONSTRAINT "FK_users_course_student_user" FOREIGN KEY ("user") REFERENCES "users" ("email");
+ALTER TABLE "courses_students_users" ADD CONSTRAINT "FK_users_course_student_course" FOREIGN KEY ("course") REFERENCES "courses" ("id");
 
 
 -- Felhasználó-kurzus mint tanár
-CREATE TABLE "users_course_teacher" (
+CREATE TABLE "courses_teachers_users" (
   "id" varchar(36) NOT NULL,
   "user" varchar2(255) NOT NULL,
   "course" varchar2(36) NOT NULL,
-  CONSTRAINT "PK_users_course_teacher_id" PRIMARY KEY ("id")
+  CONSTRAINT "PK_courses_teachers_users_id" PRIMARY KEY ("id")
 );
 
-ALTER TABLE "users_course_teacher" ADD CONSTRAINT "FK_users_course_teacher_user" FOREIGN KEY ("user") REFERENCES "users" ("email");
-ALTER TABLE "users_course_teacher" ADD CONSTRAINT "FK_users_course_teacher_course" FOREIGN KEY ("course") REFERENCES "courses" ("id");
+ALTER TABLE "courses_teachers_users" ADD CONSTRAINT "FK_users_course_teacher_user" FOREIGN KEY ("user") REFERENCES "users" ("email");
+ALTER TABLE "courses_teachers_users" ADD CONSTRAINT "FK_users_course_teacher_course" FOREIGN KEY ("course") REFERENCES "courses" ("id");
 
 
 -- Felhasználó-vizsga (vizsgázó)
-CREATE TABLE "users_exams" (
+CREATE TABLE "exams_examinees_users" (
   "id" varchar(36) NOT NULL,
   "user" varchar2(255) NOT NULL,
   "exam" varchar2(36) NOT NULL,
-  CONSTRAINT "PK_users_exams_id" PRIMARY KEY ("id")
+  CONSTRAINT "PK_exams_examinees_users_id" PRIMARY KEY ("id")
 );
 
 
-ALTER TABLE "users_exams" ADD CONSTRAINT "FK_users_exams_user" FOREIGN KEY ("user") REFERENCES "users" ("email");
-ALTER TABLE "users_exams" ADD CONSTRAINT "FK_users_exams_exam" FOREIGN KEY ("exam") REFERENCES "exams" ("id");
+ALTER TABLE "exams_examinees_users" ADD CONSTRAINT "FK_users_exams_user" FOREIGN KEY ("user") REFERENCES "users" ("email");
+ALTER TABLE "exams_examinees_users" ADD CONSTRAINT "FK_users_exams_exam" FOREIGN KEY ("exam") REFERENCES "exams" ("id");
