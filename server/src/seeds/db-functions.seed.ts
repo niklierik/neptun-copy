@@ -3,19 +3,6 @@ import { UsersRepository } from "src/users/users.repository";
 
 export async function seedUserCounterFunctions(repo: UsersRepository) {
   return repo.query(`
-  -- Select students
-SELECT DISTINCT "usersEmail" FROM "courses_students_users";
-
--- Select teachers
-SELECT DISTINCT "usersEmail" FROM "courses_teachers_users";
-
--- Select intersection
-SELECT DISTINCT teacher."usersEmail" FROM "courses_teachers_users" teacher
-INNER JOIN (
-    SELECT DISTINCT "usersEmail" FROM "courses_students_users"
-) student ON teacher."usersEmail" = student."usersEmail";
-
-
 -- Number of teachers
 CREATE OR REPLACE FUNCTION NumberOfTeachers
 RETURN NUMBER
