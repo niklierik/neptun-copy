@@ -8,6 +8,7 @@ export class EducationChartsService {
 
   async list() {
     return this.eduChartsRepo.find({
+      loadEagerRelations: false,
       relations: {
         subject: {
           news: false,
