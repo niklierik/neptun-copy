@@ -10,5 +10,5 @@ export default function Studies() {
     if (html) {
         return html;
     }
-    return <p>{JSON.stringify(studies)}</p>;
+    return <p style={{ color: "white" }}>{JSON.stringify(studies)}</p>;
 }

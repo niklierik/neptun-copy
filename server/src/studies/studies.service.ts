@@ -24,7 +24,7 @@ export class StudiesService {
       },
       relations: {
         subject: true,
-        user: true,
+        // user: true,
       },
       order: {
         subject: {
@@ -70,7 +70,7 @@ export class StudiesService {
     const obj = toObject(data);
     const res = await this.marksRepository.query(
       `
-    SELECT AverageMarkOfUser(:1) as avg FROM dual;
+    SELECT AverageMarkOfUser(:1) as avg FROM dual
     `,
       [user.email],
     );
