@@ -11,7 +11,7 @@ export async function roomSizeValidation(repo: UsersRepository) {
       IF :NEW."size" <= 0 THEN
           RAISE_APPLICATION_ERROR(-20001, 'Room size validation failed. Must be positive integer.');
       END IF;
-  END
+  END;
   `);
 }
 
@@ -30,7 +30,7 @@ export async function userValidation(repo: UsersRepository) {
             -- MajorID is checked by DB with foreign key check
                 RAISE_APPLICATION_ERROR(-20001, 'User validation failed.');
         END IF;
-    END
+    END;
     `);
 }
 
@@ -44,7 +44,7 @@ export async function marksValidation(repo: UsersRepository) {
         IF  (:NEW."mark" > 5) OR (:NEW."mark" < 1) THEN
                 RAISE_APPLICATION_ERROR(-20001, 'Mark must be between 1 and 5.');
         END IF;
-    END
+    END;
 `);
 }
 

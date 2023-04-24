@@ -12,7 +12,8 @@ import { seedMessages } from "src/messaging/entities/messages.seed";
 import { seedNews } from "src/news/entities/news.seed";
 import { seedExams } from "src/exams/entities/exam.seed";
 import { seedMarks } from "src/marks/entities/marks.seed";
-import { seedTriggers } from "./triggers-functions.seed";
+import { seedTriggers } from "./triggers.seed";
+import { seedDbFunctions } from "./db-functions.seed";
 
 let seedings: Seeding[] = [
   {
@@ -50,6 +51,10 @@ let seedings: Seeding[] = [
   {
     id: 9,
     functionToRun: seedTriggers,
+  },
+  {
+    id: 10,
+    functionToRun: seedDbFunctions,
   },
 ];
 
