@@ -1,7 +1,7 @@
 import { INestApplication } from "@nestjs/common";
 import { UsersRepository } from "src/users/users.repository";
 
-export async function seedUserCounterFunctions(repo: UsersRepository) {
+export async function seedNumberOfTeachers(repo: UsersRepository) {
   return repo.query(`
 -- Number of teachers
 CREATE OR REPLACE FUNCTION NumberOfTeachers
@@ -12,7 +12,11 @@ BEGIN
     SELECT COUNT(DISTINCT "usersEmail") count INTO teachers FROM "courses_teachers_users";
     RETURN teachers;
 END;
+  `);
+}
 
+export function seedNumberOfStudents(repo: UsersRepository) {
+  return repo.query(`
 CREATE OR REPLACE FUNCTION NumberOfStudents
 RETURN NUMBER
 IS
@@ -21,7 +25,11 @@ BEGIN
     SELECT COUNT(DISTINCT "usersEmail") count INTO students FROM "courses_students_users";
     RETURN students;
 END;
+  `);
+}
 
+export function seedNumberOfBoth(repo: UsersRepository) {
+  return repo.query(`
 CREATE OR REPLACE FUNCTION NumberOfIntersection
 RETURN NUMBER
 IS
@@ -54,6 +62,8 @@ END;
 
 export async function seedDbFunctions(app: INestApplication) {
   const repo = await app.resolve(UsersRepository);
-  await seedUserCounterFunctions(repo);
+  await seedNumberOfTeachers(repo);
+  await seedNumberOfStudents(repo);
+  await seedNumberOfBoth(repo);
   await seedMarkAvgFunction(repo);
 }
