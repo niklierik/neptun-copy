@@ -113,6 +113,36 @@ export class UsersService {
     return res;
   }
 
+  // TODO: user validation
+  async count(user: User, mode?: string) {
+    mode ??= "every";
+    switch (mode) {
+      case "students": {
+        return this.usersRepository.query(
+          "SELECT NumberOfStudents() as students FROM dual",
+        );
+      }
+      case "teachers": {
+        return this.usersRepository.query(
+          "SELECT NumberOfTeachers() as teachers FROM dual",
+        );
+      }
+      case "both": {
+        return this.usersRepository.query(
+          "SELECT NumberOfIntersection() as both FROM dual",
+        );
+      }
+      case "every": {
+        return this.usersRepository.query(
+          "SELECT NumberOfStudents() as students, NumberOfTeachers() as teachers, NumberOfIntersection() as both FROM dual",
+        );
+      }
+    }
+    throw new BadRequestException(
+      "Érvénytelen módban kiküldött kérés. Érvényes módok: 'students', 'teachers', 'both' (metszet), 'every' (minden adat).",
+    );
+  }
+
   /**
    * Validates whether the password has at least on upper-, one lowercase letter and one digit
    * @param pwd password to check

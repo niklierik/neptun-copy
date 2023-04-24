@@ -53,6 +53,12 @@ export class UsersController {
     return await this.usersService.finishRegister(finish, token);
   }
 
+  @Get("/count")
+  @UseGuards(AuthGuard())
+  async count(@CurrentUser() user: User, @Query("mode") mode?: string) {
+    return this.usersService.count(user, mode);
+  }
+
   @Get("/:email")
   @UseGuards(AuthGuard())
   async findUser(@Param("email") email: string) {

@@ -67,6 +67,16 @@ export class StudiesService {
       map.set(mark.semester.toString(), array);
       data.set(mark.year.toString(), map);
     }
-    return toObject(data);
+    const obj = toObject(data);
+    const res = await this.marksRepository.query(
+      `
+    SELECT AverageMarkOfUser(:1) as avg FROM dual;
+    `,
+      [user.email],
+    );
+    if (res != null) {
+      obj["avg"] = res[0]?.avg ?? undefined;
+    }
+    return obj;
   }
 }
