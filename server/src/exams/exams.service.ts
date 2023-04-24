@@ -6,8 +6,9 @@ import {
 import { subDays } from "date-fns";
 import { CoursesRepository } from "src/courses/courses.repository";
 import { User } from "src/users/entities/users.entity";
-import { In, MoreThan } from "typeorm";
+import { FindOptionsOrder, In, MoreThan } from "typeorm";
 import { CreateExamDto } from "./dtos/create-exam.dto";
+import { Exam } from "./entities/exam.entity";
 import { ExamsRepository } from "./exams.repository";
 
 @Injectable()
@@ -19,9 +20,6 @@ export class ExamsService {
 
   async getOf(examID: string) {
     return this.examsRepo.findOne({
-      order: {
-        when: "ASC",
-      },
       where: {
         id: examID,
       },
@@ -39,8 +37,15 @@ export class ExamsService {
   }
 
   async list(user: User, includePassed?: boolean) {
+    const order: FindOptionsOrder<Exam> = {
+      when: "ASC",
+      subject: {
+        name: "ASC",
+      },
+    };
     if (user.isAdmin) {
       return this.examsRepo.find({
+        order,
         loadEagerRelations: false,
         relations: {
           subject: {
@@ -64,6 +69,7 @@ export class ExamsService {
       .filter((c) => c.students.find((s) => s.email === user.email))
       .map((c) => c.subject);
     return this.examsRepo.find({
+      order,
       loadEagerRelations: false,
       relations: {
         subject: true,
