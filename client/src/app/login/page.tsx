@@ -105,6 +105,15 @@ export default function Login() {
                             Bejelentkezés
                         </Button>
                     </div>
+                    <div className="to_center">
+                        <Button
+                            href="/forgot-password"
+                            variant="link"
+                            type="submit"
+                        >
+                            Elfelejtett jelszó
+                        </Button>
+                    </div>
                 </Form>
             </div>
         </main>
