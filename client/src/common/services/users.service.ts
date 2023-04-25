@@ -41,7 +41,7 @@ export class UsersService {
     }
 
     static async forgotPassword(email?: string) {
-        await axios.put(getServerUrl("forgot-password/" + email), {}, {});
+        return axios.put(getServerUrl("forgot-password/" + email), {}, {});
     }
 
     static async changePwd(
