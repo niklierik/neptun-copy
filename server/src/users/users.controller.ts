@@ -88,7 +88,7 @@ export class UsersController {
     return await this.usersService.deleteUserByEmail(email, user);
   }
 
-  @Put("/newToken/:email")
+  @Post("/newToken/:email")
   async requestToken(@Param("email") email: string) {
     return await this.usersService.requestToken(email);
   }

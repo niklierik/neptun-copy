@@ -2,15 +2,21 @@
 
 import { AxiosError } from "axios";
 
-export function handleError(err: any, setErrors: (s: string[]) => void) {
+export function handleError(
+    err: any,
+    setErrors: (s: string[]) => void,
+    keepLoggedInOn401?: boolean,
+) {
     console.log(err);
     if (!(err instanceof AxiosError)) {
         setErrors(["Nem kezelt hiba történt: " + JSON.stringify(err)]);
         return;
     }
-    if (err.response?.status === 401) {
-        window.location.href = "/login";
-        return;
+    if (err.response?.status === 401 && keepLoggedInOn401 !== undefined) {
+        if (!keepLoggedInOn401) {
+            window.location.href = "/login";
+            return;
+        }
     }
     if (err?.code === "ERR_NETWORK") {
         setErrors(["A szerver nem elérhető."]);

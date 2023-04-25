@@ -47,25 +47,21 @@ export class UsersRepository extends Repository<User> {
   }
 
   async requestToken(email: string) {
-    try {
-      const res = await this.update(
-        {
-          email,
-          validationToken: IsNull(),
-        },
-        { validationToken: uuid() },
+    const token = uuid();
+    const res = await this.update(
+      {
+        email,
+        validationToken: IsNull(),
+      },
+      { validationToken: token },
+    );
+    const affected = res?.affected ?? 0;
+    if (affected <= 0) {
+      throw new ForbiddenException(
+        "Ezzel az email címmel már kértek jelszó helyreállítást.",
       );
-      const affected = res?.affected ?? 0;
-      if (affected <= 0) {
-        throw new ForbiddenException(
-          "Ezzel az email címmel már kértek jelszó helyreállítást.",
-        );
-      }
-      return res;
-    } catch (err) {
-      Logger.error(err);
-      throw new InternalServerErrorException(serverError);
     }
+    return token;
   }
 
   async setPassword(user: User, newPassword: string): Promise<boolean> {

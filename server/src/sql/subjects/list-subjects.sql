@@ -20,7 +20,7 @@ ORDER BY
 "s"."type" ASC,
 "s"."id" ASC,
 "c"."year" DESC,
-"c"."semester" DESC,
+"c"."semester" ASC,
 "c"."dayOfWeek" ASC,
 "c"."startAt" ASC
 ;

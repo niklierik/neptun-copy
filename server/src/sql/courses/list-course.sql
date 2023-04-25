@@ -14,7 +14,7 @@ LEFT JOIN "SYSTEM"."rooms" "r" ON "c"."roomId" = "r"."id"
 LEFT JOIN "SYSTEM"."subject" "s" ON "c"."subjectId" = "s"."id"
 ORDER BY 
 "c"."year" DESC, 
-"c"."semester" DESC, 
+"c"."semester" ASC, 
 "s"."name" ASC,
 "s"."type" ASC,
 "c"."dayOfWeek" ASC,

@@ -41,7 +41,12 @@ export class UsersService {
     }
 
     static async forgotPassword(email?: string) {
-        return axios.put(getServerUrl("forgot-password/" + email), {}, {});
+        const res = await axios.post(
+            getServerUrl("users/newToken/" + email),
+            {},
+            {},
+        );
+        return res.data;
     }
 
     static async changePwd(
@@ -49,7 +54,7 @@ export class UsersService {
         newPassword: string,
         newPasswordAgain: string,
     ) {
-        const res = await axios.post(
+        const res = await axios.patch(
             getServerUrl("users/changePassword"),
             { oldPassword, newPassword, newPasswordAgain },
             { headers: { Authorization: getAuthToken() } },
@@ -62,7 +67,7 @@ export class UsersService {
         newPassword: string,
         newPasswordAgain: string,
     ) {
-        const res = await axios.post(
+        const res = await axios.patch(
             getServerUrl("users/changePwdByToken?token=" + token),
             { newPassword, newPasswordAgain },
             { headers: { Authorization: getAuthToken() } },
