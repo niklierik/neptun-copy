@@ -27,8 +27,8 @@ export class UsersController {
 
   @Post("register")
   @UseGuards(AuthGuard())
-  async register(@Body() registerDto: RegisterUserDto): Promise<string> {
-    return await this.usersService.register(registerDto);
+  async register(@Body() registerDto: RegisterUserDto) {
+    return this.usersService.register(registerDto);
   }
 
   @Post("login")
@@ -57,6 +57,11 @@ export class UsersController {
   @UseGuards(AuthGuard())
   async count(@CurrentUser() user: User, @Query("mode") mode?: string) {
     return this.usersService.count(user, mode);
+  }
+
+  @Put("/forgot-password/:email")
+  async forgotPassword(@Param("email") email: string) {
+    return this.usersService.requestToken(email);
   }
 
   @Get("/:email")

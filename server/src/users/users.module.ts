@@ -9,25 +9,10 @@ import { JwtStrategy } from "./jwt.strategy";
 import { MajorsModule } from "src/majors/majors.module";
 import { JwtModule } from "@nestjs/jwt";
 import { cfg } from "src/config/config";
-import { MailerModule } from "@nestjs-modules/mailer";
-import { PugAdapter } from "@nestjs-modules/mailer/dist/adapters/pug.adapter";
 
 @Module({
   providers: [UsersService, UsersRepository, JwtStrategy],
   imports: [
-    MailerModule.forRoot({
-      transport: "smtps://user@domain.com:pass@smtp.domain.com",
-      defaults: {
-        from: '"nest-modules" <modules@nestjs.com>',
-      },
-      template: {
-        dir: __dirname + "/templates",
-        adapter: new PugAdapter(),
-        options: {
-          strict: true,
-        },
-      },
-    }),
     MajorsModule,
     TypeOrmModule.forFeature([User]),
     PassportModule.register({
