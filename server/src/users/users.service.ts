@@ -49,8 +49,9 @@ export class UsersService {
   async register(registerDto: RegisterUserDto) {
     Logger.log(`User creating: ${registerDto.email}...`);
     const res = await this.usersRepository.createUser(registerDto);
+
     Logger.log(`User created: ${registerDto.email}.`);
-    return res;
+    return;
   }
 
   async changePwd(
