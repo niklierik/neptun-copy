@@ -2,7 +2,7 @@
 
 import { Form, Button } from "react-bootstrap";
 
-export default function () {
+export default function RegisterEnd() {
     return (
         <main>
             <div className="to_center">
