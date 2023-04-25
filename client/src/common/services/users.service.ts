@@ -40,6 +40,10 @@ export class UsersService {
         return result[0];
     }
 
+    static async forgotPassword(email?: string) {
+        return axios.put(getServerUrl("forgot-password/" + email), {}, {});
+    }
+
     static async changePwd(
         oldPassword: string,
         newPassword: string,

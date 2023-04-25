@@ -110,6 +110,12 @@ export default function MyNavbar({
                                     {isAdmin ? <Admin></Admin> : <></>}
                                     <Nav.Link
                                         className="nav_link"
+                                        href="/change-password"
+                                    >
+                                        Jelszó megváltoztatása
+                                    </Nav.Link>
+                                    <Nav.Link
+                                        className="nav_link"
                                         onClick={() => {
                                             signout();
                                             window.location.href = "/login";

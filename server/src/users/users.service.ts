@@ -102,7 +102,7 @@ export class UsersService {
   }
 
   async requestToken(email: string) {
-    await this.usersRepository.requestToken(email);
+    return this.usersRepository.requestToken(email);
   }
 
   async search(search: SearchUserDto) {
