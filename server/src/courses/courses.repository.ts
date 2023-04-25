@@ -4,7 +4,7 @@ import { Course } from "./entities/course.entity";
 
 export const defaultConstOrder: FindOptionsOrder<Course> = {
   year: "DESC",
-  semester: "DESC",
+  semester: "ASC",
   subject: {
     name: "ASC",
     type: "ASC",

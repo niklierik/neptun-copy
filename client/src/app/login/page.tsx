@@ -46,7 +46,7 @@ export default function Login() {
             })
             .catch((err) => {
                 setLoggingIn(false);
-                handleError(err, setErrors);
+                handleError(err, setErrors, true);
             });
     }
 

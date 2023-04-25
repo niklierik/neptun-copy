@@ -57,7 +57,8 @@ export class UsersService {
     { oldPassword, newPassword, newPasswordAgain }: ChangePasswordDto,
     user: User,
   ): Promise<boolean> {
-    const login = await compare(oldPassword, user.password);
+    const pwd = await this.usersRepository.getUserPassword(user.email);
+    const login = await compare(oldPassword, pwd);
     if (!login) {
       throw new UnauthorizedException(invalidLoginData);
     }

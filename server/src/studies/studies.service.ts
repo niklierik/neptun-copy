@@ -30,6 +30,8 @@ export class StudiesService {
         subject: {
           name: "ASC",
         },
+        year: "DESC",
+        semester: "ASC",
       },
     });
     /*
