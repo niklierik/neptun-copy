@@ -290,3 +290,16 @@ th {
     border-bottom: 1px solid #f3f3f3 ;
     
 }
+
+.flex_container_studies {
+    display: flex;
+}
+
+.flex_child_studies {
+    width: 100%;
+    margin: 0px 10px;
+}
+
+.flex_child_studies:first-child {
+    margin-left: 80px;
+}
