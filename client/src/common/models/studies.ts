@@ -7,4 +7,4 @@ export interface Year {
 
 export type Semester = Mark[];
 
-export type Studies = { [k: string]: Year };
+export type Studies = { [k: string]: Year } & { avg?: number };

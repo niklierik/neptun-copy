@@ -1,19 +1,16 @@
 "use client";
 
-export function MainHeader() {
+export function SemesterHeader() {
     return (
         <div className="flex_container_studies border_3px_no_margin">
             <div className="flex_child_studies form_group">
-                <p>Félév</p>
+                <p>Tárgy neve</p>
             </div>
             <div className="flex_child_studies form_group">
-                <p>Felvett kredit</p>
+                <p>Kredit</p>
             </div>
             <div className="flex_child_studies form_group">
-                <p>Megszerzett kredit</p>
-            </div>
-            <div className="flex_child_studies form_group">
-                <p>Súlyozott tanulmányi átlag</p>
+                <p>Érdemjegy</p>
             </div>
         </div>
     );
