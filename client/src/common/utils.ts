@@ -12,8 +12,8 @@ export function handleError(
         setErrors(["Nem kezelt hiba történt: " + JSON.stringify(err)]);
         return;
     }
-    if (err.response?.status === 401 && keepLoggedInOn401 !== undefined) {
-        if (!keepLoggedInOn401) {
+    if (err.response?.status === 401) {
+        if (keepLoggedInOn401 === false) {
             window.location.href = "/login";
             return;
         }
