@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Header from "../header";
 import { handleError } from "../utils";
 import useSWR from "swr";
+import { Errors } from "../errors";
 
 export interface AsyncTaskResult<T> {
     data?: T | null;
@@ -35,13 +36,7 @@ export function asyncTask<T>(
     }, [rawData, error]);
     if (errors.length > 0) {
         return {
-            html: (
-                <div className="error_div">
-                    {errors.map((e, id) => (
-                        <p key={id}>{e}</p>
-                    ))}
-                </div>
-            ),
+            html: <Errors errors={errors}></Errors>,
         };
     }
     if (isLoading) {

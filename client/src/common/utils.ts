@@ -13,7 +13,7 @@ export function handleError(
         return;
     }
     if (err.response?.status === 401) {
-        if (keepLoggedInOn401 === false) {
+        if (!keepLoggedInOn401) {
             window.location.href = "/login";
             return;
         }
