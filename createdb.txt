@@ -248,13 +248,13 @@ END;
 
 CREATE OR REPLACE FUNCTION AverageMarkOfUser
 (
-    user "SYSTEM"."users"."email"%TYPE
+    user "users"."email"%TYPE
 )
 RETURN FLOAT
 IS
     a FLOAT;
 BEGIN
-    SELECT SUM((m."mark" * s."credit")) / SUM(s."credit") average INTO a FROM "SYSTEM"."marks" m INNER JOIN "SYSTEM"."subjects" s ON m."subjectId" = s."id" WHERE m."userEmail" = user;
+    SELECT SUM((m."mark" * s."credit")) / SUM(s."credit") average INTO a FROM "marks" m INNER JOIN "subjects" s ON m."subjectId" = s."id" WHERE m."userEmail" = user;
     return a;
 END;
 
@@ -263,7 +263,7 @@ END;
 
 CREATE OR REPLACE TRIGGER MarkValidationTrigger
 BEFORE INSERT OR UPDATE
-ON "SYSTEM"."marks"
+ON "marks"
 FOR EACH ROW
 BEGIN
     IF  (:NEW."mark" > 5) OR (:NEW."mark" < 1) THEN
@@ -273,7 +273,7 @@ END;
 
 CREATE OR REPLACE TRIGGER UserValidationTrigger
 BEFORE INSERT OR UPDATE
-ON "SYSTEM"."users"
+ON "users"
 FOR EACH ROW
 BEGIN
     IF  (LENGTH(:NEW."email") = 0) OR
@@ -288,7 +288,7 @@ END;
 
 CREATE OR REPLACE TRIGGER MarkValidationTrigger
 BEFORE INSERT OR UPDATE
-ON "SYSTEM"."marks"
+ON "marks"
 FOR EACH ROW
 BEGIN
     IF  (:NEW."mark" > 5) OR (:NEW."mark" < 1) THEN
@@ -298,7 +298,7 @@ END;
 
 CREATE OR REPLACE TRIGGER RoomSizeValidationTrigger
 BEFORE INSERT OR UPDATE
-ON "SYSTEM"."rooms"
+ON "rooms"
 FOR EACH ROW
 BEGIN
     IF :NEW."size" <= 0 THEN
