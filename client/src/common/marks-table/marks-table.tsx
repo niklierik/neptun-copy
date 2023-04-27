@@ -6,11 +6,10 @@ import { useState } from "react";
 export interface MarksTableProps {
     course?: string;
     subject?: string;
-    counter: number;
 }
 
-export function MarksTable({ course, subject, counter }: MarksTableProps) {
-    const { html, data: marks } = asyncTask("mark-stats-" + counter, () =>
+export function MarksTable({ course, subject }: MarksTableProps) {
+    const { html, data: marks } = asyncTask("mark-stats", () =>
         MarksService.stats(course, subject),
     );
     if (html) {

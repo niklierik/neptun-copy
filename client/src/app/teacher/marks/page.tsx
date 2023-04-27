@@ -22,13 +22,12 @@ export interface MarksProps {
 
 export default function Marks(props: MarksProps) {
     const { courseID } = props.searchParams;
-    const [counter, setCounter] = useState(0);
     const { data: course, html: html1 } = asyncTask<Course>(
-        getServerUrl("courses"),
+        "get-every-course",
         async () => CoursesService.getCourse(courseID),
     );
     const { data: marks, html: html2 } = asyncTask<Mark[]>(
-        getServerUrl("marks"),
+        "get-every-marks",
         async () => MarksService.getMarks(courseID),
     );
     const [loading, setLoading] = useState(false);
@@ -72,13 +71,11 @@ export default function Marks(props: MarksProps) {
                         }
                         loading={loading}
                         setLoading={setLoading}
-                        counter={counter}
-                        setCounter={setCounter}
                         course={courseID}
                     ></WriteMark>
                 ))}
             </div>
-            <MarksTable course={courseID} counter={counter}></MarksTable>
+            <MarksTable course={courseID}></MarksTable>
         </main>
     );
 }

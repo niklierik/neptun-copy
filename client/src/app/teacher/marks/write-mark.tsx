@@ -10,8 +10,6 @@ export interface WriteMarkProps {
     mark: number;
     loading: boolean;
     setLoading: (_: boolean) => void;
-    counter: number;
-    setCounter: (_: number) => void;
     course: string;
 }
 
@@ -21,8 +19,6 @@ export function onChange(
     course: string,
     target: string,
     setErrors: (_: string[]) => void,
-    counter: number,
-    setCounter: (_: number) => void,
 ) {
     const mark = Number(event.target.value);
     console.log(event);
@@ -32,7 +28,7 @@ export function onChange(
         .catch((e) => handleError(e, setErrors))
         .finally(() => {
             setLoading(false);
-            setCounter(counter + 1);
+            window.location.href = "/teacher/marks?courseID=" + course;
         });
 }
 
@@ -43,8 +39,6 @@ export default function WriteMark({
     course,
     loading,
     setLoading,
-    counter,
-    setCounter,
 }: WriteMarkProps) {
     const [errors, setErrors] = useState<string[]>([]);
     const marks = [];
@@ -77,18 +71,16 @@ export default function WriteMark({
                                     course,
                                     email,
                                     setErrors,
-                                    counter,
-                                    setCounter,
                                 )
                             }
+                            value={mark?.toString() || ""}
                             disabled={loading}
                         >
-                            {mark == 0 ? <option value="">Jegy</option> : <></>}
+                            {!mark ? <option value="">Jegy</option> : <></>}
                             {marks.map((m, index) => (
                                 <option
                                     key={index}
                                     value={m}
-                                    selected={mark === m}
                                     disabled={loading}
                                 >
                                     {m}
