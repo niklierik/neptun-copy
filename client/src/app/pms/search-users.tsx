@@ -31,7 +31,7 @@ export function SearchUsers({
                         }}
                     />
                 </Form.Group>
-                <Form.Group
+                {/*<Form.Group
                     key="name"
                     className="mb-3 form_group"
                     controlId="formBasicText"
@@ -46,7 +46,7 @@ export function SearchUsers({
                             setName(event.target.value);
                         }}
                     />
-                </Form.Group>
+                    </Form.Group>*/}
             </Form>
         </div>
     );

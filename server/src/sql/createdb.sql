@@ -131,6 +131,13 @@ CREATE TABLE "news" (
   CONSTRAINT "PK_news_id" PRIMARY KEY ("id")
 );
 
+-- Seed tábla
+CREATE TABLE "seeds" (
+  "id" number,
+  "run" number, -- boolean
+  CONSTRAINT "PK_seeds_id" PRIMARY KEY("id")
+);
+
 --- Külső kulcsok
 -- users tábla
 ALTER TABLE "users" ADD CONSTRAINT "FK_users_major" FOREIGN KEY ("major") REFERENCES "majors" ("majorID");
@@ -207,3 +214,94 @@ CREATE TABLE "exams_examinees_users" (
 
 ALTER TABLE "exams_examinees_users" ADD CONSTRAINT "FK_users_exams_user" FOREIGN KEY ("user") REFERENCES "users" ("email");
 ALTER TABLE "exams_examinees_users" ADD CONSTRAINT "FK_users_exams_exam" FOREIGN KEY ("exam") REFERENCES "exams" ("id");
+
+-- Függvények
+CREATE OR REPLACE FUNCTION NumberOfStudents
+RETURN NUMBER
+IS
+    students NUMBER;
+BEGIN
+    SELECT COUNT(DISTINCT "usersEmail") count INTO students FROM "courses_students_users";
+    RETURN students;
+END;
+
+CREATE OR REPLACE FUNCTION NumberOfTeachers
+RETURN NUMBER
+IS
+    teachers NUMBER;
+BEGIN
+    SELECT COUNT(DISTINCT "usersEmail") count INTO teachers FROM "courses_teachers_users";
+    RETURN teachers;
+END;
+
+CREATE OR REPLACE FUNCTION NumberOfIntersection
+RETURN NUMBER
+IS
+    users NUMBER;
+BEGIN
+    SELECT COUNT(DISTINCT teacher."usersEmail") count  INTO users FROM "courses_teachers_users" teacher
+    INNER JOIN (
+        SELECT DISTINCT "usersEmail" FROM "courses_students_users"
+    ) student ON teacher."usersEmail" = student."usersEmail";
+    RETURN users;
+END;
+
+CREATE OR REPLACE FUNCTION AverageMarkOfUser
+(
+    user "SYSTEM"."users"."email"%TYPE
+)
+RETURN FLOAT
+IS
+    a FLOAT;
+BEGIN
+    SELECT SUM((m."mark" * s."credit")) / SUM(s."credit") average INTO a FROM "SYSTEM"."marks" m INNER JOIN "SYSTEM"."subjects" s ON m."subjectId" = s."id" WHERE m."userEmail" = user;
+    return a;
+END;
+
+
+-- Triggerek
+
+CREATE OR REPLACE TRIGGER MarkValidationTrigger
+BEFORE INSERT OR UPDATE
+ON "SYSTEM"."marks"
+FOR EACH ROW
+BEGIN
+    IF  (:NEW."mark" > 5) OR (:NEW."mark" < 1) THEN
+            RAISE_APPLICATION_ERROR(-20001, 'Mark must be between 1 and 5.');
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER UserValidationTrigger
+BEFORE INSERT OR UPDATE
+ON "SYSTEM"."users"
+FOR EACH ROW
+BEGIN
+    IF  (LENGTH(:NEW."email") = 0) OR
+        (LENGTH(:NEW."address") = 0) OR
+        (LENGTH(:NEW."forename") = 0) OR
+        (LENGTH(:NEW."familyname") = 0) OR
+        (LENGTH(:NEW."isAdmin") NOT IN (0, 1)) THEN
+        -- MajorID is checked by DB with foreign key check
+            RAISE_APPLICATION_ERROR(-20001, 'User validation failed.');
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER MarkValidationTrigger
+BEFORE INSERT OR UPDATE
+ON "SYSTEM"."marks"
+FOR EACH ROW
+BEGIN
+    IF  (:NEW."mark" > 5) OR (:NEW."mark" < 1) THEN
+            RAISE_APPLICATION_ERROR(-20001, 'Mark must be between 1 and 5.');
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER RoomSizeValidationTrigger
+BEFORE INSERT OR UPDATE
+ON "SYSTEM"."rooms"
+FOR EACH ROW
+BEGIN
+    IF :NEW."size" <= 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Room size validation failed. Must be positive integer.');
+    END IF;
+END;
