@@ -132,7 +132,11 @@ CREATE TABLE "news" (
 );
 
 -- Seed tábla
-
+CREATE TABLE "seeds" (
+  "id" number,
+  "run" number, -- boolean
+  CONSTRAINT "PK_seeds_id" PRIMARY KEY("id")
+);
 
 --- Külső kulcsok
 -- users tábla
