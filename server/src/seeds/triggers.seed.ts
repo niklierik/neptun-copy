@@ -1,11 +1,15 @@
 import { INestApplication } from "@nestjs/common";
+import { cfg } from "src/config/config";
 import { UsersRepository } from "src/users/users.repository";
 
-export async function roomSizeValidation(repo: UsersRepository) {
+export async function roomSizeValidation(
+  repo: UsersRepository,
+  schema: string,
+) {
   return repo.query(`
   CREATE OR REPLACE TRIGGER RoomSizeValidationTrigger
   BEFORE INSERT OR UPDATE
-  ON "SYSTEM"."rooms"
+  ON "${schema}"."rooms"
   FOR EACH ROW
   BEGIN
       IF :NEW."size" <= 0 THEN
@@ -15,11 +19,11 @@ export async function roomSizeValidation(repo: UsersRepository) {
   `);
 }
 
-export async function userValidation(repo: UsersRepository) {
+export async function userValidation(repo: UsersRepository, schema: string) {
   return repo.query(`
     CREATE OR REPLACE TRIGGER UserValidationTrigger
     BEFORE INSERT OR UPDATE
-    ON "SYSTEM"."users"
+    ON "${schema}"."users"
     FOR EACH ROW
     BEGIN
         IF  (LENGTH(:NEW."email") = 0) OR
@@ -34,11 +38,11 @@ export async function userValidation(repo: UsersRepository) {
     `);
 }
 
-export async function marksValidation(repo: UsersRepository) {
+export async function marksValidation(repo: UsersRepository, schema: string) {
   return repo.query(`
     CREATE OR REPLACE TRIGGER MarkValidationTrigger
     BEFORE INSERT OR UPDATE
-    ON "SYSTEM"."marks"
+    ON "${schema}"."marks"
     FOR EACH ROW
     BEGIN
         IF  (:NEW."mark" > 5) OR (:NEW."mark" < 1) THEN
@@ -50,7 +54,9 @@ export async function marksValidation(repo: UsersRepository) {
 
 export async function seedTriggers(app: INestApplication) {
   const repo = await app.resolve(UsersRepository);
-  await roomSizeValidation(repo);
-  await userValidation(repo);
-  await marksValidation(repo);
+  const config = cfg();
+  const schema = config.db.schema;
+  await roomSizeValidation(repo, schema);
+  await userValidation(repo, schema);
+  await marksValidation(repo, schema);
 }
